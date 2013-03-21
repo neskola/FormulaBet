@@ -28,6 +28,22 @@
             z-index: 10;
             background-color: #dddddd;
         }
+
+        div.login_error {            
+            position:fixed;
+            top: 25%;
+            left: 50%;
+            width:16em;
+            height:10em;
+            margin-top: -5em; /*set to a negative number 1/2 of your height*/
+            margin-left: -8em; /*set to a negative number 1/2 of your width*/
+            border: 2px solid #ccc;
+            background-color: #f3f3f3;
+            visibility: hidden;
+            position: absolute;
+            z-index: 10;
+            background-color: #f30;
+        }
     
         div.main {
             margin: 0px auto;
@@ -69,6 +85,17 @@
                 $('div.main').css('color', 'black');
             }
         }
+
+        session.showLoginError = function (Boolean) {
+            if (Boolean) {
+                $('div.login_error').css('visibility', 'visible');
+                $('div.main').css('color', '#aaaaaa');
+            } else {
+                $('div.login_error').css('visibility', 'hidden');
+                $('div.main').css('color', 'black');
+            }
+        }
+
         
         $(document).ready(function () {
             if (session.id != null) {
@@ -90,6 +117,7 @@
                     $('#user-name').html(login);
                     session.id = login;
                     $('#user-session').html(session.id);
+                    session.showLoginError(true);
                     return false;
                 }
                 return true;
@@ -112,6 +140,9 @@
         <p class="loginHeader"><span>Tervetuloa veikkaamaan</span></p>        
         <p><span class="loginName"><input type="text" id="input-login" placeholder="tunnus" size="8"/></span></p>
         <p><span class="password"><input type="password" id="input-password" placeholder="salasana" size="8"/></span></p>        
+    </div>
+    <div class="login_error">
+        <p>FOOO</p>
     </div>
 </body>
 </html>
