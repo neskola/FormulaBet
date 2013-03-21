@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Formulaveikkaus</title>
+    <style type="text/css">
+
+        body {
+            background: white;
+            margin: 0;
+            padding: 0;
+            font-family: Sans-Serif;
+        }
+
+        div.login {
+            position:fixed;
+            top: 25%;
+            left: 50%;
+            width:16em;
+            height:10em;
+            margin-top: -5em; /*set to a negative number 1/2 of your height*/
+            margin-left: -8em; /*set to a negative number 1/2 of your width*/
+            border: 2px solid #ccc;
+            background-color: #f3f3f3;
+            visibility: hidden;
+            position: absolute;
+            z-index: 10;
+            background-color: #dddddd;
+        }
+    
+        div.main {
+            margin: 0px auto;
+            margin-top: 25%;
+            width: 75%;
+            visibility: visible;
+            position: relative;
+            z-index: 0;
+        }
+
+        div.user {            
+            visibility: visible;
+            z-index: 0;
+        }
+    
+    </style>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>        
+
+    <script type="text/javascript">        
+
+        function disableF5(e) {
+            if (e.which == 116) e.preventDefault();
+        };
+        
+        var session = new Object();
+        session.id = null;
+
+        session.checkSession = function (name) {
+            return false;
+        }
+
+        session.showLogin = function (Boolean) {
+            if (Boolean) {
+                $('div.login').css('visibility', 'visible');
+                $('div.main').css('color', '#aaaaaa');
+            } else {
+                $('div.login').css('visibility', 'hidden');
+                $('div.main').css('color', 'black');
+            }
+        }
+        
+        $(document).ready(function () {
+            if (session.id != null) {
+
+            } else {
+                // login         
+                session.showLogin(true);
+            }
+            $(document).bind("keydown", disableF5);
+        });
+
+        $(window).load(function () {
+
+            $('#input-password').keypress(function (event) {
+                if (event.which === 13) {
+                    session.showLogin(false);                                                            
+                    var login = $('#input-login').val();
+                    var pass = $('#input-password').val();
+                    $('#user-name').html(login);
+                    session.id = login;
+                    $('#user-session').html(session.id);
+                    return false;
+                }
+                return true;
+            });
+        });
+        
+    </script>
+
+</head>
+<body>
+    <div class="user"><p>Käyttäjä: <span class="user-name" id="user-name"></span><span class="user-session" id="user-session"></span></p></div>
+    <div class="main">
+        
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id nibh augue. Donec eget lorem eget turpis scelerisque ultrices bibendum eu elit. Maecenas mattis, justo sed volutpat lacinia, ante nibh aliquam mi, non aliquet ipsum justo eu nisi. Aliquam sagittis leo ac ante congue lobortis ac vitae nisi. Mauris eget tempor lectus. Phasellus sagittis enim eget nunc luctus eget consectetur mauris condimentum. Aenean sed justo elit, vel pellentesque mi.
+        </p>
+
+    </div>
+    <div class="login">
+        <p class="loginHeader"><span>Tervetuloa veikkaamaan</span></p>        
+        <p><span class="loginName"><input type="text" id="input-login" placeholder="tunnus" size="8"/></span></p>
+        <p><span class="password"><input type="password" id="input-password" placeholder="salasana" size="8"/></span></p>        
+    </div>
+</body>
+</html>
