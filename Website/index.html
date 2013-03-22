@@ -7,10 +7,11 @@
     <style type="text/css">
 
         body {
-            background: white;
+            background: #333333;
             margin: 0;
             padding: 0;
-            font-family: Sans-Serif;
+            font-family: Verdana;
+            font-size: small;
         }
 
         div.login {
@@ -21,12 +22,13 @@
             height:10em;
             margin-top: -5em; /*set to a negative number 1/2 of your height*/
             margin-left: -8em; /*set to a negative number 1/2 of your width*/
-            border: 2px solid #ccc;
-            background-color: #f3f3f3;
+            border: 2px solid #aaaaaa;
+            background-color: #dddddd;
             visibility: hidden;
             position: absolute;
             z-index: 10;
             background-color: #dddddd;
+            box-shadow: 10px 10px 3px #666666;
         }
 
         div.login_error {            
@@ -46,19 +48,74 @@
         }
     
         div.main {
-            margin: 0px auto;
-            margin-top: 25%;
+            margin: 0px auto;            
+            margin-left: 10%;
+            margin-right: 10%;
             width: 75%;
+            height: 80%;
             visibility: visible;
-            position: relative;
+            position: absolute;
             z-index: 0;
+            color: ghostwhite;
+            border: 2px groove grey;
         }
 
-        div.user {            
-            visibility: visible;
-            z-index: 0;
+        div.header-bar {                     
+            z-index: 0;            
+            color: ghostwhite;
+            width: 75%;
+            height: 10%;
+            margin: auto;
+            margin-left: 10%;
+            margin-right: 10%;                              
+            border: 2px groove grey;            
+        }
+
+        div.footer-bar {                     
+            z-index: 0;            
+            color: ghostwhite;
+            width: 75%;
+            height: 10%;
+            margin-left: 10%;
+            margin-right: 10%;                        
+            border: 2px groove grey;      
+            visibility: hidden;                                          
+        }
+
+        #user-header {
+            margin-left: 1%;
+            margin-top: 0px;
+        }
+
+        #timer {
+            margin-left: 1%;
+            margin-top: 0px;
+        }
+
+        #main-text {
+            margin-left: 2%;
+        }
+
+        span.login-header {
+            width: 50%;
+            margin-left:25%;
+            margin-right:25%;            
+        }
+
+        span.login-input {
+            width: 50%;
+            margin-left:25%;
+            margin-right:25%;            
+        }
+
+        span.timer {
+            margin-right: 5%;
         }
     
+        input.login {
+            width: 50%;            
+        }
+
     </style>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>        
@@ -78,11 +135,9 @@
 
         session.showLogin = function (Boolean) {
             if (Boolean) {
-                $('div.login').css('visibility', 'visible');
-                $('div.main').css('color', '#aaaaaa');
+                $('div.login').css('visibility', 'visible');                
             } else {
-                $('div.login').css('visibility', 'hidden');
-                $('div.main').css('color', 'black');
+                $('div.login').css('visibility', 'hidden');                
             }
         }
 
@@ -117,7 +172,8 @@
                     $('#user-name').html(login);
                     session.id = login;
                     $('#user-session').html(session.id);
-                    session.showLoginError(true);
+                    $('div.user').css('visibility', 'visible');
+                    //session.showLoginError(true);
                     return false;
                 }
                 return true;
@@ -127,19 +183,31 @@
     </script>
 
 </head>
-<body>
-    <div class="user"><p>Käyttäjä: <span class="user-name" id="user-name"></span><span class="user-session" id="user-session"></span></p></div>
-    <div class="main">
-        
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id nibh augue. Donec eget lorem eget turpis scelerisque ultrices bibendum eu elit. Maecenas mattis, justo sed volutpat lacinia, ante nibh aliquam mi, non aliquet ipsum justo eu nisi. Aliquam sagittis leo ac ante congue lobortis ac vitae nisi. Mauris eget tempor lectus. Phasellus sagittis enim eget nunc luctus eget consectetur mauris condimentum. Aenean sed justo elit, vel pellentesque mi.
-        </p>
-
+<body>        
+    <div class="header-bar" style="display: table;">        
+        <div id="user-info" style="display: table-cell; width: 75%;">
+            <span class="user-header" id="user-header">Käyttäjä: </span>
+            <span class="user-name" id="user-name"></span><!-- span class="user-session" id="user-session"></!-->
+        </div>
+        <div id="timer" style="display: table-cell; right: 0px; float:right;">
+            <span class="timer">99:99:99</span>
+        </div>        
     </div>
+    <div class="main">
+        <p>
+        <span class="main-text" id="main-text">        
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id nibh augue. Donec eget lorem eget turpis scelerisque ultrices bibendum eu elit. Maecenas mattis, justo sed volutpat lacinia, ante nibh aliquam mi, non aliquet ipsum justo eu nisi. Aliquam sagittis leo ac ante congue lobortis ac vitae nisi. Mauris eget tempor lectus. Phasellus sagittis enim eget nunc luctus eget consectetur mauris condimentum. Aenean sed justo elit, vel pellentesque mi.        
+        </span>
+        </p>
+    </div>
+    <div class="footer-bar">
+        <p><span class="footer-text">Copyright 2013 - Niki Eskola</span></p>
+    </div>        
+
     <div class="login">
-        <p class="loginHeader"><span>Tervetuloa veikkaamaan</span></p>        
-        <p><span class="loginName"><input type="text" id="input-login" placeholder="tunnus" size="8"/></span></p>
-        <p><span class="password"><input type="password" id="input-password" placeholder="salasana" size="8"/></span></p>        
+        <p><span class="login-header">Tervetuloa!</span></p>        
+        <p><span class="login-input"><input class="login" type="text" id="input-login" placeholder="tunnus" size="8"/></span></p>
+        <p><span class="login-input"><input class="login" type="password" id="input-password" placeholder="salasana" size="8"/></span></p>        
     </div>
     <div class="login_error">
         <p>FOOO</p>
