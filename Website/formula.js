@@ -13,13 +13,18 @@ var testusers = {
 ] 
 };
 
-
+var options = {
+    host: 'www.formula1.com',
+    port: 80,
+    path: '/results/season/2013/'    
+};
 
 function httpRequestHandler (req, res) {
     var usersjson = JSON.stringify(testusers);
     var parsed = JSON.parse(usersjson);
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(parsed.users[0].name);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    var xmlDoc = getData();
+    res.end(parsed.users[0].name + '\n' + xmlDoc);
 }
 
 // from MSK's chat service
@@ -47,11 +52,23 @@ function debug(msg) {
     }
 }
 
+
 debug('NodeJS Formula bet backend');
 debug('Process id:' + process.pid);
 
 g_httpServer = http.createServer(httpRequestHandler);
 g_httpServer.listen(LISTEN_PORT, LISTEN_ADDRESS);
 
-
+function getData() {    
+    var today = new Date();
+    
+    http.get(options, function (resp) {        
+        resp.on('data', function (chunk) {
+            //do something with chunk
+            debug('got data:\n' + chunk);            
+        });
+    }).on("error", function (e) {
+        console.log("Got error: " + e.message);
+    });
+}
 
