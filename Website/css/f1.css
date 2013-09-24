@@ -1,0 +1,24 @@
+label {
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+}
+
+#select-gp-driver select {
+    display: block;
+    width: 100%;
+    text-indent: 18px;
+    font-family: Verdana;
+}
+
+#select-qualification-driver select {
+    display: block;
+    width: 100%;    
+    text-indent: 18px;
+    font-family: Verdana;
+}
+
+#select-gp select {
+    width: 100%;
+    text-indent: 18px;
+    font-family: Verdana;
+}
+
