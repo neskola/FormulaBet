@@ -9,7 +9,6 @@ use HTTP::Cookies;
 use HTML::Parse;
 use HTML::Element;
 use Getopt::Long;
-use DBI;
 use JSON;
 
 my $f1prefix = "http://www.formula1.com";
@@ -26,12 +25,12 @@ $ua->cookie_jar($cookies);
 # Pretend to be Internet Explorer.
 $ua->agent("Windows IE 10.0");
 
+$ua->env_proxy;
+
 sub versionMessage {
     print "Script version 1.0\n\n";
     print "---------------------\n";
     print "Available db drivers:\n";
-    my @ary = DBI->available_drivers();
-    print join("\n", @ary), "\n";
 }
 
 sub main 
