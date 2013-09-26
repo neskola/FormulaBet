@@ -28,27 +28,36 @@ $ua->agent("Windows IE 10.0");
 $ua->env_proxy;
 
 sub versionMessage {
-    print "Script version 1.0\n\n";
-    print "---------------------\n";
-    print "Available db drivers:\n";
+    print "Script version 0.9\n\n";
+    print "---------------------\n";    
+}
+
+sub usage {
 }
 
 sub main 
 {
     my %opts;
 
-    my $update;
+    my $update = '';
 
     GetOptions(\%opts,
 	       'update|u=s' => \$update,
-	       'version' => sub { versionMessage() });
+	       'version|v' => sub { versionMessage() },
+	       'help|h' => sub { usage() });
 
     if ($update =~ 'calendar') {
-	my $response = getPage('http://www.formula1.com/races/calendar.html');
+	my $response = getPage($f1prefix . '/races/calendar.html');
 	updateCircuitCalendar($response);
     } elsif ($update =~ 'drivers') {
-	my $response = getPage('http://www.formula1.com/teams_and_drivers/drivers/');
+	my $response = getPage($f1prefix . '/teams_and_drivers/drivers/');
 	updateDrivers($response);
+    } elsif ($update =~ 'allgp') {
+        print "Update all gp results.\n(Warning: may contain altered results. Check content)\n";
+	
+	my $response = getPage($f1prefix . '/results/season/2013/893/');	
+    } elsif ($update =~ 'latestgp') {
+	print "Update latest gp results.";
     }
 }
 
