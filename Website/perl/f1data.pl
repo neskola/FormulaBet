@@ -41,12 +41,13 @@ sub main
     my $update;
 
     GetOptions(\%opts,
-	       'update|u' => \$update,
+	       'update|u=s' => \$update,
 	       'version' => sub { versionMessage() });
 
-    if ($update) {
-	#my $response = getPage('http://www.formula1.com/races/calendar.html');
-	#updateCircuitCalendar($response);
+    if ($update =~ 'calendar') {
+	my $response = getPage('http://www.formula1.com/races/calendar.html');
+	updateCircuitCalendar($response);
+    } elsif ($update =~ 'drivers') {
 	my $response = getPage('http://www.formula1.com/teams_and_drivers/drivers/');
 	updateDrivers($response);
     }
@@ -94,6 +95,7 @@ sub updateCircuitCalendar {
 
 	    if ($tagtype =~ 'raceLocation') {
 	        my $gp_name = $_->as_text;
+		my ($gp_short_name) = ($gp_name =~ /^.*\({1}(.*)\){1}/);
 		my $detailpage = getPage($taglink);
 		my $circuitinfobox = $detailpage->look_down('class', 'circuitInfoBox')->as_HTML;
 		my $qualifyingtime = 
@@ -108,7 +110,8 @@ sub updateCircuitCalendar {
 		    'gp_date' => $racetime,
 		    'gp_qual_date' => $qualifyingtime,
 		    'gp_year' => $gp_year,
-		    'gp_number' => $row
+		    'gp_number' => $row,
+		    'gp_short_name' => $gp_short_name
 		    #'gp_info' => $circuitinfobox		    
 		};
 		$row++;
@@ -131,13 +134,40 @@ sub updateDrivers {
 
     my @elements = $driver_data->look_down('class', 'driverMugShot');
 
-    my @descendants = $elements[0]->descendants();
+    my @divs = $elements[0]->find_by_tag_name('div');
 
-    my @drivers = @descendants->find_by_tag_name('p');
+    my @drivers;
 
-    for (@drivers) {
-	print Dumper($_)."\n";
+    for (@divs) {
+	my $imgtag = $_->find_by_tag_name('img');
+	my $imgsrc = $f1prefix.$imgtag->attr_get_i('src');
+	my $spantag = $_->find_by_tag_name('span');
+
+	my ($driver_id) = ($imgsrc =~ /^.*_{1}(\d{2,3})/);
+	my $name= $imgtag->attr_get_i('alt');
+	
+	print $spantag->as_text."\n";
+	print $imgsrc."\n";
+	print $driver_id."\n";
+	print $name."\n";
+
+	my $data = {
+	    'd_id' => $driver_id,
+	    'd_name' => $name,
+	    'd_team' => $spantag->as_text,
+	    'd_imgsrc' => $imgsrc
+	};
+	
+	push(@drivers, 'driver' => $data);
     }
+
+    writeFile('drivers.json', to_json(\@drivers, {utf8 => 1, pretty => 1}));
+}
+
+sub writeFile {
+    open (FILE, '>'.$_[0]);
+    print FILE $_[1];
+    close (FILE);
 }
 
 main();

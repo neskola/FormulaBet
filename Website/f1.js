@@ -1,6 +1,6 @@
 var positions = [1,2,3,4,5,6];
 
-$.getJSON( "drivers.json", function( data ) {
+$.getJSON( "data/drivers.json", function( data ) {
 
   var items = [];
   items.push("<option value='null'>Valitse kuski</option>");
@@ -16,7 +16,7 @@ $.getJSON( "drivers.json", function( data ) {
   $( "<select/>", {
 	  "name" : "select-qualification-driver-" + positions[i],
 	  "id" : "select-qualification-driver-" + positions[i],
-	      "style" : "background:url('" + positions[i] + ".png') no-repeat left",
+	      "style" : "background:url('img/" + positions[i] + ".png') no-repeat left",
       html : items.join( "" ) }).appendTo( "#select-qualification-driver" );
 
       $('#select-qualification-driver-'+positions[i]).attr('disabled','disabled');
@@ -36,7 +36,7 @@ $.getJSON( "drivers.json", function( data ) {
 
 });
 
-$.getJSON( "calendar.json", function( data ) {
+$.getJSON( "data/calendar.json", function( data ) {
   var items = [];
   var today = new Date();
   
@@ -49,7 +49,7 @@ $.getJSON( "calendar.json", function( data ) {
 	      friday.setHours(23);
 	      friday.setMinutes(59);
 	      if (today.getTime() < friday.getTime()) {
-	      items.push( "<option value='" + val.gp_id + "'>" + val.gp_shortname + " (" + date.toDateString() + ") </option>" );
+	      items.push( "<option value='" + val.gp_id + "'>" + val.gp_short_name + " (" + date.toDateString() + ") </option>" );
 	      }
 	  }
   });
