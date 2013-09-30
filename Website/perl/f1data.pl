@@ -52,10 +52,16 @@ sub main
     } elsif ($update =~ 'drivers') {
 	my $response = getPage($f1prefix . '/teams_and_drivers/drivers/');
 	updateDrivers($response);
-    } elsif ($update =~ 'allgp') {
+    } elsif ($update =~ 'allgp') {	
         print "Update all gp results.\n(Warning: may contain altered results. Check content)\n";
-	
-	my $response = getPage($f1prefix . '/results/season/2013/893/');	
+	       
+	my $gp_calendar = openJSONFile('calendar.json');
+
+	for ( @{$gp_calendar} ) {	   	  
+	    my $gp_id = $_->{gp_id};
+	    my $response = getPage($f1prefix . '/results/season/2013/'.$gp_id.'/');	
+	    writeFile('results-'.$gp_id.'.txt', Dumper($response));
+	}
     } elsif ($update =~ 'latestgp') {
 	print "Update latest gp results.";
     }
@@ -123,17 +129,13 @@ sub updateCircuitCalendar {
 		    #'gp_info' => $circuitinfobox		    
 		};
 		$row++;
-		push(@circuits, "circuit" => $data);
+#push(@circuits, "circuit" => $data);
+		push(@circuits, $data);
 	    }
 	}
     }
-
     
-    my $json_text = to_json(\@circuits, {utf8 => 1, pretty => 1});
-
-    open (FILE, '>calendar.json');
-    print FILE $json_text;
-    close (FILE);
+    writeFile('calendar.json', to_json(\@circuits, {utf8 => 1, pretty => 1}));
         
 }
 
@@ -177,5 +179,15 @@ sub writeFile {
     print FILE $_[1];
     close (FILE);
 }
+
+sub openJSONFile {
+    local $/;
+    open (my $fh, ,'<', $_[0]);
+    my $json_text = <$fh>;
+    close ($fh);
+    my $json_calendar = decode_json( $json_text );
+
+}
+
 
 main();

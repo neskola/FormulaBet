@@ -1,5 +1,4 @@
 [
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Melbourne",
@@ -9,7 +8,6 @@
       "gp_id" : "893",
       "gp_date" : "2013-03-17T17:00+11:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Kuala Lumpur",
@@ -19,7 +17,6 @@
       "gp_id" : "894",
       "gp_date" : "2013-03-24T16:00+08:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Shanghai",
@@ -29,7 +26,6 @@
       "gp_id" : "895",
       "gp_date" : "2013-04-14T15:00+08:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Sakhir",
@@ -39,7 +35,6 @@
       "gp_id" : "896",
       "gp_date" : "2013-04-21T15:00+03:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Catalunya",
@@ -49,7 +44,6 @@
       "gp_id" : "897",
       "gp_date" : "2013-05-12T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Monte Carlo",
@@ -59,7 +53,6 @@
       "gp_id" : "898",
       "gp_date" : "2013-05-26T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Montréal",
@@ -69,7 +62,6 @@
       "gp_id" : "899",
       "gp_date" : "2013-06-09T14:00-04:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Silverstone",
@@ -79,7 +71,6 @@
       "gp_id" : "901",
       "gp_date" : "2013-06-30T13:00+01:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Nürburgring",
@@ -89,7 +80,6 @@
       "gp_id" : "902",
       "gp_date" : "2013-07-07T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Budapest",
@@ -99,7 +89,6 @@
       "gp_id" : "903",
       "gp_date" : "2013-07-28T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Spa-Francorchamps",
@@ -109,7 +98,6 @@
       "gp_id" : "904",
       "gp_date" : "2013-08-25T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Monza",
@@ -119,7 +107,6 @@
       "gp_id" : "905",
       "gp_date" : "2013-09-08T14:00+02:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Singapore",
@@ -129,7 +116,6 @@
       "gp_id" : "906",
       "gp_date" : "2013-09-22T20:00+08:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Yeongam",
@@ -139,7 +125,6 @@
       "gp_id" : "907",
       "gp_date" : "2013-10-06T15:00+09:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Suzuka",
@@ -149,7 +134,6 @@
       "gp_id" : "908",
       "gp_date" : "2013-10-13T15:00+09:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "New Delhi",
@@ -159,7 +143,6 @@
       "gp_id" : "909",
       "gp_date" : "2013-10-27T15:00+05:30"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Yas Marina",
@@ -169,7 +152,6 @@
       "gp_id" : "910",
       "gp_date" : "2013-11-03T17:00+04:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "Austin",
@@ -179,7 +161,6 @@
       "gp_id" : "911",
       "gp_date" : "2013-11-17T13:00-06:00"
    },
-   "circuit",
    {
       "gp_year" : "2013",
       "gp_short_name" : "São Paulo",
