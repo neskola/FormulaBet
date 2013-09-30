@@ -193,7 +193,7 @@ sub updateDrivers {
 	    'd_imgsrc' => $imgsrc
 	};
 	
-	push(@drivers, 'driver' => $data);
+	push(@drivers, $data);
     }
 
     writeFile('drivers.json', to_json(\@drivers, {utf8 => 1, pretty => 1}));
