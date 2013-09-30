@@ -59,8 +59,33 @@ sub main
 
 	for ( @{$gp_calendar} ) {	   	  
 	    my $gp_id = $_->{gp_id};
-	    my $response = getPage($f1prefix . '/results/season/2013/'.$gp_id.'/');	
-	    writeFile('results-'.$gp_id.'.txt', Dumper($response));
+	    my $gp_year = $_->{gp_year};
+	    print $_->{gp_short_name}."\n";
+	    my $response = getPage($f1prefix . '/results/season/'.$gp_year.'/'.$gp_id.'/');	
+	    
+	    my @elements = $response->look_down('class', 'raceResults');
+	    if (defined($elements[0])) { 
+#print Dumper($elements[0]->as_HTML());
+		print "Results found.\n";
+		my @links = {};
+		for(@{ $response->extract_links('a', 'href')}) {
+
+		    my($link, $element, $attr, $tag) = @$_;
+		    if( $element->as_text =~'QUALIFYING') {
+			my $taglink = $f1prefix.$link; 
+			print "Q:".$taglink."\n";
+		    }
+		    if( $element->as_text =~'RACE' && $link =~'.*\d{4}/\d{3}\/\d{4}\/$') {
+			my $taglink = $f1prefix.$link; 
+			print "R:".$taglink."\n";
+		    }
+		}
+
+		writeFile('results-'.$gp_id.'.txt', Dumper($elements[0]->as_HTML));
+	    } else {
+		print "No results found yet.\n";
+	    }	    
+
 	}
     } elsif ($update =~ 'latestgp') {
 	print "Update latest gp results.";
