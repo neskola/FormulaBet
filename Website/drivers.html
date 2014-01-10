@@ -19,7 +19,7 @@
 
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/f1.js"></script>
+    <script src="js/data.js"></script>
 
 </head>
 <body>
@@ -28,6 +28,20 @@
 
     <div class="page-header well">
         <h1>Kuljettajat <small>kaudella 2014</small></h1>
+    </div>
+
+    <div class="content">
+        <div class="row" ng-controller="DriverDataCtrl">
+            <div ng-repeat="entry in entries" class="col-sm-6" title="{{entry.d_name}}">
+                <div id="drivername" class="well">
+                    <a href="#" class="thumbnail">
+                        <img src="{{entry.d_imgsrc}}" alt="{{entry.d_name}}">
+                    </a>
+                    <div><b>{{entry.d_name}}</b><br/>{{entry.d_team}}</div>
+                </div>
+                
+            </div>
+        </div>
     </div>
 
 
