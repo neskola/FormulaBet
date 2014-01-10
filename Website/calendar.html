@@ -40,7 +40,8 @@
     <script>
         $(document).ready(function () {
             $('#nav').load('nav.html', function () {
-                $('.nav a:contains("Etusivu")').addClass('active');
+                $('.nav a:contains("Etusivu")').parent().removeClass('active');
+                $('.nav a:contains("Kisakalenteri")').parent().addClass('active');
             })
         });
     </script>

@@ -40,7 +40,7 @@
                 <li>sijasta 2 p.</li>
                 <li>sijasta 1 p.</li>
             </ol>
-            <li>Kierrosmaksu 5 &euro; / veikkaaja. Kausi maksetaan kerralla n.n. päivään mennessä.</li>
+            <li>Kierrosmaksu 5 &euro; / veikkaaja. Kausi maksetaan kerralla 9.3. mennessä.</li>
             <li>Kierrosvoitto x pelaajat</li>
             <li>Tasapelin sattuessa; pyritään etsimään voittaja
             <ol>
@@ -68,7 +68,8 @@
     <script>
         $(document).ready(function () {
             $('#nav').load('nav.html', function () {
-                $('.nav a:contains(".")').addClass('active');
+                $('.nav a:contains("Etusivu")').parent().removeClass('active');
+                $('.nav a:contains("Säännöt")').parent().addClass('active');
             })
         });
     </script>
