@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app>
 <head>
-    <title>F1 Veikkaus -kisakalenteri</title>
+    <title>F1 Veikkaus - kuljettajat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
 
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/data.js"></script>
+    <script src="js/f1.js"></script>
 
 </head>
 <body>
@@ -27,21 +27,15 @@
     </nav>
 
     <div class="page-header well">
-        <h1>Kisakalenteri <small>kaudella 2014</small></h1>
+        <h1>Kuljettajat <small>kaudella 2014</small></h1>
     </div>
 
-    <div class="content">
-        <div class="row well" ng-controller="CalendarDataCtrl">
-            <div ng-repeat="entry in entries" class="col-sm-4" title="{{entry.gp_short_name}}">
-            <span class="badge">{{entry.gp_number}}</span> {{entry.gp_short_name}} {{entry.gp_date | date:'dd-MM-yyyy'}}</div>
-        </div>
-    </div>
 
     <script>
         $(document).ready(function () {
             $('#nav').load('nav.html', function () {
                 $('.nav a:contains("Etusivu")').parent().removeClass('active');
-                $('.nav a:contains("Kisakalenteri")').parent().addClass('active');
+                $('.nav a:contains("Kuljettajat")').parent().addClass('active');
             })
         });
     </script>
