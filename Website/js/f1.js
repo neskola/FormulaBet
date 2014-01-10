@@ -4,14 +4,14 @@ $.getJSON( "data/drivers.json", function( data ) {
 
   var items = [];
   items.push("<option value='null'>Valitse kuski</option>");
-  $.each( data, function( key, val ) {
+  
+
+  for ( var i in positions) {$.each( data, function( key, val ) {
 	  if (val && typeof val === 'object') {
 	      items.push( "<option value='" + val.d_id + "'>" +
 	      val.d_name + " (" + val.d_team + ")</option>" );
 	  }
   });
-
-  for ( var i in positions) {
 
   $( "<select/>", {
 	  "name" : "select-qualification-driver-" + positions[i],

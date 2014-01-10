@@ -5,7 +5,12 @@ function CalendarDataCtrl($scope, $http) {
 
     $scope.entries = [];
 
-    $.getJSON("data/calendar.json", function (data) {
+    $http.get('data/calendar.json')
+      .then(function (result) {
+          $scope.entries = result.data;
+    });
+
+    /*$.getJSON("data/calendar.json", function (data) {
 
         $.each(data, function (key, val) {
             if (val && typeof val === 'object') {
@@ -14,8 +19,8 @@ function CalendarDataCtrl($scope, $http) {
             }
         });
         alert('bar' + $scope.entries);
-    });
-    alert('foo' + $scope.entries);
+    });*/
+
 }
 
 
