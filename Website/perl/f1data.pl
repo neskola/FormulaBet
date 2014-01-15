@@ -13,6 +13,8 @@ use JSON;
 
 my $f1prefix = "http://www.formula1.com";
 
+my $data_folder = "../data/";
+
 my $ua = LWP::UserAgent->new();
 
 my $cookies = HTTP::Cookies->new(
@@ -55,7 +57,7 @@ sub main
     } elsif ($update =~ 'allgp') {	
         print "Update all gp results.\n(Warning: may contain altered results. Check content)\n";
 	       
-	my $gp_calendar = openJSONFile('calendar.json');
+	my $gp_calendar = openJSONFile($data_folder . 'calendar.json');
 
 	for ( @{$gp_calendar} ) {	   	  
 	    my $gp_id = $_->{gp_id};
@@ -160,7 +162,7 @@ sub updateCircuitCalendar {
 	}
     }
     
-    writeFile('calendar.json', to_json(\@circuits, {utf8 => 1, pretty => 1}));
+    writeFile($data_folder . 'calendar.json', to_json(\@circuits, {utf8 => 1, pretty => 1}));
         
 }
 
@@ -196,7 +198,7 @@ sub updateDrivers {
 	push(@drivers, $data);
     }
 
-    writeFile('drivers.json', to_json(\@drivers, {utf8 => 1, pretty => 1}));
+    writeFile($data_folder . 'drivers.json', to_json(\@drivers, {utf8 => 1, pretty => 1}));
 }
 
 sub writeFile {
