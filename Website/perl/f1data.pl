@@ -180,7 +180,7 @@ sub updateDrivers {
 	my $imgsrc = $f1prefix.$imgtag->attr_get_i('src');
 	my $spantag = $_->find_by_tag_name('span');
 
-	my ($driver_id) = ($imgsrc =~ /^.*_{1}(\d{2,3})/);
+	my ($driver_id) = ($imgsrc =~ /^.*_{1}(\d{1,3})/);
 	my $name= $imgtag->attr_get_i('alt');
 	
 	print $spantag->as_text."\n";
