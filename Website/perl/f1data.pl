@@ -176,27 +176,30 @@ sub updateDrivers {
     my @drivers;
 
     for (@divs) {
-	my $imgtag = $_->find_by_tag_name('img');
-	my $imgsrc = $f1prefix.$imgtag->attr_get_i('src');
-	my $spantag = $_->find_by_tag_name('span');
+		my $imgtag = $_->find_by_tag_name('img');
+		my $imgsrc = $f1prefix.$imgtag->attr_get_i('src');
+		my $spantag = $_->find_by_tag_name('span');
 
-	my ($driver_id) = ($imgsrc =~ /^.*_{1}(\d{1,3})/);
-	my $name= $imgtag->attr_get_i('alt');
+		my ($driver_id) = ($imgsrc =~ /^.*_{1}(\d{1,3})/);
+		my $name= $imgtag->attr_get_i('alt');
 	
-	print $spantag->as_text."\n";
-	print $imgsrc."\n";
-	print $driver_id."\n";
-	print $name."\n";
-
-	my $data = {
-	    'd_id' => $driver_id,
-	    'd_name' => $name,
-	    'd_team' => $spantag->as_text,
-	    'd_imgsrc' => $imgsrc
-	};
+		if (defined $driver_id) {
+			print $spantag->as_text."\n";
+			print $imgsrc."\n";
+			print $driver_id."\n";
+			print $name."\n";
 	
-	push(@drivers, $data);
-    }
+			my $data = {
+				'd_id' => $driver_id,
+				'd_name' => $name,
+				'd_team' => $spantag->as_text,
+				'd_imgsrc' => $imgsrc
+			};
+			
+			push(@drivers, $data);
+		}
+	
+	}
 
     writeFile($data_folder . 'drivers.json', to_json(\@drivers, {utf8 => 1, pretty => 1}));
 }
