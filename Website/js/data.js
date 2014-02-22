@@ -13,8 +13,7 @@ angular.module('calendar', ['firebase'])
   function ($scope, $firebase) {
       // year should be fetched from this year
       var ref = new Firebase('https://f1kaapo.firebaseio.com/calendar/2014');
-      $scope.calendars = $firebase(ref.limit(20));
-      $scope.predicate = 'gp_number';
+      $scope.calendars = $firebase(ref.limit(20));      
 
   }]);
     
@@ -32,6 +31,5 @@ angular.module('drivers', ['firebase'])
   function ($scope, $firebase) {
       // year should be fetched from this year
       var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
-      $scope.drivers = $firebase(ref);
-      $scope.predicate = '-d_id';
+      $scope.drivers = $firebase(ref);      
   }]);
