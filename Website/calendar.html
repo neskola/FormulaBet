@@ -35,7 +35,7 @@
 
     <div class="content">        
         <div class="row well" ng-app="calendar" ng-controller="Calendar">
-            <div ng-repeat="calendar in calendars | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
+            <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
                 <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} {{calendar.gp_date | date:'dd-MM-yyyy'}}
             </div>
         </div>
