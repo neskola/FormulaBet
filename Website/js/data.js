@@ -14,3 +14,9 @@ angular.module('calendar', ['firebase']).controller('Calendar', ['$scope', '$fir
 */
   }]);
     
+angular.module('drivers', ['firebase']).controller('Drivers', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
+      $scope.drivers = $firebase(ref);
+      $scope.predicate = 'd_team';
+  }]);

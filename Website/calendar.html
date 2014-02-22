@@ -35,14 +35,9 @@
 
     <div class="content">        
         <div class="row well" ng-app="calendar" ng-controller="Calendar">
-            <div ng-repeat="calendar in calendars | orderBy:'gp_id'" class="col-sm-4" title="">
+            <div ng-repeat="calendar in calendars | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
                 <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} {{calendar.gp_date | date:'dd-MM-yyyy'}}
             </div>
-            <!--
-            <span>{{calendar}}</span>
-        <div ng-repeat="calendar in entries" class="col-sm-4" title="{{entry.gp_short_name}}">
-        <span class="badge">{{entry.gp_number}}</span> {{entry.gp_short_name}} {{entry.gp_date | date:'dd-MM-yyyy'}}</div>
-        </div> -->
         </div>
     </div>
 

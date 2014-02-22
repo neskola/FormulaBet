@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app>
+<html>
 <head>
     <title>F1 Veikkaus - kuljettajat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +13,17 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>    
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/angular-1.2.6.min.js"></script>
+
 
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
+
     <script src="js/data.js"></script>
 
 </head>
@@ -31,13 +36,13 @@
     </div>
 
     <div class="content">
-        <div class="row" ng-controller="DriverDataCtrl">
-            <div ng-repeat="entry in entries" class="col-sm-6" title="{{entry.d_name}}">
+        <div class="row" ng-app="drivers" ng-controller="Drivers">
+            <div ng-repeat="driver in drivers | orderBy:'d_team'" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">
-                        <img src="{{entry.d_imgsrc}}" alt="{{entry.d_name}}">
+                        <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
                     </a>
-                    <div><b>{{entry.d_name}}</b><br/>{{entry.d_team}}</div>
+                    <div><b>{{driver.d_name}}</b><br/>{{driver.d_team}}</div>
                 </div>
                 
             </div>
