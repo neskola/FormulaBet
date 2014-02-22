@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="F1App">
+<html>
 <head>
     <title>F1 Veikkaus -kisakalenteri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,10 +18,10 @@
 
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>    
-       
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>        
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>        
-    <script src="https://cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
     
     <script src="js/data.js"></script>
 </head>
@@ -33,15 +33,16 @@
         <h1>Kisakalenteri <small>kaudella 2014</small></h1>
     </div>
 
-    <div class="content">
-        <div class="row well" ng-controller="CalendarDataCtrl">
-            
-                <div ng-repeat="calendar in calendars" class="col-sm-4" title=""></div>
+    <div class="content">        
+        <div class="row well" ng-app="calendar" ng-controller="Calendar">
+            <div ng-repeat="calendar in calendars | orderBy:'gp_id'" class="col-sm-4" title="">
+                <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} {{calendar.gp_date | date:'dd-MM-yyyy'}}
+            </div>
             <!--
-                <span>{{calendar}}</span>            
-            <div ng-repeat="calendar in entries" class="col-sm-4" title="{{entry.gp_short_name}}">
-            <span class="badge">{{entry.gp_number}}</span> {{entry.gp_short_name}} {{entry.gp_date | date:'dd-MM-yyyy'}}</div>            
-            </div> -->
+            <span>{{calendar}}</span>
+        <div ng-repeat="calendar in entries" class="col-sm-4" title="{{entry.gp_short_name}}">
+        <span class="badge">{{entry.gp_number}}</span> {{entry.gp_short_name}} {{entry.gp_date | date:'dd-MM-yyyy'}}</div>
+        </div> -->
         </div>
     </div>
 

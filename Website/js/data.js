@@ -1,16 +1,16 @@
-var f1App = angular.module("F1App", ["firebase"]);
 
-f1App.controller('CalendarDataCtrl', function ($scope, angularFire) {
-    alert('foo');
-    var ref;
-    ref = new Firebase("https://f1kaapo.firebaseio.com/calendar");
-    $scope.calendars = [];
+angular.module('calendar', ['firebase']).controller('Calendar', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      var ref = new Firebase('https://f1kaapo.firebaseio.com/calendar/2014');
+      $scope.calendars = $firebase(ref.limit(20));
+      $scope.predicate = 'gp_number';
 
-    $scope.addCalendar = function() {
-        $scope.calendar.push($scope.newCalendar);
-        return $scope.newProp = "";
-    };
-
-    return angularFire(ref, $scope, "calendars");
-});
+/*      $scope.addCalendar = function () {
+          $scope.calendars.$add({
+              from: $scope.calendar, content: $scope.calendar.gp_name
+          });
+          $scope.calendars = "";
+      }
+*/
+  }]);
     
