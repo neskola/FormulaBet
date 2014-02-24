@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html ng-app>
+<html>
 <head>
-    <title>F1 Veikkaus</title>
+    <title>F1 Veikkaus -kisakalenteri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,39 +13,71 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/angular-1.2.6.min.js"></script>
-
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/data.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/page.js"></script>
 </head>
 <body>
+
     <nav class="navbar navbar-default" role="navigation" id="nav">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">F1 Veikkaus</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Etusivu</a></li>
+                <li><a href="#container" onclick="loadPage('form.html');">Veikkaa</a></li>
+                <li><a href="#container" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
+                <li><a href="#container" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li><a href="#container" onclick="loadPage('rules.html')">Säännöt</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Muut<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://www.formula1.com/default.html">F1 -sivusto</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                <span>Niki</span>
+            </div>
+        </div><!-- /.navbar-collapse -->
     </nav>
 
-    <div class="page-header well">
-        <h3>Tervetuloa<small>-veikkaussivulle</small></h3>
+    <div class="container" id="container">
+        <div class="page-header well">
+            <h3>Tervetuloa<small>-veikkaussivulle</small></h3>
+        </div>
+
+        <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Muista!</strong> Tulevana viikonloppuna ajetaan gp ***.
+        </div>
+
+        <div id="content" class="well">
+            <p>Tulostaulu ja graafi</p>
+            <p>Tähän jotain rss-uutislistaa</p>
+        </div>
     </div>
 
-    <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Muista!</strong> Tulevana viikonloppuna ajetaan gp ***.
-    </div>
-
-    <div id="content" class="well">
-        <p>Tulostaulu ja graafi</p>
-        <p>Tähän jotain rss-uutislistaa</p>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            $('#nav').load('nav.html', function () {
-                $('.nav a:contains("Etusivu")').addClass('active');
-            })
-        });
-    </script>
-    </body>
+</body>
 </html>

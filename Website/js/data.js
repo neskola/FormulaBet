@@ -1,15 +1,19 @@
 
+function mySort(obj) {
+    var result = [];
+    angular.forEach(obj, function (val, key) {
+        if (angular.isObject(val)) {
+            result.push(val);
+        }
+
+    });
+    return result;
+}
+
 angular.module('calendar', ['firebase'])
       .filter("toArray", function () {
           return function (obj) {
-              var result = [];              
-              angular.forEach(obj, function (val, key) {
-                  if (angular.isObject(val)) {
-                      result.push(val);
-                  }
-                  
-              });              
-              return result;
+              return mySort(obj);
           };
       })
     .controller('Calendar', ['$scope', '$firebase',
@@ -22,13 +26,7 @@ angular.module('calendar', ['firebase'])
 angular.module('drivers', ['firebase'])
       .filter("toArray", function () {
           return function (obj) {
-              var result = [];              
-              angular.forEach(obj, function (val, key) {
-                  if (angular.isObject(val)) {
-                      result.push(val);
-                  }                  
-              });
-              return result;
+              return mySort(obj);
           };
       })
     .controller('Drivers', ['$scope', '$firebase',
