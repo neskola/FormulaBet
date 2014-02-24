@@ -32,10 +32,12 @@
         </div>
 
         <div class="row" ng-app="calendar" ng-controller="Calendar">
-            <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="well col-sm-4" title="{{calendar.gp_short_name}}">
-                <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
-                <span>Qual date {{calendar.gp_qual_date | date:'dd-MM-yyyy'}}</span><br />
-                <span>Race date {{calendar.gp_date | date:'dd-MM-yyyy'}}</span>
+            <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
+                <div id="gpname" class="well">
+                    <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
+                    <span>Qual date {{calendar.gp_qual_date | date:'dd-MM-yyyy'}}</span><br />
+                    <span>Race date {{calendar.gp_date | date:'dd-MM-yyyy'}}</span>
+                </div>
             </div>
         </div>
     </div>
