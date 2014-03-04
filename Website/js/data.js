@@ -10,7 +10,7 @@ function mySort(obj) {
     return result;
 }
 
-angular.module('calendar', ['firebase'])
+angular.module('f1app', ['firebase'])
       .filter("toArray", function () {
           return function (obj) {
               return mySort(obj);
@@ -21,6 +21,12 @@ angular.module('calendar', ['firebase'])
       // year should be fetched from this year
       var ref = new Firebase('https://f1kaapo.firebaseio.com/calendar/2014');
       $scope.calendars = $firebase(ref.limit(20));                  
+  }])
+    .controller('Drivers', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      // year should be fetched from this year
+      var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
+      $scope.drivers = $firebase(ref);      
   }]);
     
 angular.module('drivers', ['firebase'])

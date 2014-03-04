@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="f1app">
 <head>
     <title>F1 Veikkaus -kisakalenteri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +31,7 @@
             <h1>Kisakalenteri <small>kaudella 2014</small></h1>
         </div>
 
-        <div class="row" ng-app="calendar" ng-controller="Calendar">
+        <div class="row" ng-controller="Calendar">
             <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
                 <div id="gpname" class="well">
                     <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
