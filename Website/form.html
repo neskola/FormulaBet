@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app>
+<html>
 <head>
     <title>F1 Veikkaus -veikkauslappu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,97 +13,51 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/angular-1.2.6.min.js"></script>
-
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/data.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
+
+    <script src="js/data.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation" id="nav">
     </nav>
 
     <div id="content" class="container">
-        <div class="row" ng-controller="CalendarDataCtrl">
-            <div class="col-sm-6" id="gpselection">
-                <span class="label label-default">Valitse kilpailu</span>
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/flag.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.gp_short_name for entry in entries"></select><br>
-                    </div>
-                </div> 
+        <div class="col-sm-6" id="gpselection">
+            <span class="label label-default">Veikkaa</span>
+            <div ng-app="calendar" ng-controller="Calendar" class="input-group">
+                <span class="input-group-addon"><img src="img/flag.png"></span>
+                <select class="form-control" name="gp_id">
+                    <option value="000">Valitse kilpailu</option>
+                    <option ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
+                </select><br>
             </div>
-            <div class="col-sm-6"><span /></div>
+        </div>
+        <div class="col-sm-6"><span /></div>
+
+        <div class="col-sm-6" id="qualifications">
+            <span class="label label-default">Aika-ajotulos</span>
+            <div ng-app="drivers" ng-controller="Drivers" class="input-group">
+                <span class="input-group-addon"><img src="img/1.png"></span>
+                <select class="form-control" name="q_id_1">
+                    <option value="000">Valitse kuski</option>
+                    <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}}</option>
+                </select>
+            </div>
         </div>
 
-        <div class="row" ng-controller="DriverDataCtrl">
-            <div class="col-sm-6" id="qualifications">
-                <span class="label label-default">Aika-ajotulos</span>
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/1.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/2.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/3.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/4.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/5.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/6.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6" id="grandprix">
-                <span class="label label-default">Kilpailutulos</span>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/1.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/2.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/3.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/4.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/5.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/6.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>                
-            </div>
-        </div>
         <div class="row centered">
             <!-- Hmm. centering doesn't work -->
             <div class="col-sm-1 centered">
                 <button type="button" class="btn btn-default">Vahvista</button>
             </div>
-            
+
         </div>
     </div>
 
@@ -115,5 +69,5 @@
             })
         });
     </script>
-    </body>
+</body>
 </html>
