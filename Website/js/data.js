@@ -26,19 +26,7 @@ angular.module('f1app', ['firebase'])
   function ($scope, $firebase) {
       // year should be fetched from this year
       var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
-      $scope.drivers = $firebase(ref);      
+      $scope.drivers = $firebase(ref);
+      $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
   }]);
     
-angular.module('drivers', ['firebase'])
-      .filter("toArray", function () {
-          return function (obj) {
-              return mySort(obj);
-          };
-      })
-    .controller('Drivers', ['$scope', '$firebase',
-  function ($scope, $firebase) {
-      // year should be fetched from this year
-      var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
-      $scope.drivers = $firebase(ref);
-      $scope.range = _.range(1, 6);
-  }]);

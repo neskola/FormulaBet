@@ -43,92 +43,22 @@
             <div class="row" ng-controller="Drivers">
                 <div class="col-sm-4" id="qualifications">
                     <span class="label label-default">Aika-ajotulos</span>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/1.png"></span>
-                        <select class="form-control" name="q_id_1">
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="q_id_{{val}}">
                             <option value="000">Valitse kuski</option>
                             <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
                         </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/2.png"></span>
-                        <select class="form-control" name="q_id_2">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/3.png"></span>
-                        <select class="form-control" name="q_id_3">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/4.png"></span>
-                        <select class="form-control" name="q_id_4">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/5.png"></span>
-                        <select class="form-control" name="q_id_5">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/6.png"></span>
-                        <select class="form-control" name="q_id_6">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select><br />
                     </div>
                 </div>
                 <div class="col-sm-4" id="grandprix">
-                    <span class="label label-default">Aika-ajotulos</span>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/1.png"></span>
-                        <select class="form-control" name="gp_id_1">
+                    <span class="label label-default">Kilpailutulos</span>
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="gp_id_{{val}}">
                             <option value="000">Valitse kuski</option>
                             <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
                         </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/2.png"></span>
-                        <select class="form-control" name="gp_id_2">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/3.png"></span>
-                        <select class="form-control" name="gp_id_3">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/4.png"></span>
-                        <select class="form-control" name="gp_id_4">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/5.png"></span>
-                        <select class="form-control" name="gp_id_5">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/6.png"></span>
-                        <select class="form-control" name="gp_id_6">
-                            <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
-                        </select><br />
                     </div>
                 </div>
             </div>
