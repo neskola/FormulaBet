@@ -1,5 +1,9 @@
 ﻿<!DOCTYPE html>
+<<<<<<< HEAD
 <html>
+=======
+<html ng-app="f1app">
+>>>>>>> origin/refactoring
 <head>
     <title>F1 Veikkaus -veikkauslappu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,12 +27,14 @@
     <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
 
     <script src="js/data.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="js/page.js"></script>
+>>>>>>> origin/refactoring
 </head>
 <body>
-    <nav class="navbar navbar-default" role="navigation" id="nav">
-    </nav>
-
     <div id="content" class="container">
+<<<<<<< HEAD
         <div class="col-sm-6" id="gpselection">
             <span class="label label-default">Veikkaa</span>
             <div ng-app="calendar" ng-controller="Calendar" class="input-group">
@@ -59,8 +65,56 @@
             </div>
 
         </div>
+=======
+        <form name="betslip">
+            <div class="row" ng-controller="Calendar">
+                <div class="col-sm-4" id="gpselection">
+                    <span class="label label-default">Veikkaa</span>
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="img/flag.png"></span>
+                        <select class="form-control" name="gp_id">
+                            <option value="000">Valitse kilpailu</option>
+                            <option ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
+                        </select><br />
+                    </div>
+                </div>
+                <div class="col-sm-4" id="gpselection"><span> </span></div>
+            </div>
+            <div class="row" ng-controller="Drivers">
+                <div class="col-sm-4" id="qualifications">
+                    <span class="label label-default">Aika-ajotulos</span>
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="q_id_{{val}}">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="grandprix">
+                    <span class="label label-default">Kilpailutulos</span>
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="gp_id_{{val}}">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Hmm. centering doesn't work -->
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning disabled left">Vahvista</button>
+                </div>
+                <!-- Hmm. centering doesn't work -->
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-success disabled right">Edellinen</button>
+                </div>
+            </div>
+        </form>
+>>>>>>> origin/refactoring
     </div>
-
     <script>
         $(document).ready(function () {
             $('#nav').load('nav.html', function () {
