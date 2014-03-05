@@ -79,6 +79,11 @@ $(function () {
        
     });
 
+    $("#confirm").click(function () {
+        if (myUser == -1) {
+            $("#dialog-login").modal('show');
+        }
+    });
 
     $("#opener-register").click(function () {
         $("#dialog-register").modal('show');
@@ -116,8 +121,6 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-register").attr('disabled', true);
         $("#opener-login").attr('disabled', true);
         $("#opener-login").attr('hidden', true);
-        $("#betslip-link").attr('disabled', false);
-        $("#betslip-link").attr('hidden', false);
         $("#login-name").html(user.email.split('@')[0]);
     } else {
         // User is logged out.
@@ -126,12 +129,10 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-logout").attr('disabled', true);
         $("#opener-login").attr('disabled', false);
         $("#opener-login").attr('hidden', false);
-        $("#betslip-link").attr('disabled', true);
-        $("#betslip-link").attr('hidden', true);
         $("#opener-register").attr('disabled', false);
         myUser = -1;
         $("#login-name").html("");
-        $("#dialog-login").modal("show");
+        //$("#dialog-login").modal("show");
     }
 });
 
@@ -150,7 +151,6 @@ $('#data').keypress(function (e) {
 
 function loadPage(html, arg) {
     if (myUser == -1 && html == "form.html") {
-        
     }
 
     /*else {
@@ -161,3 +161,4 @@ function loadPage(html, arg) {
         });
     }*/
 };
+
