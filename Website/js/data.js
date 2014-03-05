@@ -28,7 +28,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX (Melbourne)  ',
           'gp_year': '2014',
           'gp_short_name': 'Melbourne',
-          'gp_qual_date': '2014-03-15T17:00+11:00'
+          'gp_qual_date': '2014-03-15T17:00+11:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Australia.svg/125px-Flag_of_Australia.svg.png'
       }, {
           'gp_id': '915',
           'gp_date': '2014-03-30T16:00+08:00',
@@ -36,7 +37,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 PETRONAS MALAYSIA GRAND PRIX (Kuala Lumpur)  ',
           'gp_year': '2014',
           'gp_short_name': 'Kuala Lumpur',
-          'gp_qual_date': '2014-03-29T16:00+08:00'
+          'gp_qual_date': '2014-03-29T16:00+08:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Flag_of_Kuala_Lumpur_Malaysia.svg/100px-Flag_of_Kuala_Lumpur_Malaysia.svg.png'
       }, {
           'gp_id': '916',
           'gp_date': '2014-04-06T18:00+03:00',
@@ -44,7 +46,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 GULF AIR BAHRAIN GRAND PRIX (Sakhir)  ',
           'gp_year': '2014',
           'gp_short_name': 'Sakhir',
-          'gp_qual_date': '2014-04-05T18:00+03:00'
+          'gp_qual_date': '2014-04-05T18:00+03:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Bahrain.svg/125px-Flag_of_Bahrain.svg.png'
       }, {
           'gp_id': '917',
           'gp_date': '2014-04-20T15:00+08:00',
@@ -52,7 +55,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 UBS CHINESE GRAND PRIX (Shanghai)  ',
           'gp_year': '2014',
           'gp_short_name': 'Shanghai',
-          'gp_qual_date': '2014-04-19T14:00+08:00'
+          'gp_qual_date': '2014-04-19T14:00+08:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/125px-Flag_of_the_People%27s_Republic_of_China.svg.png'
       }, {
           'gp_id': '919',
           'gp_date': '2014-05-11T14:00+02:00',
@@ -60,7 +64,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GRAN PREMIO DE ESPAÑA PIRELLI 2014 (Catalunya)  ',
           'gp_year': '2014',
           'gp_short_name': 'Catalunya',
-          'gp_qual_date': '2014-05-10T14:00+02:00'
+          'gp_qual_date': '2014-05-10T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/125px-Flag_of_Spain.svg.png'
       }, {
           'gp_id': '920',
           'gp_date': '2014-05-25T14:00+02:00',
@@ -68,7 +73,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GRAND PRIX DE MONACO 2014 (Monte Carlo)  ',
           'gp_year': '2014',
           'gp_short_name': 'Monte Carlo',
-          'gp_qual_date': '2014-05-24T14:00+02:00'
+          'gp_qual_date': '2014-05-24T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Brasao_montecarlo.jpg/100px-Brasao_montecarlo.jpg'
       }, {
           'gp_id': '922',
           'gp_date': '2014-06-08T14:00-04:00',
@@ -76,7 +82,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GRAND PRIX DU CANADA 2014 (Montréal)  ',
           'gp_year': '2014',
           'gp_short_name': 'Montreal',
-          'gp_qual_date': '2014-06-07T13:00-04:00'
+          'gp_qual_date': '2014-06-07T13:00-04:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Flag_of_Canada.svg/125px-Flag_of_Canada.svg.png'
       }, {
           'gp_id': '923',
           'gp_date': '2014-06-22T14:00+02:00',
@@ -84,7 +91,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GROSSER PREIS VON ÖSTERREICH 2014 (Spielberg)  ',
           'gp_year': '2014',
           'gp_short_name': 'Spielberg',
-          'gp_qual_date': '2014-06-21T14:00+02:00'
+          'gp_qual_date': '2014-06-21T14:00+02:00',
+          'gp_flag_url' : 'http://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/125px-Flag_of_Austria.svg.png'
       }, {
           'gp_id': '924',
           'gp_date': '2014-07-06T13:00+01:00',
@@ -92,7 +100,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 SANTANDER BRITISH GRAND PRIX (Silverstone)  ',
           'gp_year': '2014',
           'gp_short_name': 'Silverstone',
-          'gp_qual_date': '2014-07-05T13:00+01:00'
+          'gp_qual_date': '2014-07-05T13:00+01:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_the_United_Kingdom.svg/125px-Flag_of_the_United_Kingdom.svg.png'
       }, {
           'gp_id': '925',
           'gp_date': '2014-07-20T14:00+02:00',
@@ -100,7 +109,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GROSSER PREIS SANTANDER VON DEUTSCHLAND 2014 (Hockenheim)  ',
           'gp_year': '2014',
           'gp_short_name': 'Hockenheim',
-          'gp_qual_date': '2014-07-19T14:00+02:00'
+          'gp_qual_date': '2014-07-19T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/125px-Flag_of_Germany.svg.png'
       }, {
           'gp_id': '926',
           'gp_date': '2014-07-27T14:00+02:00',
@@ -108,7 +118,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 PIRELLI MAGYAR NAGYDÍJ 2014 (Budapest)  ',
           'gp_year': '2014',
           'gp_short_name': 'Budapest',
-          'gp_qual_date': '2014-07-26T14:00+02:00'
+          'gp_qual_date': '2014-07-26T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Flag_of_Hungary.svg/130px-Flag_of_Hungary.svg.png'
       }, {
           'gp_id': '927',
           'gp_date': '2014-08-24T14:00+02:00',
@@ -116,7 +127,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 SHELL BELGIAN GRAND PRIX (Spa-Francorchamps)  ',
           'gp_year': '2014',
           'gp_short_name': 'Spa-Francorchamps',
-          'gp_qual_date': '2014-08-23T14:00+02:00'
+          'gp_qual_date': '2014-08-23T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/125px-Flag_of_Belgium.svg.png'
       }, {
           'gp_id': '928',
           'gp_date': '2014-09-07T14:00+02:00',
@@ -124,7 +136,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GRAN PREMIO D ITALIA 2014 (Monza)  ',
           'gp_year': '2014',
           'gp_short_name': 'Monza',
-          'gp_qual_date': '2014-09-06T14:00+02:00'
+          'gp_qual_date': '2014-09-06T14:00+02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/125px-Flag_of_Italy.svg.png'
       }, {
           'gp_id': '929',
           'gp_date': '2014-09-21T20:00+08:00',
@@ -132,7 +145,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 SINGAPORE GRAND PRIX (Singapore)  ',
           'gp_year': '2014',
           'gp_short_name': 'Singapore',
-          'gp_qual_date': '2014-09-20T21:00+08:00'
+          'gp_qual_date': '2014-09-20T21:00+08:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Flag_of_Singapore.svg/125px-Flag_of_Singapore.svg.png'
       }, {
           'gp_id': '931',
           'gp_date': '2014-10-05T15:00+09:00',
@@ -140,7 +154,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 JAPANESE GRAND PRIX (Suzuka)  ',
           'gp_year': '2014',
           'gp_short_name': 'Suzuka',
-          'gp_qual_date': '2014-10-04T14:00+09:00'
+          'gp_qual_date': '2014-10-04T14:00+09:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/125px-Flag_of_Japan.svg.png'
       }, {
           'gp_id': '930',
           'gp_date': '2014-10-12T15:00+04:00',
@@ -148,7 +163,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 RUSSIAN GRAND PRIX (Sochi)  ',
           'gp_year': '2014',
           'gp_short_name': 'Sochi',
-          'gp_qual_date': '2014-10-11T15:00+04:00'
+          'gp_qual_date': '2014-10-11T15:00+04:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/125px-Flag_of_Russia.svg.png'
       }, {
           'gp_id': '933',
           'gp_date': '2014-11-02T14:00-06:00',
@@ -156,7 +172,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 UNITED STATES GRAND PRIX (Austin)  ',
           'gp_year': '2014',
           'gp_short_name': 'Austin',
-          'gp_qual_date': '2014-11-01T13:00-06:00'
+          'gp_qual_date': '2014-11-01T13:00-06:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/125px-Flag_of_the_United_States.svg.png'
       }, {
           'gp_id': '935',
           'gp_date': '2014-11-09T14:00-02:00',
@@ -164,7 +181,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' FORMULA 1 GRANDE PRÊMIO DO BRASIL 2014 (São Paulo)  ',
           'gp_year': '2014',
           'gp_short_name': 'Sao Paulo',
-          'gp_qual_date': '2014-11-08T14:00-02:00'
+          'gp_qual_date': '2014-11-08T14:00-02:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/125px-Flag_of_Brazil.svg.png'
       }, {
           'gp_id': '932',
           'gp_date': '2014-11-23T17:00+04:00',
@@ -172,7 +190,8 @@ angular.module('f1app', ['firebase'])
           'gp_name': ' 2014 FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX (Yas Marina)  ',
           'gp_year': '2014',
           'gp_short_name': 'Yas Marina',
-          'gp_qual_date': '2014-11-22T17:00+04:00'
+          'gp_qual_date': '2014-11-22T17:00+04:00',
+          'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Flag_of_Abu_Dhabi.svg/100px-Flag_of_Abu_Dhabi.svg.png'
       }];
 
 
