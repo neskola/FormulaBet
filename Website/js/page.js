@@ -27,30 +27,13 @@ myUser = -1;
 $(function () {
     $("#dialog-register").modal(
         {
-        show: false,
-        buttons: {
-            "ok": function () {
-
-                var email = $("#register-email").val();
-                var password = $("#register-password").val();
-                authClient.createUser(email, password, function (error, user) {
-                    if (!error) {
-                        console.log('logging new registered user');
-                        doLogin(email, password);
-                    } else {
-                        alert(error);
-                    }
-                });
-
-                $(this).modal('hide');
-            },
-            Cancel: function () {
-                $(this).dialog('hide');
-            }
-        }
+        show: false
     } );
 
-    $("#dialog-login").modal('hide');
+    $("#dialog-login").modal(
+        {
+        show: false
+    });
     /*{
         autoOpen: false,
         buttons: {
@@ -70,7 +53,7 @@ $(function () {
     });*/
 
     $("#register-button").click(function () {
-        var email = $("#register-email").val();
+        var email = $("#register-email").val() + "@f1kaapo.fi";
         var password = $("#register-password").val();
         authClient.createUser(email, password, function (error, user) {
             if (!error) {
@@ -85,10 +68,10 @@ $(function () {
     });
 
     $("#login-button").click(function () {
-        console.log('trying to login: ' + $("#login-email").val());
-
-        var email = $("#login-email").val();
+        var email = $("#login-email").val() + "@f1kaapo.fi"; // to bypass email validation
         var password = $("#login-password").val();
+
+        console.log('trying to login: ' + $("#login-email").val());
 
         myUser = doLogin(email, password);
 
@@ -132,18 +115,23 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-logout").attr('disabled', false);
         $("#opener-register").attr('disabled', true);
         $("#opener-login").attr('disabled', true);
-        $("#login-name").html(user.email);
+        $("#opener-login").attr('hidden', true);
+        $("#betslip-link").attr('disabled', false);
+        $("#betslip-link").attr('hidden', false);
+        $("#login-name").html(user.email.split('@')[0]);
     } else {
         // User is logged out.
         console.log('logged out');
         $("#data").attr('disabled', true);
         $("#opener-logout").attr('disabled', true);
         $("#opener-login").attr('disabled', false);
+        $("#opener-login").attr('hidden', false);
         $("#betslip-link").attr('disabled', true);
+        $("#betslip-link").attr('hidden', true);
         $("#opener-register").attr('disabled', false);
         myUser = -1;
         $("#login-name").html("");
-        // ("#dialog-form").dialog("open");
+        $("#dialog-login").modal("show");
     }
 });
 
@@ -161,10 +149,9 @@ $('#data').keypress(function (e) {
 });
 
 function loadPage(html, arg) {
-    /*if (myUser == -1 && html == "form.html") {
-        $("#dialog-login").modal('show');
-        return false;
-    }*/
+    if (myUser == -1 && html == "form.html") {
+        
+    }
 
     /*else {
         $.ajax({
