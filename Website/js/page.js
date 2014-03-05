@@ -132,6 +132,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-logout").attr('disabled', false);
         $("#opener-register").attr('disabled', true);
         $("#opener-login").attr('disabled', true);
+        $("#login-name").html(user.email);
     } else {
         // User is logged out.
         console.log('logged out');
@@ -141,6 +142,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#betslip-link").attr('disabled', true);
         $("#opener-register").attr('disabled', false);
         myUser = -1;
+        $("#login-name").html("");
         // ("#dialog-form").dialog("open");
     }
 });
