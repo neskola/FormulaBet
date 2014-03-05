@@ -159,13 +159,16 @@ $('#data').keypress(function (e) {
 });
 
 function loadPage(html, arg) {
-    if (myUser == -1 && html == "form.html") {
+    /*if (myUser == -1 && html == "form.html") {
         $("#dialog-login").modal('show');
-    } else {
+        return false;
+    }*/
+
+    /*else {
         $.ajax({
             url: html + " #container",
         }).done(function (data) {
             $("#container").html(data);
         });
-    }
+    }*/
 };
