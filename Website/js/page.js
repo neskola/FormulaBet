@@ -27,13 +27,13 @@ myUser = -1;
 $(function () {
     $("#dialog-register").modal(
         {
-        show: false
-    } );
+            show: false
+        } );
 
     $("#dialog-login").modal(
         {
-        show: false
-    });
+            show: false
+        });
     /*{
         autoOpen: false,
         buttons: {
@@ -114,6 +114,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         // User is already logged in.
         console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
         myUser = user;
+        myUser.userid = user.email.split('@')[0];
         // doLogin(user);
         console.log('logged in')
         $("#data").attr('disabled', false);
@@ -121,7 +122,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-register").attr('disabled', true);
         $("#opener-login").attr('disabled', true);
         $("#opener-login").attr('hidden', true);
-        $("#login-name").html(user.email.split('@')[0]);
+        $("#login-name").html(myUser.userid);
     } else {
         // User is logged out.
         console.log('logged out');
@@ -150,15 +151,10 @@ $('#data').keypress(function (e) {
 });
 
 function loadPage(html, arg) {
-    if (myUser == -1 && html == "form.html") {
-    }
-
-    /*else {
-        $.ajax({
-            url: html + " #container",
-        }).done(function (data) {
-            $("#container").html(data);
-        });
-    }*/
+    $.ajax({
+        url: html + " #container",
+    }).done(function (data) {
+        $("#container").html(data);
+    });
 };
 
