@@ -335,5 +335,11 @@ angular.module('f1app', ['firebase'])
       }];
 
       $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
+  }])
+    .controller('Bets', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      // year should be fetched from this year
+      //var ref = new Firebase('https://f1kaapo.firebaseio.com/drivers/2014');
+      //$scope.drivers = $firebase(ref);
   }]);
 

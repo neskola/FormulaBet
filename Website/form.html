@@ -23,8 +23,9 @@
     <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
     <script src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
 
-    <script src="js/data.js"></script>
     <script src="js/page.js"></script>
+    <script src="js/data.js"></script>
+
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation" id="nav">
@@ -156,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-controller="Bets">
                 <!-- Hmm. centering doesn't work -->
                 <div class="col-sm-4">
                     <button type="button" class="btn btn-warning left disabled" id="confirm">Vahvista</button>
