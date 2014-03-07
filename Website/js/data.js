@@ -338,7 +338,6 @@ angular.module('f1app', ['firebase'])
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      // year should be fetched from this year
       console.log('User ' + myUser);
       var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid);
       //$scope.drivers = $firebase(ref);

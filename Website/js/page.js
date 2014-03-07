@@ -105,37 +105,40 @@ function doLogin(email, password) {
     });
 };
 
-var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
-    if (error) {
-        alert(error);
-        return;
-    }
-    if (user) {
-        // User is already logged in.
-        console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
-        myUser = user;
-        myUser.userid = user.email.split('@')[0];
-        // doLogin(user);
-        console.log('logged in')
-        $("#data").attr('disabled', false);
-        $("#opener-logout").attr('disabled', false);
-        $("#opener-register").attr('disabled', true);
-        $("#opener-login").attr('disabled', true);
-        $("#opener-login").attr('hidden', true);
-        $("#login-name").html(myUser.userid);
-    } else {
-        // User is logged out.
-        console.log('logged out');
-        $("#data").attr('disabled', true);
-        $("#opener-logout").attr('disabled', true);
-        $("#opener-login").attr('disabled', false);
-        $("#opener-login").attr('hidden', false);
-        $("#opener-register").attr('disabled', false);
-        myUser = -1;
-        $("#login-name").html("");
-        //$("#dialog-login").modal("show");
-    }
-});
+if (myUser = -1) {
+    var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
+        if (error) {
+            alert(error);
+            return;
+        }
+        console.log(user);
+        if (user) {
+            // User is already logged in.
+            console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+            myUser = user;
+            myUser.userid = user.email.split('@')[0];
+            // doLogin(user);
+            console.log('logged in')
+            $("#data").attr('disabled', false);
+            $("#opener-logout").attr('disabled', false);
+            $("#opener-register").attr('disabled', true);
+            $("#opener-login").attr('disabled', true);
+            $("#opener-login").attr('hidden', true);
+            $("#login-name").html(myUser.userid);
+        } else {
+            // User is logged out.
+            console.log('logged out');
+            $("#data").attr('disabled', true);
+            $("#opener-logout").attr('disabled', true);
+            $("#opener-login").attr('disabled', false);
+            $("#opener-login").attr('hidden', false);
+            $("#opener-register").attr('disabled', false);
+            myUser = -1;
+            $("#login-name").html("");
+            //$("#dialog-login").modal("show");
+        }
+    });
+}
 
 
 $('#data').keypress(function (e) {
@@ -151,10 +154,10 @@ $('#data').keypress(function (e) {
 });
 
 function loadPage(html, arg) {
-    $.ajax({
+    /*$.ajax({
         url: html + " #container",
     }).done(function (data) {
         $("#container").html(data);
-    });
+    });*/
 };
 
