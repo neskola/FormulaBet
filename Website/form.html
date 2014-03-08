@@ -155,6 +155,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row" ng-controller="Drivers">
+                <div class="col-sm-6" id="fastest-lap">
+                    <span class="label label-default">Nopein kierrosaika</span><i><small>Oikein veikatusta nopeimmasta kierrosajasta 3 pistettä.</small></i>
+                    <div class="input-group">
+                        <select class="form-control" name="fastest-lap" id="fastest-lap">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary" id="confirm" onclick="addBet();">Vahvista</button>
@@ -171,9 +184,9 @@
 
         <div ng-controller="Bets">
             <span class="label label-default">Edelliset veikkaukset</span>
-            <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date'">
+            <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">
-                    <span>{{bet.date | date:'dd.MM.yyyy hh:mm'}}</span> {{bet.gp_name}}
+                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"   >{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>
                 </div>
             </div>
         </div>
@@ -201,7 +214,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Vetosi on tallennettu</h4>
+                    <h4 class="modal-title" id="dialog-bet-title"></h4>
                 </div>
                 <div class="modal-body" id="dialog-bet-body">
                 </div>

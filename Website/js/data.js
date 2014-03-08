@@ -337,7 +337,7 @@ angular.module('f1app', ['firebase'])
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {    
-      console.log('User ' + myUser.userid + ", email: " + myUser.email);
+      console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
       var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets");
       $scope.bets = $firebase(ref);
@@ -396,8 +396,42 @@ function addBet($firebase) {
 
         // everything went ok - now show summary
         
-
+        $("#dialog-bet-title").html("Vetosi on tallennettu.")
         $("#dialog-bet-body").html(text);
         $("#dialog-bet").modal('show');
     }
+}
+
+function showBet(object) {
+    var gp_id = object.id.split('_')[2];
+    console.log(gp_id);
+    var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets/" + gp_id);
+    ref.on('value', function (dataSnapshot) {
+        // code to handle new value.    
+        var betslip = dataSnapshot.val();
+        console.log(betslip);
+
+        var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
+        var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
+        var gphtml = "<div class='col-sm-6'>Kilpailu</br>";
+        for (val in betslip.qbets) {
+            qbet = betslip.qbets[val];
+            qhtml = qhtml.concat(qbet.position + ". " + qbet.info + "</br>");
+        }
+        for (val in betslip.gpbets) {
+            gpbet = betslip.gpbets[val];
+            gphtml = gphtml.concat(gpbet.position + ". " + gpbet.info + "</br>");
+        }
+        qhtml = qhtml.concat("</div>");
+        gphtml = gphtml.concat("</div>");
+        text = text.concat(qhtml, gphtml, "</div>");
+        console.log(text);
+
+        $("#dialog-bet-title").html("Aikaisempi vetolippu " + betslip.date)
+        $("#dialog-bet-body").html(text);
+        $("#dialog-bet").modal('show');
+
+    });
+    ref.off();
+
 }
