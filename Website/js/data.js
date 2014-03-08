@@ -1,4 +1,3 @@
-
 function mySort(obj) {
     var result = [];
     angular.forEach(obj, function (val, key) {
@@ -337,10 +336,50 @@ angular.module('f1app', ['firebase'])
       $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
   }])
     .controller('Bets', ['$scope', '$firebase',
-  function ($scope, $firebase) {
-      console.log('User ' + myUser);
-      var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid);
-      //$scope.drivers = $firebase(ref);
-      
+  function ($scope, $firebase) {    
+      console.log('User ' + myUser.userid + ", email: " + myUser.email);
+      $scope.userbets = [];
+      var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets");
+      $scope.userbets = $firebase(ref);
+      console.log(ref);
+      console.log($scope.userbets);
   }]);
 
+function addBet($firebase) {
+
+    var betslip = new Object();
+    betslip.gp_id = $("#gp_id").val();
+    betslip.gp_name = $("#gp_id option:selected").text();
+    
+    if (myUser == -1) {
+        $("#dialog-login").modal('show');
+    } else if (gp_id == "000") {
+        $("#dialog-choose-gp").modal('show');
+    } else {
+        var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid);
+ 
+        betslip.userid = ref.name();
+        betslip.qbets = [];
+        betslip.gpbets = [];
+
+        for (i = 1; i <= 6; i++) {
+            console.log("#q_id_" + i + "=" + $("#q_id_" + i).val());
+            var qbet = new Object();
+            qbet.position = i;
+            qbet.driverid = $("#q_id_" + i).val();
+            qbet.info = $("#q_id_" + i + " option:selected").text();
+
+            var gpbet = new Object();
+            gpbet.position = i;
+            gpbet.driverid = $("#gp_id_" + i).val();
+            gpbet.info = $("#gp_id_" + i + " option:selected").text();
+
+            betslip.qbets.push(qbet);
+            betslip.gpbets.push(gpbet);
+        }
+
+        console.log(JSON.stringify(betslip));
+        var betref = ref.child("bets/" + betslip.gp_id);
+        betref.set(betslip);
+    }
+}
