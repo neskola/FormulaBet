@@ -121,22 +121,22 @@
     </nav>
 
     <div id="content" class="container">
-        <form name="betslip">
+        <form name="betslip" id="betslip">
             <div class="row" ng-controller="Calendar">
-                <div class="col-sm-4" id="gpselection">
+                <div class="col-sm-6" id="gpselection">
                     <span class="label label-default">Veikkaa</span>
                     <div class="input-group">
                         <span class="input-group-addon"><img src="img/flag.png"></span>
                         <select class="form-control" name="gp_id" id="gp_id">
-                            <option value="000">Valitse kilpailu</option>
+                            <option value="">Valitse kilpailu</option>
                             <option ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
                         </select><br />
                     </div>
                 </div>
-                <div class="col-sm-4" id="gpselection"><span> </span></div>
+                <div class="col-sm-6" id="gpselection"><span> </span></div>
             </div>
             <div class="row" ng-controller="Drivers">
-                <div class="col-sm-4" id="qualifications">
+                <div class="col-sm-6" id="qualifications">
                     <span class="label label-default">Aika-ajotulos</span>
                     <div class="input-group" ng-repeat="val in range">
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
@@ -146,7 +146,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4" id="grandprix">
+                <div class="col-sm-6" id="grandprix">
                     <span class="label label-default">Kilpailutulos</span>
                     <div class="input-group" ng-repeat="val in range">
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
@@ -157,15 +157,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <!-- Hmm. centering doesn't work -->
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-warning left" id="confirm" onclick="addBet();">Vahvista</button>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="confirm" onclick="addBet();">Vahvista</button>
                 </div>
-                <!-- Hmm. centering doesn't work -->
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-success right">Edellinen</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success disabled">Edellinen</button>
                 </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning" onclick="$('#betslip').trigger('reset');">Tyhjennä</button>
+                </div>
+                
             </div>
         </form>
     </div>
@@ -186,6 +188,23 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div class="modal fade" id="dialog-bet">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Vetosi on tallennettu</h4>
+                </div>
+                <div class="modal-body" id="dialog-bet-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 
     <script>
         $("#dialog-choose-gp").modal(

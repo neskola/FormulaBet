@@ -53,11 +53,11 @@
 
     });
 
-    $("#confirm").click(function () {
+/*    $("#confirm").click(function () {
         if (myUser == -1) {
             $("#dialog-login").modal('show');
         }
-    });
+    });*/
 
     $("#opener-register").click(function () {
         $("#dialog-register").modal('show');

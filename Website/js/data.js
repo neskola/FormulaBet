@@ -351,9 +351,11 @@ function addBet($firebase) {
     betslip.gp_id = $("#gp_id").val();
     betslip.gp_name = $("#gp_id option:selected").text();
     
+    console.log("gp_id = " + betslip.gp_id);
+
     if (myUser == -1) {
         $("#dialog-login").modal('show');
-    } else if (gp_id == "000") {
+    } else if (betslip.gp_id === "") {
         $("#dialog-choose-gp").modal('show');
     } else {
         var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid);
@@ -362,24 +364,39 @@ function addBet($firebase) {
         betslip.qbets = [];
         betslip.gpbets = [];
 
+        var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
+        var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
+        var gphtml = "<div class='col-sm-6'>Kilpailu</br>";
         for (i = 1; i <= 6; i++) {
             console.log("#q_id_" + i + "=" + $("#q_id_" + i).val());
             var qbet = new Object();
             qbet.position = i;
             qbet.driverid = $("#q_id_" + i).val();
             qbet.info = $("#q_id_" + i + " option:selected").text();
+            qhtml = qhtml.concat(qbet.position + ". " + qbet.info + "</br>");
 
             var gpbet = new Object();
             gpbet.position = i;
             gpbet.driverid = $("#gp_id_" + i).val();
             gpbet.info = $("#gp_id_" + i + " option:selected").text();
-
+            gphtml = gphtml.concat(gpbet.position + ". " + gpbet.info + "<br/>");
+            
             betslip.qbets.push(qbet);
             betslip.gpbets.push(gpbet);
         }
+        qhtml = qhtml.concat("</div>");
+        gphtml = gphtml.concat("</div>");
+        text = text.concat(qhtml, gphtml, "</div>");
+        console.log(text);
 
         console.log(JSON.stringify(betslip));
         var betref = ref.child("bets/" + betslip.gp_id);
         betref.set(betslip);
+
+        // everything went ok - now show summary
+        
+
+        $("#dialog-bet-body").html(text);
+        $("#dialog-bet").modal('show');
     }
 }
