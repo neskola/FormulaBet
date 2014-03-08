@@ -44,19 +44,15 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         // doLogin(user);
         console.log('logged in')
         $("#opener-logout").attr('disabled', false);
-        $("#opener-register").attr('disabled', true);
         $("#opener-login").attr('disabled', true);
-        $("#opener-login").attr('hidden', true);
-        $("#login-name").html(myUser.userid);
+        $("#username").html(myUser.userid);
     } else {
         // User is logged out.
         console.log('logged out');
         $("#opener-logout").attr('disabled', true);
         $("#opener-login").attr('disabled', false);
-        $("#opener-login").attr('hidden', false);
-        $("#opener-register").attr('disabled', false);
         myUser = -1;
-        $("#login-name").html("");
+        $("#username").html("");
         //$("#dialog-login").modal("show");
     }
 });

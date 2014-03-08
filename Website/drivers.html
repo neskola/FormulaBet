@@ -28,6 +28,7 @@
   
 </head>
 <body id="body-content">
+
     <nav class="navbar navbar-default" role="navigation" id="nav">
 
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,9 +46,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
-                <li class="#"><a href="drivers.html" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
                 <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
 
                 <li class="dropdown">
@@ -58,67 +59,62 @@
                     </ul>
                 </li>
             </ul>
-            <div class="navbar-right">
-                <div class="modal fade" id="dialog-register">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Anna tietosi</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <fieldset>
-                                        <label for="name">Tunnus</label>
-                                        <input type="text" name="email" id="register-email" class="text ui-widget-content ui-corner-all" />
-                                        <label for="password">Salasana</label>
-                                        <input type="password" name="password" id="register-password" value="" class="text ui-widget-content ui-corner-all" />
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
-                                <button type="button" class="btn btn-primary" id="register-button">Rekisteröidy</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
 
-                <div class="modal fade" id="dialog-login">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Kirjaudu sisään</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <fieldset>
-                                        <label for="name">Tunnus</label>
-                                        <input type="text" name="email" id="login-email" class="text ui-widget-content ui-corner-all" />
-                                        <label for="password">Salasana</label>
-                                        <input type="password" name="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" />
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
-                                <button type="button" class="btn btn-primary" id="login-button">Kirjaudu</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
-                <span id="login-name"></span>
-                <!-- <button id="opener-register">Rekisteröidy</button> -->
-                <button id="opener-login">Kirjaudu sisään</button>
-                <button id="opener-logout">Ulos</button>
-                <!--
-                <br />
-                <input id="data" />
-                -->
-            </div>
         </div><!-- /.navbar-collapse -->
     </nav>
+    <div class="modal fade" id="dialog-register">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Anna tietosi</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="register-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="register-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="register-button">Rekisteröidy</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="dialog-login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Kirjaudu sisään</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="login-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="login-button">Kirjaudu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- <button id="opener-register">Rekisteröidy</button> -->
+    <button id="opener-login">Kirjaudu</button>
+    <button id="opener-logout">Ulos</button>
+    <span id="username"></span>
 
     <div class="container" id="container">
         <div class="page-header well">

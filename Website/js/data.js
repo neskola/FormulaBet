@@ -338,9 +338,9 @@ angular.module('f1app', ['firebase'])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {    
       console.log('User ' + myUser.userid + ", email: " + myUser.email);
-      $scope.userbets = [];
+      $scope.bets = [];
       var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets");
-      $scope.userbets = $firebase(ref);
+      $scope.bets = $firebase(ref);
       console.log(ref);
       console.log($scope.userbets);
   }]);
@@ -363,6 +363,7 @@ function addBet($firebase) {
         betslip.userid = ref.name();
         betslip.qbets = [];
         betslip.gpbets = [];
+        betslip.date = new Date().toJSON();
 
         var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
