@@ -364,6 +364,10 @@ function addBet($firebase) {
         betslip.qbets = [];
         betslip.gpbets = [];
         betslip.date = new Date().toJSON();
+        var fastestlap = new Object();
+        fastestlap.d_id = $("#fastest-lap").val();
+        fastestlap.d_info = $("#fastest-lap option:selected").text();
+        betslip.fastestlap = fastestlap;
 
         var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
