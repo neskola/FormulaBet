@@ -13,21 +13,21 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
-    <script src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
+    <script src="js/angular-1.2.13.min.js"></script>
+    <script src="js/firebase-v0.js"></script>
+    <script src="js/angularfire-0.6.0.min.js"></script>
+    <script src='js/firebase-simple-login-1.3.0.js'></script>
 
     <script src="js/page.js"></script>
     <script src="js/data.js"></script>
-    
+  
 </head>
-<body>
+<body id="body-content">
     <nav class="navbar navbar-default" role="navigation" id="nav">
 
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,10 +45,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li><a href="form.html" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
-                <li><a href="calendar.html" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
-                <li class="active"><a href="drivers.html" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
-                <li><a href="rules.html" onclick="loadPage('rules.html')">Säännöt</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
+                <li class="#"><a href="drivers.html" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Muut<b class="caret"></b></a>
