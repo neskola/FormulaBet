@@ -1,9 +1,56 @@
-﻿// this is derived from
+﻿
+var firebaseSingleton = (function () {
+
+    // Instance stores a reference to the Singleton
+    var instance;
+
+    function init() {
+
+        // Singleton
+
+        var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com');
+
+
+        return {
+
+            // Public methods and variables
+            publicMethod: function () {
+                console.log("The public can see me!");
+            },
+
+            getReference: function () {
+                console.log("Return " + firebaseRef);
+                return firebaseRef;
+            }
+
+        };
+
+    };
+
+    return {
+
+        // Get the Singleton instance if one exists
+        // or create one if it doesn't
+        getInstance: function () {
+
+            if (!instance) {
+                instance = init();
+            }
+
+            return instance;
+        }
+
+    };
+
+})();
+
+
+// this is derived from
 // http://stackoverflow.com/questions/15167981/how-do-i-use-firebase-simple-login-with-email-password/15167983#15167983
 
 
 // CHANGE THIS to your own firebase
-var ref = new Firebase("https://f1kaapo.firebaseio.com");
+var ref = firebaseSingleton.getInstance().getReference();
 // then go to your firebase console, click the auth tab, scroll down to 
 // authentication providers, and enable 'email/password'
 // Now enter this in the 'Auth' tab to the left.
@@ -57,15 +104,3 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
     }
 });
 
-
-$('#data').keypress(function (e) {
-    if (e.keyCode == 13) {
-        var data = $('#data').val();
-        console.log(myUser.id);
-        var myRef = new Firebase("https://f1kaapo.firebaseio.com/users/" + myUser.id);
-        myRef.push({
-            data: data
-        });
-        $('#data').val('');
-    }
-});

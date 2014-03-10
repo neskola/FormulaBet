@@ -339,7 +339,7 @@ angular.module('f1app', ['firebase'])
   function ($scope, $firebase) {    
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
-      var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets");
+      var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
       $scope.bets = $firebase(ref);
       console.log(ref);
       console.log($scope.userbets);
@@ -358,7 +358,8 @@ function addBet($firebase) {
     } else if (betslip.gp_id === "") {
         $("#dialog-choose-gp").modal('show');
     } else {
-        var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid);
+        var firebaseRef = firebaseSingleton.getInstance().getReference();
+        var ref = firebaseRef.child('users/' + myUser.userid);
  
         betslip.userid = ref.name();
         betslip.qbets = [];
@@ -409,7 +410,9 @@ function addBet($firebase) {
 function showBet(object) {
     var gp_id = object.id.split('_')[2];
     console.log(gp_id);
-    var ref = new Firebase('https://f1kaapo.firebaseio.com/users/' + myUser.userid + "/bets/" + gp_id);
+    var firebaseRef = firebaseSingleton.getInstance().getReference();
+    var ref = firebaseRef.child('users/' + myUser.userid + "/bets/" + gp_id);
+
     ref.on('value', function (dataSnapshot) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
