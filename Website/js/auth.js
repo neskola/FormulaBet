@@ -34,6 +34,7 @@ var firebaseSingleton = (function () {
         getInstance: function () {
 
             if (!instance) {
+                console.log("Initializing firebase reference instance.")
                 instance = init();
             }
 
