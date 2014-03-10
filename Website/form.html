@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app>
+<html ng-app="f1app">
 <head>
     <title>F1 Veikkaus -veikkauslappu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,107 +13,224 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/angular-1.2.6.min.js"></script>
-
     <!-- local scripts -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="js/angular-1.2.13.min.js"></script>
+    <script src="js/firebase-v0.js"></script>
+    <script src="js/angularfire-0.6.0.min.js"></script>
+    <script src='js/firebase-simple-login-1.3.0.js'></script>
+
+    <script src="js/page.js"></script>
     <script src="js/data.js"></script>
 
 </head>
-<body>
+<body id="body-content">
     <nav class="navbar navbar-default" role="navigation" id="nav">
-    </nav>
 
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">F1 Veikkaus</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Etusivu</a></li>
+                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
+                <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Muut<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://www.formula1.com/default.html">F1 -sivusto</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </nav>
+    <div class="modal fade" id="dialog-register">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Anna tietosi</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="register-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="register-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="register-button">Rekisteröidy</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="dialog-login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Kirjaudu sisään</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="login-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="login-button">Kirjaudu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- <button id="opener-register">Rekisteröidy</button> -->
+    <button id="opener-login">Kirjaudu</button>
+    <button id="opener-logout">Ulos</button>
+    <span id="username"></span>
+    <!--
+    <br />
+    <input id="data" />
+    -->
     <div id="content" class="container">
-        <div class="row" ng-controller="CalendarDataCtrl">
-            <div class="col-sm-6" id="gpselection">
-                <span class="label label-default">Valitse kilpailu</span>
-                <div>
+        <form name="betslip" id="betslip">
+            <div class="row" ng-controller="Calendar">
+                <div class="col-sm-6" id="gpselection">
+                    <span class="label label-default">Veikkaa</span>
                     <div class="input-group">
                         <span class="input-group-addon"><img src="img/flag.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.gp_short_name for entry in entries"></select><br>
+                        <select class="form-control" name="gp_id" id="gp_id">
+                            <option value="">Valitse kilpailu</option>
+                            <option ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
+                        </select><br />
                     </div>
-                </div> 
+                </div>
+                <div class="col-sm-6" id="gpselection"><span> </span></div>
             </div>
-            <div class="col-sm-6"><span /></div>
-        </div>
+            <div class="row" ng-controller="Drivers">
+                <div class="col-sm-6" id="qualifications">
+                    <span class="label label-default">Aika-ajotulos</span>
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="q_id_{{val}}" id="q_id_{{val}}">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6" id="grandprix">
+                    <span class="label label-default">Kilpailutulos</span>
+                    <div class="input-group" ng-repeat="val in range">
+                        <span class="input-group-addon"><img src="img/{{val}}.png"></span>
+                        <select class="form-control" name="gp_id_{{val}}" id="gp_id_{{val}}">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-controller="Drivers">
+                <div class="col-sm-6" id="fastest-lap">
+                    <span class="label label-default">Nopein kierrosaika</span><i><small>Oikein veikatusta nopeimmasta kierrosajasta 3 pistettä.</small></i>
+                    <div class="input-group">
+                        <select class="form-control" name="fastest-lap" id="fastest-lap">
+                            <option value="000">Valitse kuski</option>
+                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
 
-        <div class="row" ng-controller="DriverDataCtrl">
-            <div class="col-sm-6" id="qualifications">
-                <span class="label label-default">Aika-ajotulos</span>
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/1.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/2.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/3.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/4.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/5.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><img src="img/6.png"></span>
-                        <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                    </div>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="confirm" onclick="addBet();">Vahvista</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success disabled">Edellinen</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning" onclick="$('#betslip').trigger('reset');">Tyhjennä</button>
+                </div>
+
+            </div>
+        </form>
+
+        <div ng-controller="Bets">
+            <span class="label label-default">Edelliset veikkaukset</span>
+            <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
+                <div class="col-sm-6">
+                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"   >{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>
                 </div>
             </div>
-            <div class="col-sm-6" id="grandprix">
-                <span class="label label-default">Kilpailutulos</span>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/1.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/2.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/3.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/4.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/5.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/6.png"></span>
-                    <select class="form-control" ng-model="entries" ng-options="entry.d_name for entry in entries"></select><br>
-                </div>                
-            </div>
-        </div>
-        <div class="row centered">
-            <!-- Hmm. centering doesn't work -->
-            <div class="col-sm-1 centered">
-                <button type="button" class="btn btn-default">Vahvista</button>
-            </div>
-            
         </div>
     </div>
 
+    <div class="modal fade" id="dialog-choose-gp">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Huomio</h4>
+                </div>
+                <div class="modal-body">
+                    Unohdit valita kilpailun.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="dialog-bet">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="dialog-bet-title"></h4>
+                </div>
+                <div class="modal-body" id="dialog-bet-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
     <script>
-        $(document).ready(function () {
-            $('#nav').load('nav.html', function () {
-                $('.nav a:contains("Etusivu")').parent().removeClass('active');
-                $('.nav a:contains("Veikkaa")').parent().addClass('active');
-            })
+        $("#dialog-choose-gp").modal(
+        {
+            show: false
         });
     </script>
-    </body>
+</body>
 </html>

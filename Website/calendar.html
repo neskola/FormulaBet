@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="f1app">
 <head>
     <title>F1 Veikkaus -kisakalenteri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,43 +13,123 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->    
-
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- local scripts -->
-    <script src="bootstrap/dist/js/bootstrap.min.js"></script>    
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
-    
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="js/angular-1.2.13.min.js"></script>
+    <script src="js/firebase-v0.js"></script>
+    <script src="js/angularfire-0.6.0.min.js"></script>
+    <script src='js/firebase-simple-login-1.3.0.js'></script>
+
+    <script src="js/page.js"></script>
     <script src="js/data.js"></script>
+    
 </head>
-<body>
+<body id="body-content">
+
     <nav class="navbar navbar-default" role="navigation" id="nav">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">F1 Veikkaus</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Etusivu</a></li>
+                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
+                <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Muut<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://www.formula1.com/default.html">F1 -sivusto</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
     </nav>
+    <div class="modal fade" id="dialog-register">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Anna tietosi</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="register-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="register-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="register-button">Rekisteröidy</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-    <div class="page-header well">
-        <h1>Kisakalenteri <small>kaudella 2014</small></h1>
-    </div>
+    <div class="modal fade" id="dialog-login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Kirjaudu sisään</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <label for="name">Tunnus</label>
+                            <input type="text" name="email" id="login-email" class="text ui-widget-content ui-corner-all" />
+                            <label for="password">Salasana</label>
+                            <input type="password" name="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-primary" id="login-button">Kirjaudu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- <button id="opener-register">Rekisteröidy</button> -->
+    <button id="opener-login">Kirjaudu</button>
+    <button id="opener-logout">Ulos</button>
 
-    <div class="content">        
-        <div class="row well" ng-app="calendar" ng-controller="Calendar">
-            <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="well col-sm-4"  title="{{calendar.gp_short_name}}">
-                <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br/>
-                <span>Qual date {{calendar.gp_qual_date | date:'dd-MM-yyyy'}}</span><br/>
-                <span>Race date {{calendar.gp_date | date:'dd-MM-yyyy'}}</span>
-            </div>            
+    <div class="container" id="container">
+        <div class="page-header well">
+            <h1>Kisakalenteri <small>kaudella 2014</small></h1>
+        </div>
+
+        <div class="row" ng-controller="Calendar">
+            <div ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
+                <div id="gpname" class="well" style="background-image : url('{{calendar.gp_flag_url}}'); background-repeat : no-repeat; background-position : right;">
+                    <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
+                    <span>Qual date {{calendar.gp_qual_date | date:'dd.MM.yyyy'}}</span><br />
+                    <span>Race date {{calendar.gp_date | date:'dd.MM.yyyy'}}</span>
+
+                </div>
+            </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('#nav').load('nav.html', function () {
-                $('.nav a:contains("Etusivu")').parent().removeClass('active');
-                $('.nav a:contains("Kisakalenteri")').parent().addClass('active');
-            })
-        });
-    </script>
-    </body>
+</body>
 </html>
