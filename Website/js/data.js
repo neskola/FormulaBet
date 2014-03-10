@@ -419,9 +419,9 @@ function showBet(object) {
         var betslip = dataSnapshot.val();
         console.log(betslip);
 
-        var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
-        var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
-        var gphtml = "<div class='col-sm-6'>Kilpailu</br>";
+        var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
+        var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</span><br/>";
+        var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>";
         for (val in betslip.qbets) {
             qbet = betslip.qbets[val];
             qhtml = qhtml.concat(qbet.position + ". " + qbet.info + "</br>");
@@ -432,7 +432,9 @@ function showBet(object) {
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        text = text.concat(qhtml, gphtml, "</div>");
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"
+        text = text.concat(qhtml, gphtml, "</div>", flhtml);
+        
         console.log(text);
 
         $("#dialog-bet-title").html("Aikaisempi vetolippu " + betslip.date)
