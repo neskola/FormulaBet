@@ -187,6 +187,7 @@
             <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">
                     <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"   >{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>
+                    {{bet.totalpoints}}
                 </div>
             </div>
         </div>

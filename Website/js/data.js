@@ -1,10 +1,9 @@
 function mySort(obj) {
     var result = [];
     angular.forEach(obj, function (val, key) {
-        if (angular.isObject(val)) {
+        if (angular.isObject(val)) {                        
             result.push(val);
         }
-
     });
     return result;
 }
@@ -18,9 +17,12 @@ angular.module('f1app', ['firebase'])
     .controller('Calendar', ['$scope', '$firebase',
   function ($scope, $firebase) {
       // year should be fetched from this year
-      // var ref = new Firebase('https://f1kaapo.firebaseio.com/calendar/2014');
-      // $scope.calendars = $firebase(ref.limit(20));
-      $scope.calendars = [{
+      var firebaseRef = firebaseSingleton.getInstance().getReference();
+      var ref = firebaseRef.child('calendar/2014');
+      console.log("Fetching calendar " + ref);
+      $scope.calendars = $firebase(ref);      
+      
+      /*$scope.calendars = [{
           'gp_id': '914',
           'gp_date': '2014-03-16T17:00+11:00',
           'gp_number': 1,
@@ -191,9 +193,7 @@ angular.module('f1app', ['firebase'])
           'gp_short_name': 'Yas Marina',
           'gp_qual_date': '2014-11-22T17:00+04:00',
           'gp_flag_url': 'http://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Flag_of_Abu_Dhabi.svg/100px-Flag_of_Abu_Dhabi.svg.png'
-      }];
-
-
+      }];*/
   }])
     .controller('Drivers', ['$scope', '$firebase',
   function ($scope, $firebase) {
@@ -335,15 +335,76 @@ angular.module('f1app', ['firebase'])
 
       $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
   }])
+     .controller('Users', ['$scope', '$firebase',
+  function ($scope, $firebase) {    
+      console.log('Fetch all users');
+      $scope.users = [];
+      var firebaseRef = firebaseSingleton.getInstance().getReference();
+      var ref = firebaseRef.child("users");      
+      console.log("Users ref=" + ref);      
+      ref.on('value', function (dataSnapshot) {          
+           angular.forEach(dataSnapshot.val(), function (user) {               
+              console.log(user);
+              user.totalpoints = 0;
+              
+              angular.forEach(user.bets, function (bet) {
+                  console.log(bet.totalpoints);
+                  if (bet.totalpoints === undefined) {
+
+                  } else {
+                      user.totalpoints += bet.totalpoints;
+                  }                  
+                  
+              });
+              console.log(user.totalpoints);
+              $scope.users.push(user);
+           });
+           
+      });
+      
+      /*$scope.$watch('users', function () {
+          console.log("outside users foreach");
+          console.log($scope.users);
+          angular.forEach($scope.users, function (user) {
+              if (angular.isObject(user)) {
+                  var totalpoints = 0;
+                  console.log(user.name);
+
+                  angular.forEach(user.bets, function (bet) {
+                      console.log("inside bets foreach");
+                      if (angular.isObject(bet)) {
+                          totalpoints += bet.totalpoints;
+                      }
+                  })
+                  console.log(totalpoints);
+                  user.totalpoints = totalpoints;
+              } else {
+                  console.log("not an object");
+              }
+          })
+      }*/
+  }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {    
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
+
       $scope.bets = $firebase(ref);
-      console.log(ref);
-      console.log($scope.userbets);
+      console.log("Bets ref=" + ref);
+
+      $scope.$watch('bets', function () {
+          var totalpoints = 0;
+          
+          angular.forEach($scope.bets, function (bet) {              
+              if (angular.isObject(bet)) {                  
+                  totalpoints += bet.totalpoints;
+              }
+          })
+          console.log(totalpoints);
+          $scope.totalpoints = totalpoints;          
+      }, true);
   }]);
 
 function addBet($firebase) {
@@ -365,24 +426,27 @@ function addBet($firebase) {
         betslip.userid = ref.name();
         betslip.qbets = [];
         betslip.gpbets = [];
+        betslip.totalpoints = -1; // -1 not calculated yet
         betslip.date = new Date().toJSON();
         var fastestlap = new Object();
         fastestlap.d_id = $("#fastest-lap").val();
         fastestlap.d_info = $("#fastest-lap option:selected").text();
         betslip.fastestlap = fastestlap;
 
-        var text = "<div class='row'><div class='col-sm-6'><span>Kilpailu: " + betslip.gp_name + "</span></div><div class='col-sm-6'><span/></div></div><div class='row'>";
-        var qhtml = "<div class='col-sm-6'>Aika-ajo</br>";
-        var gphtml = "<div class='col-sm-6'>Kilpailu</br>";
+        var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu<br/></span>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
+        var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</br></span>";
+        var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</br></span>";
         for (i = 1; i <= 6; i++) {
             console.log("#q_id_" + i + "=" + $("#q_id_" + i).val());
             var qbet = new Object();
+            qbet.points = -1; // -1 not calculated yet
             qbet.position = i;
             qbet.driverid = $("#q_id_" + i).val();
             qbet.info = $("#q_id_" + i + " option:selected").text();
             qhtml = qhtml.concat(qbet.position + ". " + qbet.info + "</br>");
 
             var gpbet = new Object();
+            gpbet.points = -1; // -1 not calculated yet
             gpbet.position = i;
             gpbet.driverid = $("#gp_id_" + i).val();
             gpbet.info = $("#gp_id_" + i + " option:selected").text();
@@ -393,7 +457,8 @@ function addBet($firebase) {
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        text = text.concat(qhtml, gphtml, "</div>");
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"        
+        text = text.concat(qhtml, gphtml, "</div>", flhtml);
         console.log(text);
 
         console.log(JSON.stringify(betslip));
@@ -417,8 +482,7 @@ function showBet(object) {
     ref.on('value', function (dataSnapshot) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
-        console.log(betslip);
-
+        console.log(betslip);        
         var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</span><br/>";
         var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>";
@@ -433,15 +497,21 @@ function showBet(object) {
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
         flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"
-        text = text.concat(qhtml, gphtml, "</div>", flhtml);
+        
+        scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
+        text = text.concat(qhtml, gphtml, "</div>", flhtml, scorehtml);
         
         console.log(text);
 
-        $("#dialog-bet-title").html("Aikaisempi vetolippu " + betslip.date)
+        var betDate = new Date(betslip.date);
+        $("#dialog-bet-title").html("Aikaisempi vetolippu " + myformatDate(betDate));
         $("#dialog-bet-body").html(text);
         $("#dialog-bet").modal('show');
 
     });
     ref.off();
+}
 
+function myformatDate(date) {
+    return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
 }
