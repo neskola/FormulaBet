@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="f1app">
 <head>
-    <title>F1 Veikkaus -kisakalenteri</title>
+    <title>F1 Veikkaus -kuljettajat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,15 +23,12 @@
     <script src="js/angularfire-0.6.0.min.js"></script>
     <script src='js/firebase-simple-login-1.3.0.js'></script>
 
-    <script>
-        var myUser = -1;
-    </script>
+    <script src="js/page.js"></script>
     <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/page.js"></script> 
-
+  
 </head>
 <body id="body-content">
+
     <nav class="navbar navbar-default" role="navigation" id="nav">
 
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -50,7 +47,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
                 <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
-                <!-- li><a href="#" onclick="loadPage('scores.html');">Tulokset</a></li> -->
+                <li><a href="#" onclick="loadPage('scores.html');" id="betslip-link">Tulokset</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
                 <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
                 <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
@@ -122,46 +119,20 @@
 
     <div class="container" id="container">
         <div class="page-header well">
-            <h3>Tervetuloa<small> uudistetulle veikkaussivulle</small></h3>
+            <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
 
-        <div class="alert alert-warning alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Muista!</strong> Muistathan maksaa 9.3. mennessä osallistumismaksun 95 €. <br/>Maksu suoritetaan tilille <b>FI80 535854 500369 22</b>. BIC OKOYFIHH. Saaja Ilkka Eskola.
-        </div>
-
-        <div class="alert alert-info alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Infoa!</strong><p>Veikkauspalvelu avataan maanantaina 10.3. klo 18.00 ja samalla resetoidaan veikkaustiedot. Sitä ennen voi kokeilla kirjautumista ja veikkaamista omilla tunnuksilla. Ongelmatilanteissa ota yhteys administraattori Eskolaan 045-6517228 tai neskola@gmail.com.</p>
-            <p>Sivusto tukee IE 10+, Firefoxia ja Chromea. Lisäksi sivustoa on testattu seuraavilla alustoilla: iOS6, Android 4.0+, Windows Phone 8. Suositeltavaa on päivittää selaimet tuoreimpiin versioihin.</p>
-        </div>
-
-        <div class="alert alert-info alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Versiotiedote 1.0b 10.03.2014</strong>
-            <p>
-                Tässä versiossa toimii
-                <ul>
-                    <li>Sisäänkirjautuminen</li>
-                    <li>Veikkaaminen</li>
-                    <li>Aikaisempien veikkauksien tarkastelu</li>
-                    <li>Nopeimman kierrosajan tallentaminen</li>                    
-                    <li>Tulosten haku ja järjestäminen, tulos-sivu vaatii edelleen muotoilua.</li>
-                </ul>
-            </p>
-            <p>
-                Seuraava versio julkaistaan tiistaina 11.3. klo 18.00
-                <ul>                    
-                    <li>Tulos-sivu jos muotoilu edistyy kuten ajatuksena on.</li>
-                    <li>(Edellisen veikkauksen tuonti lapulle)</li>
-                </ul>
-            </p>
-        </div>
-        
-        <div id="content" class="well">
-            <span><a href="vanha/">Linkki</a> vanhaan järjestelmään jos / kun jokin menee kiville. ;)</span>
+        <div class="row" ng-controller="Users">
+            <div ng-repeat="user in users | toArray | orderBy:'totalpoints':true">
+                <div id="username">                    
+                    <span><b>{{user.name}}</b></span>
+                    <span ng-repeat="bet in user.bets | toArray">
+                        {{bet.totalpoints}}
+                    </span>
+                    <span>{{user.totalpoints}}</span>
+                </div>
+            </div>
         </div>
     </div>
-
 </body>
 </html>
