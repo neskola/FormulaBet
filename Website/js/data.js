@@ -339,6 +339,7 @@ angular.module('f1app', ['firebase'])
   function ($scope, $firebase) {    
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
+      var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
       $scope.bets = $firebase(ref);
       console.log(ref);
