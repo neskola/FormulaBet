@@ -230,7 +230,7 @@ angular.module('f1app', ['firebase'])
           "d_team": "Ferrari",
           "d_sort_id": "04",
           "d_imgsrc": "http://www.formula1.com/photos/teams_and_drivers/driver_index/portrait/portrait_12.jpg",
-          "d_name": "Kimi Räikkönen"
+          "d_name": "Kimi Raikkonen"
       }, {
           "d_id": "838",
           "d_team": "Lotus",
