@@ -16,8 +16,19 @@ angular.module('f1app', ['firebase'])
       })
     .controller('Calendar', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      // year should be fetched from this year
-      $scope.calendars = calendarSingleton.getInstance().getCalendarData();
+      // year should be fetched from this year      
+      var calendardatas = calendarSingleton.getInstance().getCalendarData();
+      $scope.calendars = [];
+      angular.forEach(calendardatas, function (calendardata) {
+          if (calendardata.gp_status > 1) {
+              calendardata.disabled = "disabled";
+          } else {
+              $scope.calendars.push(calendardata);
+          }
+
+          console.log(JSON.stringify(calendardata));
+      })
+
   }])
     .controller('Drivers', ['$scope', '$firebase',
   function ($scope, $firebase) {
@@ -26,29 +37,24 @@ angular.module('f1app', ['firebase'])
   }])
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      console.log('Fetch all users and scores');    
-      $scope.users = [];
+      console.log('Fetch all users and scores');
 
-      $scope.scores = [];
+      $scope.users = [];      
+      $scope.scores = [];      
+      var calculatedbets = [];
+
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
-      $scope.gpdatas = [];
-
-      angular.forEach(calendardatas, function (calendardata) {
-          if (calendardata.gp_status == 2) { // gp is closed and calculated
-              console.log("GP " + calendardata.gp_id + " "  + calendardata.gp_name + " is closed and calculated.");
-              $scope.gpdatas.push(calendardata);
-          } else {
-              console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
-          }
-      });
 
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
       console.log("Users ref=" + ref);
+
       ref.on('value', function (dataSnapshot) {
+          
           angular.forEach(dataSnapshot.val(), function (user) {
               console.log(user);
-              user.totalpoints = 0;
+              user.totalpoints = 0;              
+              user.listingname = user.name.split(" ")[0] + user.name.split(" ")[1].charAt(0);
               user.calculatedBets = [];
 
               angular.forEach(user.bets, function (bet) {
@@ -58,16 +64,29 @@ angular.module('f1app', ['firebase'])
                   } else {
                       console.log("Bet calculated " + bet);
                       user.totalpoints += bet.totalpoints;
-                      user.calculatedBets.push(bet);
-                  }
-              });
-              console.log("Score calculated bets:" + user.calculatedBets);
+                      calculatedbets.push(bet);
+                    }
+              });              
               console.log(user.totalpoints);
               $scope.users.push(user);
           });
-
-      });
-
+          angular.forEach(calendardatas, function (calendardata) {
+              if (calendardata.gp_status == 3) { // gp is closed and calculated
+                  calendardata.bets = [];
+                  console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is closed and calculated.");
+                  angular.forEach(calculatedbets, function (bet) {
+                      //console.log("Bet gp_id = " + bet.gp_id + " and gp_id = " + calendardata.gp_id);
+                      if (calendardata.gp_id == bet.gp_id) {
+                          calendardata.bets.push(bet);
+                      }
+                  });                  
+                  $scope.scores.push(calendardata);
+                  //console.log(JSON.stringify(calendardata));
+              } else {
+                  //console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
+              }
+          });
+      });      
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {

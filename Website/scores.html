@@ -113,14 +113,20 @@
         </div>
                 
         <div class="well" id="leaderboard" ng-controller="Scores">
-            <span class="label label-default">Tuloslista</span>
-            <div class="row" id="gp-list" ng-repeat="cal in calendars | orderBy:'gp-id':false">
-                <div id="scores-gp">
-                    <span id="scores-gp-name"></span>
-                </div>
-                <div class="col-sm-1" id="username">
-                    <span><b>{{user.name}}</b></span><br />
+            <span class="label label-info">Tuloslista</span>
+            <div class="row" id="user-list">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">                
+                    <span><b>{{user.listingname}}</b></span><br />
                     <span>{{user.totalpoints}}</span>
+                </div>
+            </div>
+            <div class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_id':true">
+                <div class="col-sm-1" id="scores-gp">
+                    <span class="small label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
+                </div>
+                <div class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">                    
+                    <span>{{bet.totalpoints}}</span>
                 </div>
             </div>
         </div>        
