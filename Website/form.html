@@ -12,12 +12,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
-    <!-- one huge js  -->
-    <script src="js/f1.js"></script>
-
-    <script src="js/page.js"></script>
-    <script src="js/data.js"></script>
+    <script src="./js/f1.js"></script>
+    <script src="./js/page.js"></script>
+    <script src="./js/data.js"></script>
 
 </head>
 <body id="body-content">
@@ -179,8 +176,7 @@
             <span class="label label-default">Edelliset veikkaukset</span>
             <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">
-                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"   >{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>
-                    {{bet.totalpoints}}
+                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"   >{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>                    
                 </div>
             </div>
         </div>

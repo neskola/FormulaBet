@@ -51,27 +51,6 @@ angular.module('f1app', ['firebase'])
            
       });
       
-      /*$scope.$watch('users', function () {
-          console.log("outside users foreach");
-          console.log($scope.users);
-          angular.forEach($scope.users, function (user) {
-              if (angular.isObject(user)) {
-                  var totalpoints = 0;
-                  console.log(user.name);
-
-                  angular.forEach(user.bets, function (bet) {
-                      console.log("inside bets foreach");
-                      if (angular.isObject(bet)) {
-                          totalpoints += bet.totalpoints;
-                      }
-                  })
-                  console.log(totalpoints);
-                  user.totalpoints = totalpoints;
-              } else {
-                  console.log("not an object");
-              }
-          })
-      }*/
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {    
@@ -91,9 +70,10 @@ angular.module('f1app', ['firebase'])
                   totalpoints += bet.totalpoints;
               }
           })
-          console.log(totalpoints);
+
           $scope.totalpoints = totalpoints;          
       }, true);
+      console.log($scope.totalpoints);
   }]);
 
 function addBet($firebase) {
