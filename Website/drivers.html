@@ -115,7 +115,7 @@
         </div>
 
         <div class="row" ng-controller="Drivers">
-            <div ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" class="col-sm-6" title="{{driver.d_name}}">
+            <div ng-repeat="driver in drivers | orderBy:'d_sort_id'" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">
                         <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">

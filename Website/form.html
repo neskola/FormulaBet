@@ -120,7 +120,7 @@
                         <span class="input-group-addon"><img src="img/flag.png"></span>
                         <select class="form-control" name="gp_id" id="gp_id">
                             <option value="">Valitse kilpailu</option>
-                            <option ng-repeat="calendar in calendars | toArray | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
+                            <option ng-repeat="calendar in calendars | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
                         </select><br />
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="q_id_{{val}}" id="q_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
                         </select>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="gp_id_{{val}}" id="gp_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
                         </select>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <div class="input-group">
                         <select class="form-control" name="fastest-lap" id="fastest-lap">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | toArray | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
                         </select>
                     </div>
                 </div>
