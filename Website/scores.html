@@ -108,21 +108,23 @@
     <span id="username"></span>
 
     <div class="container" id="container">
-        <div class="page-header well">
+        <div class="row page-header well">
             <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
-
-        <div class="row" ng-controller="Users">
-            <div ng-repeat="user in users | toArray | orderBy:'totalpoints':true">
-                <div id="username">                    
-                    <span><b>{{user.name}}</b></span>
-                    <span ng-repeat="bet in user.bets | toArray">
-                        {{bet.totalpoints}}
-                    </span>
+                
+        <div class="well" id="leaderboard" ng-controller="Scores">
+            <span class="label label-default">Tuloslista</span>
+            <div class="row" id="gp-list" ng-repeat="cal in calendars | orderBy:'gp-id':false">
+                <div id="scores-gp">
+                    <span id="scores-gp-name"></span>
+                </div>
+                <div class="col-sm-1" id="username">
+                    <span><b>{{user.name}}</b></span><br />
                     <span>{{user.totalpoints}}</span>
                 </div>
             </div>
-        </div>
+        </div>        
+        
     </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 function mySort(obj) {
     var result = [];
     angular.forEach(obj, function (val, key) {
-        if (angular.isObject(val)) {                        
+        if (angular.isObject(val)) {
             result.push(val);
         }
     });
@@ -24,36 +24,53 @@ angular.module('f1app', ['firebase'])
       $scope.drivers = driverSingleton.getInstance().getDriverData();
       $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
   }])
-     .controller('Users', ['$scope', '$firebase',
-  function ($scope, $firebase) {    
-      console.log('Fetch all users');
+     .controller('Scores', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      console.log('Fetch all users and scores');    
       $scope.users = [];
+
+      $scope.scores = [];
+      var calendardatas = calendarSingleton.getInstance().getCalendarData();
+      $scope.gpdatas = [];
+
+      angular.forEach(calendardatas, function (calendardata) {
+          if (calendardata.gp_status == 2) { // gp is closed and calculated
+              console.log("GP " + calendardata.gp_id + " "  + calendardata.gp_name + " is closed and calculated.");
+              $scope.gpdatas.push(calendardata);
+          } else {
+              console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
+          }
+      });
+
       var firebaseRef = firebaseSingleton.getInstance().getReference();
-      var ref = firebaseRef.child("users");      
-      console.log("Users ref=" + ref);      
-      ref.on('value', function (dataSnapshot) {          
-           angular.forEach(dataSnapshot.val(), function (user) {               
+      var ref = firebaseRef.child("users");
+      console.log("Users ref=" + ref);
+      ref.on('value', function (dataSnapshot) {
+          angular.forEach(dataSnapshot.val(), function (user) {
               console.log(user);
               user.totalpoints = 0;
-              
+              user.calculatedBets = [];
+
               angular.forEach(user.bets, function (bet) {
                   console.log(bet.totalpoints);
-                  if (bet.totalpoints === undefined) {
-
+                  if (bet.totalpoints === undefined || bet.totalpoints < 0) {
+                      console.log("Bet not calculated yet.");
                   } else {
+                      console.log("Bet calculated " + bet);
                       user.totalpoints += bet.totalpoints;
-                  }                  
-                  
+                      user.calculatedBets.push(bet);
+                  }
               });
+              console.log("Score calculated bets:" + user.calculatedBets);
               console.log(user.totalpoints);
               $scope.users.push(user);
-           });
-           
+          });
+
       });
-      
+
   }])
     .controller('Bets', ['$scope', '$firebase',
-  function ($scope, $firebase) {    
+  function ($scope, $firebase) {
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
       var firebaseRef = firebaseSingleton.getInstance().getReference();
@@ -64,14 +81,14 @@ angular.module('f1app', ['firebase'])
 
       $scope.$watch('bets', function () {
           var totalpoints = 0;
-          
-          angular.forEach($scope.bets, function (bet) {              
-              if (angular.isObject(bet)) {                  
+
+          angular.forEach($scope.bets, function (bet) {
+              if (angular.isObject(bet)) {
                   totalpoints += bet.totalpoints;
               }
           })
 
-          $scope.totalpoints = totalpoints;          
+          $scope.totalpoints = totalpoints;
       }, true);
       console.log($scope.totalpoints);
   }]);
@@ -81,7 +98,7 @@ function addBet($firebase) {
     var betslip = new Object();
     betslip.gp_id = $("#gp_id").val();
     betslip.gp_name = $("#gp_id option:selected").text();
-    
+
     console.log("gp_id = " + betslip.gp_id);
 
     if (myUser == -1) {
@@ -91,7 +108,7 @@ function addBet($firebase) {
     } else {
         var firebaseRef = firebaseSingleton.getInstance().getReference();
         var ref = firebaseRef.child('users/' + myUser.userid);
- 
+
         betslip.userid = ref.name();
         betslip.qbets = [];
         betslip.gpbets = [];
@@ -120,13 +137,13 @@ function addBet($firebase) {
             gpbet.driverid = $("#gp_id_" + i).val();
             gpbet.info = $("#gp_id_" + i + " option:selected").text();
             gphtml = gphtml.concat(gpbet.position + ". " + gpbet.info + "<br/>");
-            
+
             betslip.qbets.push(qbet);
             betslip.gpbets.push(gpbet);
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"        
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"
         text = text.concat(qhtml, gphtml, "</div>", flhtml);
         console.log(text);
 
@@ -135,7 +152,7 @@ function addBet($firebase) {
         betref.set(betslip);
 
         // everything went ok - now show summary
-        
+
         $("#dialog-bet-title").html("Vetosi on tallennettu.")
         $("#dialog-bet-body").html(text);
         $("#dialog-bet").modal('show');
@@ -151,7 +168,7 @@ function showBet(object) {
     ref.on('value', function (dataSnapshot) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
-        console.log(betslip);        
+        console.log(betslip);
         var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</span><br/>";
         var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>";
@@ -166,10 +183,10 @@ function showBet(object) {
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
         flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"
-        
+
         scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, scorehtml);
-        
+
         console.log(text);
 
         var betDate = new Date(betslip.date);
