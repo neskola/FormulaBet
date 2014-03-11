@@ -105,3 +105,98 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
     }
 });
 
+var calendarSingleton = (function () {
+
+    var instance;
+    var data = [];
+
+    function init() {
+
+        // Singleton
+        var firebaseRef = firebaseSingleton.getInstance().getReference();
+        var ref = firebaseRef.child('calendar/2014');
+        console.log("Fetching calendar " + ref);
+        ref.on('value', function (dataSnapshot) {
+            angular.forEach(dataSnapshot.val(), function (gpdata) {
+                console.log(gpdata);
+                data.push(gpdata);
+            });
+        });
+
+        return {
+
+            // Public methods and variables
+            getCalendarData: function () {
+                return data;
+            }
+        };
+
+    };
+
+    return {
+
+        // Get the Singleton instance if one exists
+        // or create one if it doesn't
+        getInstance: function () {
+
+            if (!instance && data.length == 0) {
+                console.log("Initializing calendar instance.")
+                instance = init();
+            }
+
+            return instance;
+        }
+
+    };
+
+})();
+
+var driverSingleton = (function () {
+
+    var instance;
+    var data = [];
+
+    function init() {
+
+        // Singleton
+        var firebaseRef = firebaseSingleton.getInstance().getReference();
+        var ref = firebaseRef.child('drivers/2014');
+        console.log("Fetching drivers " + ref);
+        ref.on('value', function (dataSnapshot) {
+            angular.forEach(dataSnapshot.val(), function (driver) {
+                console.log(driver);
+                data.push(driver);
+            });
+        });
+
+        return {
+
+            // Public methods and variables
+            getDriverData: function () {
+                return data;
+            }
+        };
+
+    };
+
+    return {
+
+        // Get the Singleton instance if one exists
+        // or create one if it doesn't
+        getInstance: function () {
+
+            if (!instance && data.length == 0) {
+                console.log("Initializing drivers instance.")
+                instance = init();
+            }
+
+            return instance;
+        }
+
+    };
+
+})();
+
+// init calendar and driver data
+calendarSingleton.getInstance();
+driverSingleton.getInstance();
