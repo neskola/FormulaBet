@@ -74,15 +74,15 @@ def deleteCalendarData(year):
 
 def pushCalendarData(year, calendarlist):
 	for key in calendarlist:
-		calendar = calendarlist[key]
+		calendar = key
 		print "Refresh calendar " + json.dumps(calendar) + "."		
-		query = "/calendar/" + year + "/" + str(calendar['d_id']) + ".json"
+		query = "/calendar/" + year + "/" + str(calendar['gp_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(calendar))
 
 def cleanCalendarData(year, calendarlist):
 	for key in calendarlist:
 		calendar = calendarlist[key]
-		if (key != calendar['d_id']):
+		if (key != calendar['gp_id']):
 			print "Clean calendar with key " + key + " " + json.dumps(calendar) + "."		
 			query = "/calendar/" + str(year) + "/" + str(key) + ".json"
 			firebase.curlDelete(firebase_url + query)
