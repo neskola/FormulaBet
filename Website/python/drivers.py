@@ -74,7 +74,7 @@ def deleteDriverData(year):
 
 def pushDriverData(year, driverlist):
 	for key in driverlist:
-		driver = driverlist[key]
+		driver = key
 		print "Refresh driver " + json.dumps(driver) + "."		
 		query = "/drivers/" + year + "/" + str(driver['d_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(driver))
