@@ -112,24 +112,24 @@
             <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
                 
-        <div class="well" id="leaderboard" ng-controller="Scores">
-            <span class="label label-info">Tuloslista</span>
-            <div class="row" id="user-list">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">                
+        <table class="well" id="leaderboard" ng-controller="Scores">
+            <thead class="label label-info">Tuloslista</thead>
+            <tr class="row" id="user-list">
+                <td class="col-sm-1"></td>
+                <td class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">                
                     <span><b>{{user.listingname}}</b></span><br />
                     <span>{{user.totalpoints}}</span>
-                </div>
-            </div>
-            <div class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_id':true">
-                <div class="col-sm-1" id="scores-gp">
+                </td>
+            </tr>
+            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_id':true">
+                <td class="col-sm-1" id="scores-gp">
                     <span class="small label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
-                </div>
-                <div class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">                    
+                </td>
+                <td class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">                    
                     <span>{{bet.totalpoints}}</span>
-                </div>
-            </div>
-        </div>        
+                </td>
+            </tr>
+        </table>        
         
     </div>
 </body>

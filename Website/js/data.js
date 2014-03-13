@@ -53,14 +53,19 @@ angular.module('f1app', ['firebase'])
           
           angular.forEach(dataSnapshot.val(), function (user) {
               console.log(user);
-              user.totalpoints = 0;              
-              user.listingname = user.name.split(" ")[0] + user.name.split(" ")[1].charAt(0);
+              user.totalpoints = 0;
+              if (user.name.indexOf(" ") > 0) {
+                  user.listingname = user.name.split(" ")[0] + user.name.split(" ")[1].charAt(0);
+              } else {
+                  user.listingname = user.name;
+              }
+              
               user.calculatedBets = [];
 
               angular.forEach(user.bets, function (bet) {
                   console.log(bet.totalpoints);
                   if (bet.totalpoints === undefined || bet.totalpoints < 0) {
-                      console.log("Bet not calculated yet.");
+                      console.log("Bet not calculated yet.");                                            
                   } else {
                       console.log("Bet calculated " + bet);
                       user.totalpoints += bet.totalpoints;
@@ -71,7 +76,7 @@ angular.module('f1app', ['firebase'])
               $scope.users.push(user);
           });
           angular.forEach(calendardatas, function (calendardata) {
-              if (calendardata.gp_status == 3) { // gp is closed and calculated
+              if (calendardata.gp_status > 0) { // gp is closed and calculated
                   calendardata.bets = [];
                   console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is closed and calculated.");
                   angular.forEach(calculatedbets, function (bet) {
@@ -86,7 +91,9 @@ angular.module('f1app', ['firebase'])
                   //console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
               }
           });
-      });      
+      });
+      console.log(JSON.stringify($scope.users));
+      console.log(JSON.stringify($scope.calculatedbets));
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
