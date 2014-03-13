@@ -98,6 +98,25 @@ def removeUser(user):
 	print "Removing " + user + " from list."
 	firebase.curlDelete(firebase_url + "/users/" + user + ".json")
 
+def getUserData(user_id):	
+	query = "/users.json"
+	if user_id:
+		query = "/users/" + user_id + ".json"
+	print("Connecting to: " + query);
+	datalist = json.loads(firebase.curlQuery(firebase_url + query))
+
+	userlist = []	
+	if user_id:
+		print (json.dumps(datalist))
+		userlist.append(datalist)
+	else:
+		for key in datalist:
+			print (json.dumps(datalist[key]))
+			userlist.append(datalist[key])
+	
+	return userlist
+
+
 if __name__ == "__main__":
 	main(sys.argv[1:])
 	print "\n"

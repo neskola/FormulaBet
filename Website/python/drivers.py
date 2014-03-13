@@ -8,13 +8,12 @@ import time
 import firebase
 from datetime import datetime, timedelta
 
-firebase_url = ""
 operation = 0
 fb = ''
 year = '2014'
 
 def main(argv):	
-	global operation, fb, year, firebase_url;
+	global operation, fb, year;
 
 	try:
 		opts, args = getopt.getopt(argv,"hrcd:y:", ["driver=", "year=", "fb="])
@@ -53,33 +52,33 @@ def main(argv):
 	driverlist = getDriverData(year)
 
 	if (operation == 1):
-		pushDriverData(year, driverlist)
+		pushDriverData(firebase_url, year, driverlist)
 	elif (operation == 2):
-		cleanDriverData(year, driverlist)
+		cleanDriverData(firebase_url, year, driverlist)
 
-def getDriverData(year, driverid):
+def getDriverData(firebase_url, year, driverid):
 	query = "/drivers/" + year + "/" + driverid + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 	
-def getDriverData(year):
+def getAllDriverData(firebase_url, year):
 	query = "/drivers/" + year + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 
-def deleteDriverData(year):
+def deleteDriverData(firebase_url, year):
 	print("Deleting current drivers for year " + year)
 	query = "/drivers/" + year + ".json";
 	firebase.curlDelete(firebase_url + query)
 
-def pushDriverData(year, driverlist):
+def pushDriverData(firebase_url, year, driverlist):
 	for key in driverlist:
 		driver = key
 		print "Refresh driver " + json.dumps(driver) + "."		
 		query = "/drivers/" + year + "/" + str(driver['d_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(driver))
 
-def cleanDriverData(year, driverlist):
+def cleanDriverData(firebase_url, year, driverlist):
 	for key in driverlist:
 		driver = driverlist[key]
 		if (key != driver['d_id']):

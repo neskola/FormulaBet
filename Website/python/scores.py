@@ -5,7 +5,7 @@ import sys, getopt, json, sha
 import curl
 import xml.etree.ElementTree as ET
 import time
-import firebase
+import firebase, calendar, drivers, profiles
 from datetime import datetime, timedelta
 
 firebase_url = "https://neskola.firebaseio.com"
@@ -98,40 +98,6 @@ def calculateScore(validbet, gpscore):
 	print (json.dumps(validbet))
 	print (json.dumps(gpscore))
 
-
-def getGpData(gp_id):
-	query = "/calendar/2014.json"
-	print("Connecting to: " + query);
-	datalist = json.loads(firebase.curlQuery(firebase_url + query))
-	gplist = []
-	for data in datalist:
-#		print (data['gp_id'] + " compare to " + gp_id)
-		if gp_id:
-			if data['gp_id'] == gp_id:
-				gplist.append(data)
-				break
-		else:
-			gplist.append(data)
-	return gplist
-
-def getUserData(user_id):	
-	query = "/users.json"
-	if user_id:
-		query = "/users/" + user_id + ".json"
-	print("Connecting to: " + query);
-	datalist = json.loads(firebase.curlQuery(firebase_url + query))
-
-	userlist = []	
-	if user_id:
-		print (json.dumps(datalist))
-		userlist.append(datalist)
-	else:
-		for key in datalist:
-			print (json.dumps(datalist[key]))
-			userlist.append(datalist[key])
-	
-	return userlist
-
 def pushResults(gpid, gresults, qresults, fastest):
 	print ("Push results gr=" + gresults + ", qr=" + qresults + ", fl=" + fastest)
 	gpresultlist = gresults.split(',')
@@ -140,16 +106,48 @@ def pushResults(gpid, gresults, qresults, fastest):
 	print ("Qu results = " + json.dumps(qresultlist))
 	print ("Fastest    = " + fastest)
 
-	results = dict()
-	
-	qrlist = []
-	gplist = []
+	driverlist = drivers.getAllDriverData(firebase_url, "2014")
+	gpdata = calendar.getCalendarData(firebase_url, "2014", gpid)
 
-	for idx, val in enumerate(gpresultlist):
-		driver = getDriverData(val)
-		position = idx
-		print(json.dumps(driver))
+	results = dict()
+
+	if fastest:
+		fastestlap = dict()
+		driver = driverlist[fastest]
+		fastestlap['d_id'] = driver['d_id']
+		fastestlap['info'] = driver['d_name']
+		fastestlap['points'] = 3
+		results['fastestlap'] = fastestlap
+
+	results['qlresults'] = []
+	results['gpresults'] = []
+
+	for idx, val in enumerate(qresultlist):
+		if val in driverlist:
+			driver = driverlist[val]
+			result = dict()
+			result['driverid'] = driver['d_id']
+			result['position'] = idx + 1
+			result['points'] = len(qresultlist) - idx
+			result['info'] = driver['d_name']
+			results['qlresults'].append(result)
+			gpdata['gp_status'] = 3
 	
+	for idx, val in enumerate(gpresultlist):
+		if val in driverlist:
+			driver = driverlist[val]
+			result = dict()
+			result['driverid'] = driver['d_id']
+			result['position'] = idx + 1
+			result['points'] = len(gpresultlist) - idx
+			result['info'] = driver['d_name']
+			results['gpresults'].append(result)
+			gpdata['gp_status'] = 4
+	
+	gpdata['results'] = results
+	query = "/calendar/" + str(gpdata['gp_year']) + "/" + str(gpdata['gp_id']) + ".json"
+	print ("Pushing results to " + query)
+	firebase.curlPut(firebase_url + query, json.dumps(gpdata))
 
 if __name__ == "__main__":
 	main(sys.argv[1:])

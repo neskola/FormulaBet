@@ -50,19 +50,19 @@ def main(argv):
 		firebase_url = "https://" + fb + ".firebaseio.com"
 		print "Target firebase is " + firebase_url
 
-	calendarlist = getCalendarData(year)
+	calendarlist = getAllCalendarData(firebase_url, year)
 
 	if (operation == 1):
 		pushCalendarData(year, calendarlist)
 	elif (operation == 2):
 		cleanCalendarData(year, calendarlist)
 
-def getCalendarData(year, calendarid):
-	query = "/calendar/" + year + "/" + calendarid + ".json"
+def getCalendarData(firebase_url, year, gpid):
+	query = "/calendar/" + year + "/" + gpid + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 	
-def getCalendarData(year):
+def getAllCalendarData(firebase_url, year):
 	query = "/calendar/" + year + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
