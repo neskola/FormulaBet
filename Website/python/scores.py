@@ -64,39 +64,96 @@ def main(argv):
 		pushResults(gp_id, gresults, qresults, fastest)
 
 def checkBetvalues(gp_id, user_id):
-	gplist = getGpData(gp_id)
-	userlist = getUserData(user_id)
+	gpdata = calendar.getCalendarData(firebase_url, "2014", gp_id)
+	userlist = profiles.getUserData(user_id)
 	
-	for gp in gplist:
-		c_gp_id = gp['gp_id']
-		print ("Checking bet values for gp = " + c_gp_id)						
-		betlist = []
-		for user in userlist:
-			print ("Checking bet values for user = " + user['userid'])						
-
-			if 'bets' in user:
-				userbets = user['bets']
-				if c_gp_id in userbets:
-					print ("User " + user['userid'] + " has bet for " + c_gp_id )
-					validbet = userbets[c_gp_id]
-					validbet['status'] = 1
-					if 'score' in gp:
-						validbet = calculateScore(validbet, gp['score'])
+	print ("Checking bet values for gp = " + gp_id)						
+	betlist = []
+	for user in userlist:
+		#print ("Checking bet values for user = " + user['userid'])					          
+		
+		if 'bets' in user:
+			userbets = user['bets']
+			if gp_id in userbets:
+				userid = user['userid']
+				print ("User " + userid + " has bet for " + gp_id )
+				validbet = userbets[gp_id]
+				validbet['status'] = 1
+				print (gpdata)
+				if 'results' in gpdata:
+					print(json.dumps(gpdata, indent=2))
+					validbet = calculateScore(validbet, gpdata['results'])
+					query = "/users/" + str(userid) + "/bets/" + str(gp_id) + ".json" 
+					firebase.curlPut(firebase_url + query, json.dumps(validbet))
 					betlist.append(validbet)
 					
-			else: 
+				else: 
+					print ("User " + user['userid'] + " has no bets.")
+					undefinedbet = dict()
+					undefinedbet['status'] = -1
+					undefinedbet['gp_id'] = gp_id
+					undefinedbet['userid'] = user['userid']
+					betlist.append(undefinedbet)
+			else:
+				print ("User has no bets")
 				print ("User " + user['userid'] + " has no bets.")
 				undefinedbet = dict()
 				undefinedbet['status'] = -1
-				undefinedbet['gp_id'] = gp['gp_id']
+				undefinedbet['gp_id'] = gp_id
 				undefinedbet['userid'] = user['userid']
-				betlist.append(undefinedbet)
-						       
-		print (json.dumps(userlist, indent=4))
+				betlist.append(undefinedbet)			
+				
+#	print (json.dumps(userlist, indent=4))
+					
+def calculateScore(validbet, results):
+	totalpoints = 0
+	if (('qlresults' in results) & ('qbets' in validbet)):
+		print ("Calculate qualification points")
+		returnvalue = calculateResult(validbet['qbets'], results['qlresults'])
+		validbet['qbets'] = returnvalue['calculatedbet']
+		totalpoints += returnvalue['totalpoints']
 
-def calculateScore(validbet, gpscore):
-	print (json.dumps(validbet))
-	print (json.dumps(gpscore))
+	if (('gpresults' in results) & ('gpbets' in validbet)):
+		print ("Calculate race points")
+		returnvalue = calculateResult(validbet['gpbets'], results['qlresults'])
+		validbet['gpbets'] = returnvalue['calculatedbet']
+		totalpoints += returnvalue['totalpoints']
+
+	if (('fastestlap' in results) & ('fastestlap' in validbet)):
+		print ("Calculate fastest lap points")
+		flresult = results['fastestlap']
+		bet = validbet['fastestlap']
+		if flresult['d_id'] == bet['d_id']:
+			print ("Fastest lap " + bet['d_id'] + " matches and yields " + str(flresult['points']) + " points!!")
+			bet['points'] = flresult['points']
+			totalpoints+= flresult['points']
+			validbet['fastestlap'] = bet
+		
+	validbet['totalpoints'] = totalpoints
+	#print (json.dumps(validbet, indent=2))
+	return validbet
+
+def calculateResult(validbet, result):
+	#print (json.dumps(validbet, indent=2))
+	totalpoints = 0
+	for key in result:
+		position = key['position']
+		bet = validbet[position - 1];
+		if bet['driverid'] == key['driverid']:
+			print ("Matches " + bet['driverid'] + " and gives " + str(key['points']) + " points!!")
+			bet['points'] = key['points']
+			totalpoints += key['points']
+		else: 
+			print ("No match " + bet['driverid'])
+			bet['points'] = 0
+		validbet[position - 1] = bet
+
+	print ("Bet yields " + str(totalpoints) + " points!")
+	#print (json.dumps(validbet, indent=2))
+	returnvalue = dict()
+	returnvalue['totalpoints'] = totalpoints
+	returnvalue['calculatedbet'] = validbet
+	return returnvalue
 
 def pushResults(gpid, gresults, qresults, fastest):
 	print ("Push results gr=" + gresults + ", qr=" + qresults + ", fl=" + fastest)

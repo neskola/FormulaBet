@@ -107,11 +107,11 @@ def getUserData(user_id):
 
 	userlist = []	
 	if user_id:
-		print (json.dumps(datalist))
+		#print (json.dumps(datalist))
 		userlist.append(datalist)
 	else:
 		for key in datalist:
-			print (json.dumps(datalist[key]))
+			#print (json.dumps(datalist[key]))
 			userlist.append(datalist[key])
 	
 	return userlist
