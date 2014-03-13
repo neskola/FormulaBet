@@ -121,7 +121,7 @@
                     <span>{{user.totalpoints}}</span>
                 </td>
             </tr>
-            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_id':true">
+            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true">
                 <td class="col-sm-1" id="scores-gp">
                     <span class="small label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
                 </td>
