@@ -8,7 +8,7 @@ import time
 import firebase
 from datetime import datetime, timedelta
 
-firebase_url = "https://f1kaapo.firebaseio.com"
+firebase_url = "https://neskola.firebaseio.com"
 user = ''
 password = ''
 name = ''
@@ -18,13 +18,14 @@ adduser = 0
 remove = 0
 bank = ''
 isadmin = 0
+fb = ''
 
 def main(argv):
-	global user, email, name, password, active, remove, bank
+	global user, email, name, password, active, remove, bank, fb
 	
 	inputfile = ""
 	try:
-		opts, args = getopt.getopt(argv,"harxiu:e:n:p:b:", ["user=", "email=", "name=", "password=", "bank="])
+		opts, args = getopt.getopt(argv,"harxiu:e:n:p:b:f:", ["user=", "email=", "name=", "password=", "bank=", "fb="])
 	except getopt.GetoptError:
 		print ("profiles.py -[a|r] [x|i] -u|--user <user name> -p|--password <password> -e|--email <email> -n|--name <name>")
 		sys.exit(2)
@@ -58,7 +59,15 @@ def main(argv):
 			name = arg
 		if opt in ("-b", "--bank"):
 			bank = arg
-
+		if opt in ("-f", "--fb"):
+			fb = arg
+			
+	if not fb:
+		print ("No target firebase defined!!!!")
+		sys.exit()     
+	else:
+		firebase_url = "https://" + fb + ".firebaseio.com"
+		print "Target firebase is " + firebase_url
 
 	if adduser == 1 and user == '' and password == '':
 		print ("profiles.py -a -u|--user <user name> -p|--password <password> -e|--email <email>")
@@ -81,12 +90,32 @@ def updateUser(user, name, email, password, bank, active, isadmin):
 	userdata['password'] = sha_pass.hexdigest()
 	userdata['active'] = active
 	userdata['isadmin'] = isadmin
+	userdata['userid'] = user
 	print "Adding user = " + user + " to list"
 	firebase.curlPut(firebase_url + "/users/" + user + ".json", json.dumps(userdata))
 
 def removeUser(user):
 	print "Removing " + user + " from list."
 	firebase.curlDelete(firebase_url + "/users/" + user + ".json")
+
+def getUserData(user_id):	
+	query = "/users.json"
+	if user_id:
+		query = "/users/" + user_id + ".json"
+	print("Connecting to: " + query);
+	datalist = json.loads(firebase.curlQuery(firebase_url + query))
+
+	userlist = []	
+	if user_id:
+		#print (json.dumps(datalist))
+		userlist.append(datalist)
+	else:
+		for key in datalist:
+			#print (json.dumps(datalist[key]))
+			userlist.append(datalist[key])
+	
+	return userlist
+
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
