@@ -101,6 +101,7 @@ angular.module('f1app', ['firebase'])
       });
       console.log(JSON.stringify($scope.users));
       console.log(JSON.stringify($scope.calculatedbets));
+      
   }])
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
