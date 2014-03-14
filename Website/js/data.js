@@ -41,7 +41,7 @@ angular.module('f1app', ['firebase'])
 
       $scope.users = [];      
       $scope.scores = [];      
-      var calculatedbets = [];
+      var calculatedbets = {};
 
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
 
@@ -60,7 +60,7 @@ angular.module('f1app', ['firebase'])
                   user.listingname = user.name;
               }
               
-              user.calculatedBets = [];
+              user.calculatedbets = [];
 
               angular.forEach(user.bets, function (bet) {
                   console.log(bet.totalpoints);
@@ -69,18 +69,25 @@ angular.module('f1app', ['firebase'])
                   } else {
                       console.log("Bet calculated " + bet);
                       user.totalpoints += bet.totalpoints;
-                      calculatedbets.push(bet);
-                    }
-              });              
-              console.log(user.totalpoints);
+                      bet.label = (bet.status < -1) ? 'label label-warning' : 'label label-info';
+                      bet.info = (bet.status < -1) ? 'Veikkaus joko uupuu tai on virheellinen.' : 'Veikkaus ok.';                      
+                      user.calculatedbets.push(bet);                      
+                      if (calculatedbets[bet.gp_id]) {                          
+                          calculatedbets[bet.gp_id].push(bet);
+                      } else {                          
+                          calculatedbets[bet.gp_id] = [];
+                          calculatedbets[bet.gp_id].push(bet);
+                      }
+                  }
+              });         
+              console.log(user.totalpoints);              
               $scope.users.push(user);
           });
           angular.forEach(calendardatas, function (calendardata) {
-              if (calendardata.gp_status > 0) { // gp is closed and calculated
+              if (calendardata.gp_status > 2) { // gp is closed and calculated
                   calendardata.bets = [];
                   console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is closed and calculated.");
-                  angular.forEach(calculatedbets, function (bet) {
-                      //console.log("Bet gp_id = " + bet.gp_id + " and gp_id = " + calendardata.gp_id);
+                  angular.forEach(calculatedbets[calendardata.gp_id], function (bet) {             
                       if (calendardata.gp_id == bet.gp_id) {
                           calendardata.bets.push(bet);
                       }

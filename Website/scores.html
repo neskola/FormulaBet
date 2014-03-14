@@ -118,15 +118,15 @@
                 <td class="col-sm-1"></td>
                 <td class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">                
                     <span><b>{{user.listingname}}</b></span><br />
-                    <span>{{user.totalpoints}}</span>
+                    <span class="label label-default">{{user.totalpoints}}</span>
                 </td>
             </tr>
             <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true">
                 <td class="col-sm-1" id="scores-gp">
-                    <span class="small label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
+                    <span class="label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
                 </td>
                 <td class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">                    
-                    <span>{{bet.totalpoints}}</span>
+                    <span class="{{bet.label}}" title="{{bet.info}}">{{bet.totalpoints}}</span>
                 </td>
             </tr>
         </table>        
