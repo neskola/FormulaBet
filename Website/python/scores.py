@@ -8,9 +8,25 @@ import time
 import firebase, calendar, drivers, profiles
 from datetime import datetime, timedelta
 
+__CHECK_BETS = 1
+__PUSH_RESULTS = 2
+
+__GP_OPEN   = 1 # is open
+__GP_CLOSED = 2 # closed and bets are checked
+__GP_QUAL   = 3 # closed and qualification results are calculated
+__GP_RACE   = 4 # closed and race results are calculated
+
+__BET_OK      =  1 # bet is calculated and valid
+__BET_OPEN    = -1 # bet is still uncalculated
+__BET_INVALID = -2 # bet is invalid
+__BET_MISSING = -3 # user has no bet 
+
 firebase_url = "https://neskola.firebaseio.com"
 operation = 0
 fb = ''
+
+def printUsage():
+	print ("scores.py -c -r -u|--user <user name> -g|--gp <gp_id> --gr <gp_results> --qr <qual results> --fl <fastest lap> --fb <firebase>")
 
 def main(argv):	
 	global operation, fb;
@@ -18,18 +34,18 @@ def main(argv):
 	try:
 		opts, args = getopt.getopt(argv,"hcru:", ["user=", "gp=", "gr=", "qr=", "fl=", "fb="])
 	except getopt.GetoptError:
-		print ("scores.py -c -u|--user <user name> -g|--gp <gp_id>")
+		printUsage()
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print ("profiles.py -[a|r] [x] -u|--user <user name> -p|--password <password> -e|--email <email>")
+			printUsage()
 			sys.exit()
 		if opt == '-c':
 			print ("Check bet values.")			
-			operation = 1
+			operation = __CHECK_BETS
 		if opt == '-r':
 			print ("Push results.")			
-			operation = 2
+			operation = __PUSH_RESULTS
 		if opt in ("-u", "--user"):			
 			user_id = arg
 		else: 
@@ -45,9 +61,6 @@ def main(argv):
 		if opt in ("--fb"):
 			fb = arg
 
-		#else: 
-		#	gp_id = ''
-
 	if not fb:
 		print ("No target firebase defined!!!!")
 		sys.exit()     
@@ -55,58 +68,57 @@ def main(argv):
 		firebase_url = "https://" + fb + ".firebaseio.com"
 		print "Target firebase is " + firebase_url
 
-
-	print (operation)
-
-	if (operation == 1):
+	if operation == __CHECK_BETS:
 		checkBetvalues(gp_id, user_id)
-	elif (operation == 2):
-		pushResults(gp_id, gresults, qresults, fastest)
+	elif operation == __PUSH_RESULTS:
+		gpresultlist = gresults.split(',')
+		qresultlist = qresults.split(',')		
+		pushResults(gp_id, gpresultlist, qresultlist, fastest)
 
 def checkBetvalues(gp_id, user_id):
 	gpdata = calendar.getCalendarData(firebase_url, "2014", gp_id)
 	userlist = profiles.getUserData(user_id)
 	
 	print ("Checking bet values for gp = " + gp_id)						
-	betlist = []
 	for user in userlist:
-		#print ("Checking bet values for user = " + user['userid'])					          
+		userid = user['userid']
+		currentbet = dict()
+		print ("Checking bet values for user = " + user['userid'])					          
 		
-		if 'bets' in user:
+		if 'bets' in user and gp_id in user['bets']:			
+			print ("User " + userid + " has bet for " + gp_id )
 			userbets = user['bets']
-			if gp_id in userbets:
-				userid = user['userid']
-				print ("User " + userid + " has bet for " + gp_id )
-				validbet = userbets[gp_id]
-				validbet['status'] = 1
-				print (gpdata)
-				if 'results' in gpdata:
-					print(json.dumps(gpdata, indent=2))
-					validbet = calculateScore(validbet, gpdata['results'])
-					query = "/users/" + str(userid) + "/bets/" + str(gp_id) + ".json" 
-					firebase.curlPut(firebase_url + query, json.dumps(validbet))
-					betlist.append(validbet)
-					
-				else: 
-					print ("User " + user['userid'] + " has no bets.")
-					undefinedbet = dict()
-					undefinedbet['status'] = -1
-					undefinedbet['gp_id'] = gp_id
-					undefinedbet['userid'] = user['userid']
-					betlist.append(undefinedbet)
-			else:
-				print ("User has no bets")
-				print ("User " + user['userid'] + " has no bets.")
-				undefinedbet = dict()
-				undefinedbet['status'] = -1
-				undefinedbet['gp_id'] = gp_id
-				undefinedbet['userid'] = user['userid']
-				betlist.append(undefinedbet)			
+			currentbet  = userbets[gp_id]
+			print (gpdata)
+			if 'results' in gpdata:
+				print(json.dumps(gpdata, indent=2))
+				currentbet = calculateScore(currentbet, gpdata['results'])
 				
+		else: 
+			print ("User " + userid + " has no bets for gp " + gp_id)
+			currentbet = dict()
+			currentbet['status'] = __BET_MISSING
+			currentbet['gp_id'] = gp_id
+			currentbet['userid'] = userid
+			currentbet['totalpoints'] = 0
+			
+		query = "/users/" + str(userid) + "/bets/" + str(gp_id) + ".json" 
+		print (json.dumps(currentbet))
+		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
+			
+	if gpdata['gp_status'] < __GP_QUAL:
+		closeGP(gpdata)
+
 #	print (json.dumps(userlist, indent=4))
+
+def closeGP(gpdata):
+	print ("Close gp " + gpdata['gp_id'])
+	gpdata['gp_status'] = __GP_CLOSED
+	calendar.pushGpData(firebase_url, "2014", gpdata)
 					
 def calculateScore(validbet, results):
 	totalpoints = 0
+	isbetvalid = isBetValid(validbet)
 	if (('qlresults' in results) & ('qbets' in validbet)):
 		print ("Calculate qualification points")
 		returnvalue = calculateResult(validbet['qbets'], results['qlresults'])
@@ -130,8 +142,17 @@ def calculateScore(validbet, results):
 			validbet['fastestlap'] = bet
 		
 	validbet['totalpoints'] = totalpoints
+	validbet['status'] = isbetvalid
 	#print (json.dumps(validbet, indent=2))
 	return validbet
+
+def isBetValid(validbet):
+	if 'qbets' not in validbet and 'gpbets' not in validbet and 'fastestlap' not in validbet:
+		print ("Bet is not valid.")
+		return __BET_INVALID
+	else:
+		return __BET_OK
+		
 
 def calculateResult(validbet, result):
 	#print (json.dumps(validbet, indent=2))
@@ -155,10 +176,7 @@ def calculateResult(validbet, result):
 	returnvalue['calculatedbet'] = validbet
 	return returnvalue
 
-def pushResults(gpid, gresults, qresults, fastest):
-	print ("Push results gr=" + gresults + ", qr=" + qresults + ", fl=" + fastest)
-	gpresultlist = gresults.split(',')
-	qresultlist = qresults.split(',')
+def pushResults(gpid, gpresultlist, qresultlist, fastest):
 	print ("Gp results = " + json.dumps(gpresultlist))
 	print ("Qu results = " + json.dumps(qresultlist))
 	print ("Fastest    = " + fastest)
@@ -188,7 +206,7 @@ def pushResults(gpid, gresults, qresults, fastest):
 			result['points'] = len(qresultlist) - idx
 			result['info'] = driver['d_name']
 			results['qlresults'].append(result)
-			gpdata['gp_status'] = 3
+			gpdata['gp_status'] = __GP_QUAL
 	
 	for idx, val in enumerate(gpresultlist):
 		if val in driverlist:
@@ -199,7 +217,7 @@ def pushResults(gpid, gresults, qresults, fastest):
 			result['points'] = len(gpresultlist) - idx
 			result['info'] = driver['d_name']
 			results['gpresults'].append(result)
-			gpdata['gp_status'] = 4
+			gpdata['gp_status'] = __GP_RACE
 	
 	gpdata['results'] = results
 	query = "/calendar/" + str(gpdata['gp_year']) + "/" + str(gpdata['gp_id']) + ".json"

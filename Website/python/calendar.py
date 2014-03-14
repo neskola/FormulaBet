@@ -53,7 +53,7 @@ def main(argv):
 	calendarlist = getAllCalendarData(firebase_url, year)
 
 	if (operation == 1):
-		pushCalendarData(year, calendarlist)
+		pushAllCalendarData(year, calendarlist)
 	elif (operation == 2):
 		cleanCalendarData(year, calendarlist)
 
@@ -72,12 +72,17 @@ def deleteCalendarData(year):
 	query = "/calendar/" + year + ".json";
 	firebase.curlDelete(firebase_url + query)
 
-def pushCalendarData(year, calendarlist):
+def pushAllCalendarData(year, calendarlist):
 	for key in calendarlist:
 		calendar = key
 		print "Refresh calendar " + json.dumps(calendar) + "."		
 		query = "/calendar/" + year + "/" + str(calendar['gp_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(calendar))
+
+def pushGpData(firebase_url, year, gpdata):
+	print "Push gp data " + json.dumps(gpdata) + "."		
+	query = "/calendar/" + year + "/" + str(gpdata['gp_id']) + ".json"
+	firebase.curlPut(firebase_url + query, json.dumps(gpdata))
 
 def cleanCalendarData(year, calendarlist):
 	for key in calendarlist:
