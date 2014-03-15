@@ -8,8 +8,8 @@ var firebaseSingleton = (function () {
 
         // Singleton
 
-        var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com');
-        //var firebaseRef = new Firebase('https://neskola.firebaseio.com');
+        //var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com');
+        var firebaseRef = new Firebase('https://neskola.firebaseio.com');
 
 
         return {
