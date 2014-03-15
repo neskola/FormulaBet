@@ -73,6 +73,9 @@
 });
 
 function loadPage(html, arg) {
+    /* insert random salt to prevent hashing */
+    html = html + "?salt=" + (new Date().getTime());
+    console.log("Load page " + html);
     $.ajax({
         url: html + " #body-content",
     }).done(function (data) {
@@ -100,4 +103,5 @@ function loadPage(html, arg) {
 
     });
 };
+
 
