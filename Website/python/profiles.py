@@ -8,7 +8,7 @@ import time
 import firebase
 from datetime import datetime, timedelta
 
-firebase_url = "https://neskola.firebaseio.com"
+firebase_url = ''
 user = ''
 password = ''
 name = ''
@@ -98,7 +98,7 @@ def removeUser(user):
 	print "Removing " + user + " from list."
 	firebase.curlDelete(firebase_url + "/users/" + user + ".json")
 
-def getUserData(user_id):	
+def getUserData(firebase_url, user_id):	
 	query = "/users.json"
 	if user_id:
 		query = "/users/" + user_id + ".json"

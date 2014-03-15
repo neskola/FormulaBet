@@ -21,15 +21,14 @@ __BET_OPEN    = -1 # bet is still uncalculated
 __BET_INVALID = -2 # bet is invalid
 __BET_MISSING = -3 # user has no bet 
 
-firebase_url = "https://neskola.firebaseio.com"
+firebase_url = ""
 operation = 0
-fb = ''
 
 def printUsage():
 	print ("scores.py -c -r -u|--user <user name> -g|--gp <gp_id> --gr <gp_results> --qr <qual results> --fl <fastest lap> --fb <firebase>")
 
 def main(argv):	
-	global operation, fb;
+	global operation, firebase_url;
 
 	try:
 		opts, args = getopt.getopt(argv,"hcru:", ["user=", "gp=", "gr=", "qr=", "fl=", "fb="])
@@ -59,13 +58,13 @@ def main(argv):
 		if opt in ("--fl"):
 			fastest = arg
 		if opt in ("--fb"):
-			fb = arg
+			firebase_url = arg
 
-	if not fb:
+	if not firebase_url:
 		print ("No target firebase defined!!!!")
 		sys.exit()     
 	else:
-		firebase_url = "https://" + fb + ".firebaseio.com"
+		firebase_url = "https://" + firebase_url + ".firebaseio.com"
 		print "Target firebase is " + firebase_url
 
 	if operation == __CHECK_BETS:
@@ -77,7 +76,7 @@ def main(argv):
 
 def checkBetvalues(gp_id, user_id):
 	gpdata = calendar.getCalendarData(firebase_url, "2014", gp_id)
-	userlist = profiles.getUserData(user_id)
+	userlist = profiles.getUserData(firebase_url, user_id)
 	
 	print ("Checking bet values for gp = " + gp_id)						
 	for user in userlist:
@@ -89,9 +88,9 @@ def checkBetvalues(gp_id, user_id):
 			print ("User " + userid + " has bet for " + gp_id )
 			userbets = user['bets']
 			currentbet  = userbets[gp_id]
-			print (gpdata)
+			#print (gpdata)
 			if 'results' in gpdata:
-				print(json.dumps(gpdata, indent=2))
+				#print(json.dumps(gpdata, indent=2))
 				currentbet = calculateScore(currentbet, gpdata['results'])
 				
 		else: 
@@ -103,7 +102,7 @@ def checkBetvalues(gp_id, user_id):
 			currentbet['totalpoints'] = 0
 			
 		query = "/users/" + str(userid) + "/bets/" + str(gp_id) + ".json" 
-		print (json.dumps(currentbet))
+		#print (json.dumps(currentbet))
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
 			
 	if gpdata['gp_status'] < __GP_QUAL:
@@ -149,6 +148,7 @@ def calculateScore(validbet, results):
 def isBetValid(validbet):
 	if 'qbets' not in validbet and 'gpbets' not in validbet and 'fastestlap' not in validbet:
 		print ("Bet is not valid.")
+		print (json.dumps(validbet))
 		return __BET_INVALID
 	else:
 		return __BET_OK
