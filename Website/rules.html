@@ -36,11 +36,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
                 <li><a href="#" onclick="loadPage('scores.html');">Tulokset</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
                 <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
-                <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
+                <li class="active"><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Muut<b class="caret"></b></a>
@@ -52,6 +52,13 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
+
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -102,11 +109,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
-    <span id="username"></span>
-
+    
     <div class="container" id="container">
         <div class="page-header well"><h3>KAAPO F1<small>Viralliset kilpailusäännöt</small></h3></div>
 

@@ -84,20 +84,18 @@ function loadPage(html, arg) {
             // User is already logged in.
             console.log('User ID: ' + myUser.userid);
             // doLogin(user);
-            console.log('logged in')
+            console.log(myUser.userid + ' logged in')
             $("#opener-logout").attr('disabled', false);
             $("#opener-register").attr('disabled', true);
-            $("#opener-login").attr('disabled', true);
-            $("#opener-login").attr('hidden', true);
-            $("#login-name").html(myUser.userid);
+            $("#opener-login").attr('disabled', true);            
+            $("#username").html(myUser.userid);
         } else {
             // User is logged out.
             console.log('logged out');
             $("#opener-logout").attr('disabled', true);
-            $("#opener-login").attr('disabled', false);
-            $("#opener-login").attr('hidden', false);
+            $("#opener-login").attr('disabled', false);            
             $("#opener-register").attr('disabled', false);
-            $("#login-name").html("");
+            $("#username").html("");
             //$("#dialog-login").modal("show");
         }
 
