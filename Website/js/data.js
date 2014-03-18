@@ -28,7 +28,7 @@ angular.module('f1app', ['firebase'])
               $scope.calendars.push(calendardata);
           }
 
-          console.log(JSON.stringify(calendardata));
+          //console.log(JSON.stringify(calendardata));
       })
 
   }]) // controller Calendar ends
@@ -54,8 +54,6 @@ angular.module('f1app', ['firebase'])
       console.log("Users ref=" + ref);
 
       ref.on('value', function (dataSnapshot) {
-          var tmpusers = [];
-          var tmpscores = [];
           angular.forEach(dataSnapshot.val(), function (user) {
               console.log(user);
               user.totalpoints = 0;
@@ -83,7 +81,7 @@ angular.module('f1app', ['firebase'])
                       }
                   }
               });                       
-              tmpusers.push(user);
+              $scope.users.push(user);
           });
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status > 2) { // gp is closed and calculated
@@ -94,16 +92,12 @@ angular.module('f1app', ['firebase'])
                           calendardata.bets.push(bet);
                       }
                   });                  
-                  tmpscores.push(calendardata);
+                  $scope.scores.push(calendardata);
                   //console.log(JSON.stringify(calendardata));
               } else {
                   //console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
               }
           });
-          $scope.users = tmpusers;
-          $scope.scores = tmpscores;
-          console.log(JSON.stringify(tmpusers));
-          console.log(JSON.stringify(tmpscores));
           console.log("Scores are ready, return true");
           return true;
       });

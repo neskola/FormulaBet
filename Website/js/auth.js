@@ -119,7 +119,7 @@ var calendarSingleton = (function () {
         console.log("Fetching calendar " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
-                console.log(gpdata);
+                //console.log(gpdata);
                 data.push(gpdata);
             });
         });
@@ -165,7 +165,7 @@ var driverSingleton = (function () {
         console.log("Fetching drivers " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
-                console.log(driver);
+                //console.log(driver);
                 data.push(driver);
             });
         });
