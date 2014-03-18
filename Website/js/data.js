@@ -107,9 +107,7 @@ angular.module('f1app', ['firebase'])
           console.log("Scores are ready, return true");
           return true;
       });
-      console.log("Scores are not ready yet, return false");
       return false;
-
   }]) // controller Scores ends.
       // controller Bets    
     .controller('Bets', ['$scope', '$firebase',

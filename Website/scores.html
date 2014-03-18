@@ -125,7 +125,7 @@
                     <span class="label label-default">{{user.totalpoints}}</span>
                 </td>
             </tr>
-            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true">
+            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true" ng-cloak ng-show="scores">
                 <td class="col-sm-1" id="scores-gp">
                     <span class="label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>
                 </td>
