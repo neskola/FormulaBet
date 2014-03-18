@@ -1,8 +1,8 @@
 ﻿$(function () {
-    $("#dialog-register").modal(
+/*    $("#dialog-register").modal(
         {
             show: false
-        });
+        });*/
 
     $("#dialog-login").modal(
         {
