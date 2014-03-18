@@ -116,7 +116,7 @@
             <h1>Kuljettajat <small>kaudella 2014</small></h1>
         </div>
 
-        <div class="row" ng-controller="Drivers">
+        <div class="row" ng-controller="Drivers" ng-cloak>
             <div ng-repeat="driver in drivers | orderBy:'d_sort_id'" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">

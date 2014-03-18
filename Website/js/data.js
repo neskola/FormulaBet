@@ -8,12 +8,14 @@ function mySort(obj) {
     return result;
 }
 
+// Initialize angular module
+
 angular.module('f1app', ['firebase'])
       .filter("toArray", function () {
           return function (obj) {
               return mySort(obj);
           };
-      })
+      }) // Controller Calendar
     .controller('Calendar', ['$scope', '$firebase',
   function ($scope, $firebase) {
       // year should be fetched from this year      
@@ -29,18 +31,20 @@ angular.module('f1app', ['firebase'])
           console.log(JSON.stringify(calendardata));
       })
 
-  }])
+  }]) // controller Calendar ends
+      // controller Drivers
     .controller('Drivers', ['$scope', '$firebase',
   function ($scope, $firebase) {
       $scope.drivers = driverSingleton.getInstance().getDriverData();
       $scope.range = [1, 2, 3, 4, 5, 6]; // number of driver selections
-  }])
+  }]) // controller Drivers ends
+      // Controller Scores
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
       console.log('Fetch all users and scores');
 
       $scope.users = [];      
-      $scope.scores = [];      
+      $scope.scores = [];
       var calculatedbets = {};
 
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
@@ -50,7 +54,8 @@ angular.module('f1app', ['firebase'])
       console.log("Users ref=" + ref);
 
       ref.on('value', function (dataSnapshot) {
-          
+          var tmpusers = [];
+          var tmpscores = [];
           angular.forEach(dataSnapshot.val(), function (user) {
               console.log(user);
               user.totalpoints = 0;
@@ -62,12 +67,10 @@ angular.module('f1app', ['firebase'])
               
               user.calculatedbets = [];
 
-              angular.forEach(user.bets, function (bet) {
-                  console.log(bet.totalpoints);
+              angular.forEach(user.bets, function (bet) {                  
                   if (bet.totalpoints === undefined || bet.totalpoints < 0) {
                       console.log("Bet not calculated yet.");                                            
-                  } else {
-                      console.log("Bet calculated " + bet);
+                  } else {                      
                       user.totalpoints += bet.totalpoints;
                       bet.label = (bet.status < -1) ? 'label label-warning' : 'label label-info';
                       bet.info = (bet.status < -1) ? 'Veikkaus joko uupuu tai on virheellinen.' : 'Veikkaus ok.';                      
@@ -79,9 +82,8 @@ angular.module('f1app', ['firebase'])
                           calculatedbets[bet.gp_id].push(bet);
                       }
                   }
-              });         
-              console.log(user.totalpoints);              
-              $scope.users.push(user);
+              });                       
+              tmpusers.push(user);
           });
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status > 2) { // gp is closed and calculated
@@ -92,17 +94,24 @@ angular.module('f1app', ['firebase'])
                           calendardata.bets.push(bet);
                       }
                   });                  
-                  $scope.scores.push(calendardata);
+                  tmpscores.push(calendardata);
                   //console.log(JSON.stringify(calendardata));
               } else {
                   //console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
               }
           });
+          $scope.users = tmpusers;
+          $scope.scores = tmpscores;
+          console.log(JSON.stringify(tmpusers));
+          console.log(JSON.stringify(tmpscores));
+          console.log("Scores are ready, return true");
+          return true;
       });
-      console.log(JSON.stringify($scope.users));
-      console.log(JSON.stringify($scope.calculatedbets));
-      
-  }])
+      console.log("Scores are not ready yet, return false");
+      return false;
+
+  }]) // controller Scores ends.
+      // controller Bets    
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
@@ -126,6 +135,9 @@ angular.module('f1app', ['firebase'])
       }, true);
       console.log($scope.totalpoints);
   }]);
+// controller bets ends.
+
+// Angular module ends.
 
 function addBet($firebase) {
 

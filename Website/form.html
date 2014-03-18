@@ -109,7 +109,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <br />        
-    <div id="content" class="container">
+    <div id="content" class="container" ng-cloak>
         <form name="betslip" id="betslip">
             <div class="row" ng-controller="Calendar">
                 <div class=" col-sm-6" id="gpselection">
@@ -173,7 +173,7 @@
             </div>
         </form>
 
-        <div ng-controller="Bets">
+        <div ng-controller="Bets" ng-cloak>
             <span class="label label-default">Edelliset veikkaukset</span>
             <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">
