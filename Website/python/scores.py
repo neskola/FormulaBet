@@ -126,7 +126,7 @@ def calculateScore(validbet, results):
 
 	if (('gpresults' in results) & ('gpbets' in validbet)):
 		print ("Calculate race points")
-		returnvalue = calculateResult(validbet['gpbets'], results['qlresults'])
+		returnvalue = calculateResult(validbet['gpbets'], results['gpresults'])
 		validbet['gpbets'] = returnvalue['calculatedbet']
 		totalpoints += returnvalue['totalpoints']
 
