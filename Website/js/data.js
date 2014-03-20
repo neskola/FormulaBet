@@ -8,12 +8,28 @@ function mySort(obj) {
     return result;
 }
 
+function mySortByPoints(obj) {
+    var result = [];
+    var usersid = [];
+    angular.forEach(obj, function (val, key) {
+        if (angular.isObject(val)) {
+                result.push(val);
+        }        
+    });
+
+    return result;
+}
+
 // Initialize angular module
 
 angular.module('f1app', ['firebase'])
       .filter("toArray", function () {
           return function (obj) {
               return mySort(obj);
+          };
+      }).filter("sortByPoints", function () {
+          return function (obj) {
+              return mySortByPoints(obj);
           };
       }) // Controller Calendar
     .controller('Calendar', ['$scope', '$firebase',
@@ -42,66 +58,29 @@ angular.module('f1app', ['firebase'])
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
       console.log('Fetch all users and scores');
-
-      $scope.users = [];      
-      $scope.scores = [];
-      var calculatedbets = {};
-
-      var calendardatas = calendarSingleton.getInstance().getCalendarData();
-
+      
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
-      console.log("Users ref=" + ref);
-
-      ref.on('value', function (dataSnapshot) {
-          angular.forEach(dataSnapshot.val(), function (user) {
-              console.log(user);
+      $scope.users = $firebase(ref);
+      //console.log($scope.users);      
+      $scope.$watch('users', function () {          
+          angular.forEach($scope.users, function (user) {
               user.totalpoints = 0;
-              if (user.name.indexOf(" ") > 0) {
-                  user.listingname = user.name.split(" ")[0] + user.name.split(" ")[1].charAt(0);
-              } else {
-                  user.listingname = user.name;
-              }
-              
-              user.calculatedbets = [];
+              user.hiddenpoints = 0;
+              if (angular.isObject(user)) {                  
+                  angular.forEach(user.scores, function (score) {
+                      //console.log(JSON.stringify(score) + "\n");
+                      if (angular.isObject(score)) {
+                          user.hiddenpoints += score.hiddenpoints;
+                          user.totalpoints += score.totalpoints;
+                      }
+                  })
+                  //console.log("User " + user.userid + " points: " + user.totalpoints + "/" + user.hiddenpoints + "]\n");
+              }              
+          })
+      }, true);
 
-              angular.forEach(user.bets, function (bet) {                  
-                  if (bet.totalpoints === undefined || bet.totalpoints < 0) {
-                      console.log("Bet not calculated yet.");                                            
-                  } else {                      
-                      user.totalpoints += bet.totalpoints;
-                      bet.label = (bet.status < -1) ? 'label label-warning' : 'label label-info';
-                      bet.info = (bet.status < -1) ? 'Veikkaus joko uupuu tai on virheellinen.' : 'Veikkaus ok.';                      
-                      user.calculatedbets.push(bet);                      
-                      if (calculatedbets[bet.gp_id]) {                          
-                          calculatedbets[bet.gp_id].push(bet);
-                      } else {                          
-                          calculatedbets[bet.gp_id] = [];
-                          calculatedbets[bet.gp_id].push(bet);
-                      }
-                  }
-              });                       
-              $scope.users.push(user);
-          });
-          angular.forEach(calendardatas, function (calendardata) {
-              if (calendardata.gp_status > 2) { // gp is closed and calculated
-                  calendardata.bets = [];
-                  console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is closed and calculated.");
-                  angular.forEach(calculatedbets[calendardata.gp_id], function (bet) {             
-                      if (calendardata.gp_id == bet.gp_id) {
-                          calendardata.bets.push(bet);
-                      }
-                  });                  
-                  $scope.scores.push(calendardata);
-                  //console.log(JSON.stringify(calendardata));
-              } else {
-                  //console.log("GP " + calendardata.gp_id + " " + calendardata.gp_name + " is not closed and calculated.");
-              }
-          });
-          console.log("Scores are ready, return true");
-          return true;
-      });
-      return false;
+
   }]) // controller Scores ends.
       // controller Bets    
     .controller('Bets', ['$scope', '$firebase',

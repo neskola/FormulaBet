@@ -117,23 +117,23 @@
             <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
 
-        <table class="well" id="leaderboard" ng-controller="Scores" ng-cloak>
+        <table class="well" id="leaderboard" ng-controller="Scores">
             <thead class="label label-info">Tuloslista</thead>
-            <tr class="row" id="user-list">
+            <tr class="row" id="user-list" ng-cloak>
                 <td class="col-sm-1"></td>
-                <td class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">
-                    <span><b>{{user.listingname}}</b></span><br />
-                    <span class="label label-default">{{user.totalpoints}}</span>
+                <td class="col-sm-1" ng-repeat="user in users | toArray | orderBy:'totalpoints':true">
+                    <span><b>{{user.userid}}</b></span><br />
+                    <span class="label label-default">{{user.totalpoints}}/{{user.hiddenpoints}}</span>
                 </td>
             </tr>
-            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true" ng-cloak ng-show="scores">
+            <!-- tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true" ng-cloak ng-show="scores">
                 <td class="col-sm-1" id="scores-gp">
                     <span class="label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>
                 </td>
                 <td class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">
                     <span class="{{bet.label}}" title="{{bet.info}}">{{bet.totalpoints}}</span>
                 </td>
-            </tr>
+            </tr> -->
         </table>
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
