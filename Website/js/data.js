@@ -239,6 +239,8 @@ function showBet(object) {
 
         console.log(text);
 
+        $('#btnCopyBet').attr("onclick", "copyBet('" + gp_id + "')");
+
         var betDate = new Date(betslip.date);
         $("#dialog-bet-title").html("Aikaisempi vetolippu " + myformatDate(betDate));
         $("#dialog-bet-body").html(text);
@@ -257,30 +259,18 @@ function copyBet(gp_id) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
         console.log(betslip);
-        var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
-        var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</span><br/>";
-        var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>";
         for (val in betslip.qbets) {
-            qbet = betslip.qbets[val];
-            qhtml = qhtml.concat(qbet.position + ". " + qbet.info + " " + ((qbet.points < 0) ? '' : qbet.points) + "</br>");
+            bet = betslip.qbets[val];
+              console.log("ql" + JSON.stringify(bet));
+                $("#q_id_" + bet.position + " option:contains(" + bet.info + ")").attr('selected', true);
+                console.log("#q_id_" + bet.position + " option:contains(" + bet.info + ")");            
         }
         for (val in betslip.gpbets) {
-            gpbet = betslip.gpbets[val];
-            gphtml = gphtml.concat(gpbet.position + ". " + gpbet.info + " " + ((gpbet.points < 0) ? '' : gpbet.points) + "</br>");
+            bet = betslip.gpbets[val];
+            console.log("gp" + JSON.stringify(bet));
+            $("#gp_id_" + bet.position + " option:contains(" + bet.info + ")").attr('selected', true);
+            console.log("#gp_id_" + bet.position + " option:contains(" + bet.info + ")");
         }
-        qhtml = qhtml.concat("</div>");
-        gphtml = gphtml.concat("</div>");
-        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + " " + ((betslip.fastestlap.points < 0) ? '' : betslip.fastestlap.points) + "</div></div>"
-
-        scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
-        text = text.concat(qhtml, gphtml, "</div>", flhtml, scorehtml);
-
-        console.log(text);
-
-        var betDate = new Date(betslip.date);
-        $("#dialog-bet-title").html("Aikaisempi vetolippu " + myformatDate(betDate));
-        $("#dialog-bet-body").html(text);
-        $("#dialog-bet").modal('show');
 
     });
     ref.off();
