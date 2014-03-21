@@ -12,10 +12,12 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/f1.js"></script>
     <script src="./js/page.js"></script>
     <script src="./js/data.js"></script>
-  
+
 </head>
 <body id="body-content">
 
@@ -36,8 +38,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
-                <li><a href="#" onclick="loadPage('scores.html');" id="betslip-link">Tulokset</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li class="active"><a href="#" onclick="loadPage('scores.html');" id="betslip-link">Tulokset</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
                 <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
                 <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
@@ -52,6 +54,13 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
+
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -102,39 +111,63 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
-    <span id="username"></span>
 
     <div class="container" id="container">
         <div class="row page-header well">
             <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
-                
-        <table class="well" id="leaderboard" ng-controller="Scores">
-            <thead class="label label-info">Tuloslista</thead>
-            <tr class="row" id="user-list">
-                <td class="col-sm-1"></td>
-                <td class="col-sm-1" ng-repeat="user in users | orderBy:'user_id'">                
-                    <span><b>{{user.listingname}}</b></span><br />
-                    <span class="label label-default">{{user.totalpoints}}</span>
-                </td>
-            </tr>
-            <tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true">
-                <td class="col-sm-1" id="scores-gp">
-                    <span class="label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>                    
-                </td>
-                <td class="col-sm-1" ng-repeat="bet in score.bets | orderBy:'user_id'">                    
-                    <span class="{{bet.label}}" title="{{bet.info}}">{{bet.totalpoints}}</span>
-                </td>
-            </tr>
-        </table>
-        <div class="alert alert-info alert-dismissable">
+
+        <div class="well" id="leaderboard" ng-controller="Scores">
+            <!-- 
+            <div class="row" id="user-list" ng-cloak>
+                <div class="label label-info col-sm-12">Tuloslista</div>
+                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">
+                    <span class="col-sm-1 label label-success"><b>{{$index + 1}}</b></span>
+                    <span class="col-sm-4 label label-primary"><b>{{user.userid}}</b></span>
+                    <span class="col-sm-1 label label-default">{{user.totalpoints}}</span>
+                </div>
+            </div>
+            -->
+
+            <div class="row" id="user-list" ng-cloak>
+                <div class="label label-info col-sm-12">Tuloslista</div>
+                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">                               
+                    <div class="row col-sm-6 col-xs-12 col-lg-6 col-md-6">                      
+                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-info disabled"><b>{{$index + 1}}</b></button>
+                        <button class="col-sm-7 col-xs-7 col-lg-7 col-md-7 btn btn-primary disabled"><b>{{user.display_name}}</b></button>
+                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-warning" ng-model="click">{{user.totalpoints}}</button>
+                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1 col-md-1"/>
+                        <div class="check-element animate-show" ng-show="checked" id="gpscorelist-{{user.userid}}">
+                            <br/>
+                            <div class="row col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-repeat="score in user.scores">
+                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
+                                    <span class="glyphicon glyphicon-info-sign"></span>{{score.gp_name}}
+                                </div>
+                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
+                                    <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}} 
+                                    <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}                                      
+                                    <span class="glyphicon glyphicon-dashboard"></span> {{score.fastestlap.points}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-info alert-dismissable col-sm-12">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Infoa!</strong><p>Sivun latauksessa on jokin mystinen ongelma. Jos taulukko/osallistujalista ei näy klikkaa valikosta uudestaan.</p>
-        </div>        
-        
+            <strong>Infoa!</strong>
+            <p>Klikkaamalla <input type="checkbox" class="disabled"/> pelaajan kohdalla saa esille tarkemmat tiedot pisteistä.</p>
+            <p>Järjestyksessä huomioidaan tasapelisääntö. Eli kilpailuissa eniten voittoja veikannut sijoittuu paremmin.</p>
+            <p><span class="glyphicon glyphicon-flag"></span> = kilpailun pistetulos, <span class="glyphicon glyphicon-time"></span> = aika-ajon pistetulos, <span class="glyphicon glyphicon-dashboard"></span> = nopeimman kierroksen pistetulos.</p>
+        </div>
     </div>
+    <!-- 
+    <div class="alert-info alert-dismissable col-sm-12">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Infoa!</strong><p>Sivun latauksessa on asynkroniseen tiedon hakuun liittyvä ongelma. Jos taulukko/osallistujalista ei näy klikkaa <a href="#" onclick="loadPage('scores.html');">tästä</a> tai Tulokset-valikosta uudestaan.</p>
+    </div>
+    -->
 </body>
 </html>

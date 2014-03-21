@@ -91,9 +91,9 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         myUser = user;
         myUser.userid = user.email.split('@')[0];
         // doLogin(user);
-        console.log('logged in')
+        console.log(myUser.userid + ' ' + user.id + ' logged in ');
         $("#opener-logout").attr('disabled', false);
-        $("#opener-login").attr('disabled', true);
+        $("#opener-login").attr('disabled', true);  
         $("#username").html(myUser.userid);
     } else {
         // User is logged out.
@@ -119,7 +119,7 @@ var calendarSingleton = (function () {
         console.log("Fetching calendar " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
-                console.log(gpdata);
+                //console.log(gpdata);
                 data.push(gpdata);
             });
         });
@@ -165,7 +165,7 @@ var driverSingleton = (function () {
         console.log("Fetching drivers " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
-                console.log(driver);
+                //console.log(driver);
                 data.push(driver);
             });
         });

@@ -12,6 +12,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/f1.js"></script>
     <script src="./js/page.js"></script>
     <script src="./js/data.js"></script>
@@ -51,6 +53,12 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -101,15 +109,8 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
-    <span id="username"></span>
-    <!--
-    <br />
-    <input id="data" />
-    -->
-    <div id="content" class="container">
+    <br />        
+    <div id="content" class="container" ng-cloak>
         <form name="betslip" id="betslip">
             <div class="row" ng-controller="Calendar">
                 <div class=" col-sm-6" id="gpselection">
@@ -173,7 +174,7 @@
             </div>
         </form>
 
-        <div ng-controller="Bets">
+        <div ng-controller="Bets" ng-cloak>
             <span class="label label-default">Edelliset veikkaukset</span>
             <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">

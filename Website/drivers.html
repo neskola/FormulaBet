@@ -12,6 +12,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/f1.js"></script>
     <script src="./js/page.js"></script>
     <script src="./js/data.js"></script>
@@ -36,10 +38,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
                 <li><a href="#" onclick="loadPage('scores.html');">Tulokset</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
-                <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
+                <li class="active"><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
                 <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
 
                 <li class="dropdown">
@@ -52,6 +54,13 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
+
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -102,22 +111,18 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
-    <span id="username"></span>
 
     <div class="container" id="container">
         <div class="page-header well">
             <h1>Kuljettajat <small>kaudella 2014</small></h1>
         </div>
 
-        <div class="row" ng-controller="Drivers">
+        <div class="row" ng-controller="Drivers" ng-cloak>
             <div ng-repeat="driver in drivers | orderBy:'d_sort_id'" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">
-                        <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
-                    </a>
+                        <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">                        
+                    </a>                    
                     <div><b>{{driver.d_name}}</b><br />{{driver.d_team}}</div>
                 </div>
 

@@ -12,6 +12,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/f1.js"></script>
     <script src="./js/page.js"></script>
     <script src="./js/data.js"></script>
@@ -36,9 +38,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">Etusivu</a></li>
-                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
                 <li><a href="#" onclick="loadPage('scores.html');">Tulokset</a></li>
-                <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
+                <li class="active"><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
                 <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
                 <li><a href="#" onclick="loadPage('rules.html')">Säännöt</a></li>
 
@@ -52,6 +54,13 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
+
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -102,9 +111,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
 
     <div class="container" id="container">
         <div class="page-header well">
@@ -112,7 +118,7 @@
         </div>
 
         <div class="row" ng-controller="Calendar">
-            <div ng-repeat="calendar in calendars | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}">
+            <div ng-repeat="calendar in calendars | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}" ng-cloak>
                 <div id="gpname" class="well" style="background-image : url('{{calendar.gp_flag_url}}'); background-repeat : no-repeat; background-position : right;">
                     <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
                     <span>Qual date {{calendar.gp_qual_date | date:'dd.MM.yyyy'}}</span><br />

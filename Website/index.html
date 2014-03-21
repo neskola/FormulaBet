@@ -5,6 +5,7 @@
     <title>F1 Veikkaus -kisakalenteri</title>
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
     <meta http-equiv="PRAGMA" content="NO-CACHE">
+    <meta http-equiv="Expires" content="-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,6 +16,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- one huge js  -->
     <script src="./js/f1.js"></script>
 
@@ -43,8 +46,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html">Etusivu</a></li>
-                <li class="active"><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
+                <li class="active"><a href="index.html">Etusivu</a></li>
+                <li><a href="#" onclick="loadPage('form.html');" id="betslip-link">Veikkaa</a></li>
                 <li><a href="#" onclick="loadPage('scores.html');">Tulokset</a></li>
                 <li><a href="#" onclick="loadPage('calendar.html');">Kisakalenteri</a></li>
                 <li><a href="#" onclick="loadPage('drivers.html')">Kuljettajat</a></li>
@@ -60,6 +63,14 @@
             </ul>
 
         </div><!-- /.navbar-collapse -->
+
+        <div class="navbar-default">
+            <!-- <button id="opener-register">Rekisteröidy</button> -->
+            <button id="opener-login">Kirjaudu</button>
+            <button id="opener-logout">Ulos</button>
+            <span id="username"></span>
+        </div>
+
     </nav>
     <div class="modal fade" id="dialog-register">
         <div class="modal-dialog">
@@ -110,36 +121,31 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- <button id="opener-register">Rekisteröidy</button> -->
-    <button id="opener-login">Kirjaudu</button>
-    <button id="opener-logout">Ulos</button>
-    <span id="username"></span>
 
     <div class="container" id="container">
         <div class="page-header well">
             <h3>Tervetuloa<small> uudistetulle veikkaussivulle</small></h3>
         </div>
 
-        <div class="alert alert-warning alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Huomio!</strong><p> 13.03. sattuneen pienen kämmin vuoksi jo lyödyt vedot hävisivät. Administraattori on hirveän hirveän pahoillaan kämmäyksestä. Toimenpiteitä tehty jotta vastaavaa ei tapahdu enään.</p>
-            <p>Taustajärjestelmän tietosisällöstä otetaan varmennus 15 min välein.</p>
-        </div>
-
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Infoa!</strong><p>Veikkauspalvelu avataan maanantaina 10.3. klo 18.00 ja samalla resetoidaan veikkaustiedot. Sitä ennen voi kokeilla kirjautumista ja veikkaamista omilla tunnuksilla. Ongelmatilanteissa ota yhteys administraattori Eskolaan 045-6517228 tai neskola@gmail.com.</p>
+            <strong>Infoa!</strong>
             <p>Sivusto tukee IE 10+, Firefoxia ja Chromea (Win7, Win8.1, Ubuntu 13 linux). Lisäksi sivustoa on testattu seuraavilla alustoilla: iOS6, iOS7, Android 4.0+, Windows Phone 8. Suositeltavaa on päivittää selaimet tuoreimpiin versioihin.</p>
             <p>Android 4.0.4 & 4.3 vakioselain ja Chrome näyttää kilpailuvalinnassa tyhjää. Android 4.4 Chrome ja FF toimii.</p>
             <p>iPhone 3GS (iOS6), iPad3 (iOS7) testattu safari-selaimella ongelmitta. </p>
-            <p>Lumia 820 ja Lumia 1020 IE-selaimella toimii. Hieman sivuleiskassa problematiikaa.</p>
+            <p>Lumia 820 ja Lumia 1020 IE-selaimella toimii. Lumia 925:n kohdalla veikkaaminen ei onnistu. Sivujen asettelussa problematiikaa.</p>
         </div>
 
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Versiotiedote 1.0.2 14.03.2014</strong>
+            <strong>Versiotiedote 1.1.1 21.03.2014</strong>
             <p>
-                Tässä versiossa toimii
+                <ul>
+                    <li>Tulossivu uudistunut kokonaan</li>
+                    <li>Tasatilannesääntö huomioidaan tulosten järjestämisessä.</li>
+                </ul>
+
+                Aikaisemmat
                 <ul>
                     <li>Sisäänkirjautuminen</li>
                     <li>Veikkaaminen</li>
@@ -147,15 +153,19 @@
                     <li>Nopeimman kierrosajan tallentaminen</li>                    
                     <li>Tulosten haku ja järjestäminen.</li>
                     <li>Tulos-sivu</li>
+                    <li>Sivuindeksin näyttö</li>
+                    <li>Sisäänkirjautuneen käyttäjän nimi näkyy kaikilla sivuilla.</li>
+                    <li>Selaimen välimuistin käytön esto</li>
                 </ul>
             </p>
             <p>
                 Kehityslistalla ennen seuraavaa kilpailua
                 <ul>                    
                     <li>Edellisen veikkauksen tuonti lapulle</li>
-                    <li>Tuloslistassa pisteitä tuoneiden veikkauksien vilkaisu.</li>
+                    <li>Keskustelupalsta</li>                          
                 </ul>
             </p>
+            <p>Selaimen välimuisti kannattaa tyhjentää ajoittain. Tietokoneella Ctrl+F5 päivittää sivut uudelleen.</p>
         </div>
         
         <div id="content" class="well">
