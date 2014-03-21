@@ -118,6 +118,7 @@ angular.module('f1app', ['firebase'])
   function ($scope, $firebase) {
       console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
+      $scope.switchStatus = 0;
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
 
@@ -134,7 +135,8 @@ angular.module('f1app', ['firebase'])
           })
 
           $scope.totalpoints = totalpoints;
-      }, true);      
+      }, true);
+
       console.log($scope.totalpoints);
   }]);
 // controller bets ends.
