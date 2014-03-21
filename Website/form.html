@@ -131,7 +131,7 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="q_id_{{val}}" id="q_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="gp_id_{{val}}" id="gp_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                     <div class="input-group">
                         <select class="form-control" name="fastest-lap" id="fastest-lap">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>                

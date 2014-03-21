@@ -261,15 +261,16 @@ function copyBet(gp_id) {
         console.log(betslip);
         for (val in betslip.qbets) {
             bet = betslip.qbets[val];
-              console.log("ql" + JSON.stringify(bet));
-                $("#q_id_" + bet.position + " option:contains(" + bet.info + ")").attr('selected', true);
-                console.log("#q_id_" + bet.position + " option:contains(" + bet.info + ")");            
+            
+            console.log("ql" + JSON.stringify(bet));
+            $("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
+            console.log("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")");            
         }
         for (val in betslip.gpbets) {
             bet = betslip.gpbets[val];
             console.log("gp" + JSON.stringify(bet));
-            $("#gp_id_" + bet.position + " option:contains(" + bet.info + ")").attr('selected', true);
-            console.log("#gp_id_" + bet.position + " option:contains(" + bet.info + ")");
+            $("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
+            console.log("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")");
         }
 
     });
