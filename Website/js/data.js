@@ -1,3 +1,34 @@
+function compare(a, b) {
+    if (a.totalpoints < b.totalpoints)
+        return -1;
+    if (a.totalpoints > b.totalpoints)
+        return 1;
+    if (a.totalpoints == b.totalpoints) {
+        if (a.hiddenpoints < b.hiddenpoints)
+            return -1;
+        if (a.hiddenpoints > b.hiddenpoints)
+            return 1;
+        return 0;
+    }
+    return 0;
+}
+
+function reverseCompare(a, b) {
+    if (a.totalpoints < b.totalpoints)
+        return 1;
+    if (a.totalpoints > b.totalpoints)
+        return -1;
+    if (a.totalpoints == b.totalpoints) {
+        if (a.hiddenpoints < b.hiddenpoints)
+            return 1;
+        if (a.hiddenpoints > b.hiddenpoints)
+            return -1;
+        return 0;
+    }
+    return 0;
+}
+
+
 function mySort(obj) {
     var result = [];
     angular.forEach(obj, function (val, key) {
@@ -16,7 +47,7 @@ function mySortByPoints(obj) {
                 result.push(val);
         }        
     });
-
+    result.sort(reverseCompare);
     return result;
 }
 

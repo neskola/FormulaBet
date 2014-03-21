@@ -117,15 +117,29 @@
             <h1>Tulossivu <small>kaudella 2014</small></h1>
         </div>
 
-        <table class="well" id="leaderboard" ng-controller="Scores">
-            <thead class="label label-info">Tuloslista</thead>
-            <tr class="row" id="user-list" ng-cloak>
-                <td class="col-sm-1"></td>
-                <td class="col-sm-1" ng-repeat="user in users | toArray | orderBy:'totalpoints':true">
-                    <span><b>{{user.userid}}</b></span><br />
-                    <span class="label label-default">{{user.totalpoints}}/{{user.hiddenpoints}}</span>
-                </td>
-            </tr>
+        <div class="well" id="leaderboard" ng-controller="Scores">
+            
+            <div class="row" id="user-list" ng-cloak>
+                <div class="label label-info col-sm-12">Tuloslista</div>
+                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">
+                    <span class="col-sm-1 label label-primary"><b>{{$index + 1}}</b></span>
+                    <span class="col-sm-4 label label-success"><b>{{user.userid}}</b></span>
+                    <span class="col-sm-1 label label-default">{{user.totalpoints}}</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
             <!-- tr class="row" id="gp-list" ng-repeat="score in scores | orderBy:'gp_number':true" ng-cloak ng-show="scores">
                 <td class="col-sm-1" id="scores-gp">
                     <span class="label label-success" id="scores-gp-name">{{score.gp_short_name}}</span>
@@ -134,7 +148,7 @@
                     <span class="{{bet.label}}" title="{{bet.info}}">{{bet.totalpoints}}</span>
                 </td>
             </tr> -->
-        </table>
+        </div>
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Infoa!</strong><p>Sivun latauksessa on asynkroniseen tiedon hakuun liittyvä ongelma. Jos taulukko/osallistujalista ei näy klikkaa <a href="#" onclick="loadPage('scores.html');">tästä</a> tai Tulokset-valikosta uudestaan.</p>
