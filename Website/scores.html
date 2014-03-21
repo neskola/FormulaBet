@@ -132,16 +132,22 @@
             <div class="row" id="user-list" ng-cloak>
                 <div class="label label-info col-sm-12">Tuloslista</div>
                 <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">                               
-                    <div class="row col-sm-6 col-xs-12 col-lg-6">                      
-                        <button class="col-sm-2 col-xs-2 col-lg-2 btn btn-info disabled"><b>{{$index + 1}}</b></button>
-                        <button class="col-sm-7 col-xs-7 col-lg-7 btn btn-primary disabled"><b>{{user.display_name}}</b></button>
-                        <button class="col-sm-2 col-xs-2 col-lg-2 btn btn-warning" ng-model="click">{{user.totalpoints}}</button>
-                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1"/>
+                    <div class="row col-sm-6 col-xs-12 col-lg-6 col-md-6">                      
+                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-info disabled"><b>{{$index + 1}}</b></button>
+                        <button class="col-sm-7 col-xs-7 col-lg-7 col-md-7 btn btn-primary disabled"><b>{{user.display_name}}</b></button>
+                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-warning" ng-model="click">{{user.totalpoints}}</button>
+                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1 col-md-1"/>
                         <div class="check-element animate-show" ng-show="checked" id="gpscorelist-{{user.userid}}">
                             <br/>
-                            <div class="row col-sm-12 col-xs-12 col-lg-12" ng-repeat="score in user.scores">
-                                <div class="label label-info col-xs-6 col-lg-6">{{score.gp_name}}</div>
-                                <div class="label label-info sm-col-6 col-xs-6 col-lg-6"><span class="glyphicon glyphicon-time"></span>Aika:{{score.qpoints}} Kisa:{{score.gppoints}} Nopein: {{score.fastestlap.points}}</div>
+                            <div class="row col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-repeat="score in user.scores">
+                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
+                                    <span class="glyphicon glyphicon-info-sign"></span>{{score.gp_name}}
+                                </div>
+                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
+                                    <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}} 
+                                    <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}                                      
+                                    <span class="glyphicon glyphicon-dashboard"></span> {{score.fastestlap.points}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,6 +160,7 @@
             <strong>Infoa!</strong>
             <p>Klikkaamalla <input type="checkbox" class="disabled"/> pelaajan kohdalla saa esille tarkemmat tiedot pisteistä.</p>
             <p>Järjestyksessä huomioidaan tasapelisääntö. Eli kilpailuissa eniten voittoja veikannut sijoittuu paremmin.</p>
+            <p><span class="glyphicon glyphicon-flag"></span> = kilpailun pistetulos, <span class="glyphicon glyphicon-time"></span> = aika-ajon pistetulos, <span class="glyphicon glyphicon-dashboard"></span> = nopeimman kierroksen pistetulos.</p>
         </div>
     </div>
     <!-- 
