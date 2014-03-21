@@ -1,7 +1,7 @@
 #!C:\Python33\python.exe -u
 #!/usr/bin/env python
 
-import sys, getopt, json, sha
+import sys, getopt, json, math
 import curl
 import xml.etree.ElementTree as ET
 import time
@@ -104,6 +104,8 @@ def checkBetvalues(gp_id, user_id):
 		query = "/users/" + str(userid) + "/bets/" + str(gp_id) + ".json" 
 		#print (json.dumps(currentbet))
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
+		query = "/users/" + str(userid) + "/scores/" + str(gp_id) + ".json" 
+		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
 			
 	if gpdata['gp_status'] < __GP_QUAL:
 		closeGP(gpdata)
@@ -117,18 +119,22 @@ def closeGP(gpdata):
 					
 def calculateScore(validbet, results):
 	totalpoints = 0
+	hiddenpoints = 0
 	isbetvalid = isBetValid(validbet)
 	if (('qlresults' in results) & ('qbets' in validbet)):
 		print ("Calculate qualification points")
 		returnvalue = calculateResult(validbet['qbets'], results['qlresults'])
 		validbet['qbets'] = returnvalue['calculatedbet']
 		totalpoints += returnvalue['totalpoints']
+		validbet['qpoints'] = returnvalue['totalpoints']
 
 	if (('gpresults' in results) & ('gpbets' in validbet)):
 		print ("Calculate race points")
-		returnvalue = calculateResult(validbet['gpbets'], results['qlresults'])
+		returnvalue = calculateResult(validbet['gpbets'], results['gpresults'])
 		validbet['gpbets'] = returnvalue['calculatedbet']
 		totalpoints += returnvalue['totalpoints']
+		hiddenpoints = returnvalue['hiddenpoints']
+		validbet['gppoints'] = returnvalue['totalpoints']
 
 	if (('fastestlap' in results) & ('fastestlap' in validbet)):
 		print ("Calculate fastest lap points")
@@ -141,6 +147,7 @@ def calculateScore(validbet, results):
 			validbet['fastestlap'] = bet
 		
 	validbet['totalpoints'] = totalpoints
+	validbet['hiddenpoints'] = hiddenpoints
 	validbet['status'] = isbetvalid
 	#print (json.dumps(validbet, indent=2))
 	return validbet
@@ -157,6 +164,7 @@ def isBetValid(validbet):
 def calculateResult(validbet, result):
 	#print (json.dumps(validbet, indent=2))
 	totalpoints = 0
+	hiddenpoints = 0
 	for key in result:
 		position = key['position']
 		bet = validbet[position - 1];
@@ -164,6 +172,8 @@ def calculateResult(validbet, result):
 			print ("Matches " + bet['driverid'] + " and gives " + str(key['points']) + " points!!")
 			bet['points'] = key['points']
 			totalpoints += key['points']
+			print ("factorial for " + str(key['points']) + " = " + str(math.factorial(key['points'])))
+			hiddenpoints += math.factorial(key['points'])
 		else: 
 			print ("No match " + bet['driverid'])
 			bet['points'] = 0
@@ -173,6 +183,7 @@ def calculateResult(validbet, result):
 	#print (json.dumps(validbet, indent=2))
 	returnvalue = dict()
 	returnvalue['totalpoints'] = totalpoints
+	returnvalue['hiddenpoints'] = hiddenpoints
 	returnvalue['calculatedbet'] = validbet
 	return returnvalue
 
