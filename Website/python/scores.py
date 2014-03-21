@@ -144,7 +144,11 @@ def calculateScore(validbet, results):
 			print ("Fastest lap " + bet['d_id'] + " matches and yields " + str(flresult['points']) + " points!!")
 			bet['points'] = flresult['points']
 			totalpoints+= flresult['points']
-			validbet['fastestlap'] = bet
+		else:
+			bet['points'] = 0;
+		
+		validbet['fastestlap'] = bet
+
 		
 	validbet['totalpoints'] = totalpoints
 	validbet['hiddenpoints'] = hiddenpoints
