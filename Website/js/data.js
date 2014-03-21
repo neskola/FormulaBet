@@ -134,7 +134,7 @@ angular.module('f1app', ['firebase'])
           })
 
           $scope.totalpoints = totalpoints;
-      }, true);
+      }, true);      
       console.log($scope.totalpoints);
   }]);
 // controller bets ends.

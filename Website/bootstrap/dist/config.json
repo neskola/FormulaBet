@@ -373,13 +373,14 @@
     "navbar.less",
     "labels.less",
     "badges.less",
-    "thumbnails.less",
     "alerts.less",
-    "list-group.less",
+    "progress-bars.less",
+    "panels.less",
     "wells.less",
     "close.less",
     "component-animations.less",
     "dropdowns.less",
+    "popovers.less",
     "modals.less",
     "utilities.less",
     "responsive-utilities.less"
@@ -389,7 +390,12 @@
     "button.js",
     "dropdown.js",
     "modal.js",
+    "tooltip.js",
+    "popover.js",
+    "tab.js",
+    "affix.js",
     "collapse.js",
+    "scrollspy.js",
     "transition.js"
   ]
 }
