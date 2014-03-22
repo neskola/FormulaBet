@@ -98,6 +98,7 @@ def checkBetvalues(gp_id, user_id):
 			currentbet = dict()
 			currentbet['status'] = __BET_MISSING
 			currentbet['gp_id'] = gp_id
+			currentbet['gp_name'] = gpdata['gp_short_name']
 			currentbet['userid'] = userid
 			currentbet['totalpoints'] = 0
 			
