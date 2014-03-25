@@ -239,14 +239,44 @@ function showBet(object) {
 
         console.log(text);
 
+        $('#btnCopyBet').attr("onclick", "copyBet('" + gp_id + "')");
+
         var betDate = new Date(betslip.date);
         $("#dialog-bet-title").html("Aikaisempi vetolippu " + myformatDate(betDate));
         $("#dialog-bet-body").html(text);
         $("#dialog-bet").modal('show');
 
     });
+    ref.off();    
+}
+
+function copyBet(gp_id) {
+    console.log("copy bet " + gp_id);
+    var firebaseRef = firebaseSingleton.getInstance().getReference();
+    var ref = firebaseRef.child('users/' + myUser.userid + "/bets/" + gp_id);
+
+    ref.on('value', function (dataSnapshot) {
+        // code to handle new value.    
+        var betslip = dataSnapshot.val();
+        console.log(betslip);
+        for (val in betslip.qbets) {
+            bet = betslip.qbets[val];
+            
+            console.log("ql" + JSON.stringify(bet));
+            $("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
+            console.log("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")");            
+        }
+        for (val in betslip.gpbets) {
+            bet = betslip.gpbets[val];
+            console.log("gp" + JSON.stringify(bet));
+            $("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
+            console.log("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")");
+        }
+
+    });
     ref.off();
 }
+
 
 function myformatDate(date) {
     return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();

@@ -113,51 +113,49 @@
     <div id="content" class="container" ng-cloak>
         <form name="betslip" id="betslip">
             <div class="row" ng-controller="Calendar">
-                <div class=" col-sm-6" id="gpselection">
-                <span class="label label-default">Veikkaa</span>
-                <div class="input-group">
-                    <span class="input-group-addon"><img src="img/flag.png"></span>
-                    <select class="form-control" name="gp_id" id="gp_id">
-                        <option value="">Valitse kilpailu</option>
-                        <option ng-repeat="calendar in calendars | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
-                    </select><br />
+                <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" id="gpselection">
+                    <span class="label label-default">Veikkaa</span>
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="img/flag.png"></span>
+                        <select class="form-control" name="gp_id" id="gp_id">
+                            <option value="">Valitse kilpailu</option>
+                            <option ng-repeat="calendar in calendars | orderBy:'gp_number'" value="{{calendar.gp_id}}">{{calendar.gp_short_name}} {{calendar.gp_date | date:'dd.MM.yyyy'}}</option>
+                        </select><br />
+                    </div>
                 </div>
             </div>
-                <div class="col-sm-6" id="gpselection"><span> </span></div>
-            </div>
             <div class="row" ng-controller="Drivers">
-                <div class="col-sm-6" id="qualifications">
+                <div class="col-sm-6 col-xs-12 col-lg-6 col-md-6" id="qualifications">
                     <span class="label label-default">Aika-ajotulos</span>
                     <div class="input-group" ng-repeat="val in range">
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="q_id_{{val}}" id="q_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6" id="grandprix">
+                <div class="col-sm-6 col-xs-12 col-lg-6 col-md-6" id="grandprix">
                     <span class="label label-default">Kilpailutulos</span>
                     <div class="input-group" ng-repeat="val in range">
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="gp_id_{{val}}" id="gp_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="row" ng-controller="Drivers">
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" id="fastestlap">
                     <span class="label label-default">Nopein kierrosaika</span><i><small>Oikein veikatusta nopeimmasta kierrosajasta 3 pistettä.</small></i>
                     <div class="input-group">
                         <select class="form-control" name="fastest-lap" id="fastest-lap">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
-                </div>
-                
+                </div>                
             </div>
 
             <div class="btn-group btn-group-justified">
@@ -185,7 +183,7 @@
     </div>
 
     <div class="modal fade" id="dialog-choose-gp">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -202,16 +200,18 @@
     </div><!-- /.modal -->
 
     <div class="modal fade" id="dialog-bet">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="btnCopyBet">Kopioi</button>                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="dialog-bet-title"></h4>
                 </div>
                 <div class="modal-body" id="dialog-bet-body">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+                <div class="modal-footer">                    
+                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button> -->
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
