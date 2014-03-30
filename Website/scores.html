@@ -118,34 +118,24 @@
         </div>
 
         <div class="well" id="leaderboard" ng-controller="Scores">
-            <!-- 
-            <div class="row" id="user-list" ng-cloak>
-                <div class="label label-info col-sm-12">Tuloslista</div>
-                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">
-                    <span class="col-sm-1 label label-success"><b>{{$index + 1}}</b></span>
-                    <span class="col-sm-4 label label-primary"><b>{{user.userid}}</b></span>
-                    <span class="col-sm-1 label label-default">{{user.totalpoints}}</span>
-                </div>
-            </div>
-            -->
 
             <div class="row" id="user-list" ng-cloak>
-                <div class="label label-info col-sm-12">Tuloslista</div>
-                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">                               
-                    <div class="row col-sm-6 col-xs-12 col-lg-6 col-md-6">                      
+                <div class="label label-info col-sm-12">Kokonaiskilpailun tuloslista</div>
+                <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">
+                    <div class="row col-sm-6 col-xs-12 col-lg-6 col-md-6">
                         <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-info disabled"><b>{{$index + 1}}</b></button>
                         <button class="col-sm-7 col-xs-7 col-lg-7 col-md-7 btn btn-primary disabled"><b>{{user.display_name}}</b></button>
                         <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-warning" ng-model="click">{{user.totalpoints}}</button>
-                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1 col-md-1"/>
+                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1 col-md-1" />
                         <div class="check-element animate-show" ng-show="checked" id="gpscorelist-{{user.userid}}">
-                            <br/>
+                            <br />
                             <div class="row col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-repeat="score in user.scores">
                                 <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
                                     <span class="glyphicon glyphicon-info-sign"></span>{{score.gp_name}}
                                 </div>
                                 <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
-                                    <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}} 
-                                    <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}                                      
+                                    <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}}
+                                    <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}
                                     <span class="glyphicon glyphicon-dashboard"></span> {{score.fastestlap.points}}
                                 </div>
                             </div>
@@ -155,15 +145,24 @@
             </div>
         </div>
 
+        <div class="well" id="gpscores" ng-controller="GpScores">
+            <div class="row" id="user-list" ng-cloak>
+                <div class="label label-info col-sm-12">Osakilpailun tulokset</div>
+                <div ng-repeat="score in gpscores">
+                    <div class="label label-default col-sm-6" >{{score.gp_short_name}}</div>
+                </div>                
+            </div>
+        </div>
+
         <div class="alert-info alert-dismissable col-sm-12">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Infoa!</strong>
-            <p>Klikkaamalla <input type="checkbox" class="disabled"/> pelaajan kohdalla saa esille tarkemmat tiedot pisteistä.</p>
+            <p>Klikkaamalla <input type="checkbox" class="disabled" /> pelaajan kohdalla saa esille tarkemmat tiedot pisteistä.</p>
             <p>Järjestyksessä huomioidaan tasapelisääntö. Eli kilpailuissa eniten voittoja veikannut sijoittuu paremmin.</p>
             <p><span class="glyphicon glyphicon-flag"></span> = kilpailun pistetulos, <span class="glyphicon glyphicon-time"></span> = aika-ajon pistetulos, <span class="glyphicon glyphicon-dashboard"></span> = nopeimman kierroksen pistetulos.</p>
         </div>
     </div>
-    <!-- 
+    <!--
     <div class="alert-info alert-dismissable col-sm-12">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Infoa!</strong><p>Sivun latauksessa on asynkroniseen tiedon hakuun liittyvä ongelma. Jos taulukko/osallistujalista ei näy klikkaa <a href="#" onclick="loadPage('scores.html');">tästä</a> tai Tulokset-valikosta uudestaan.</p>

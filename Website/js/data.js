@@ -71,7 +71,7 @@ angular.module('f1app', ['firebase'])
       angular.forEach(calendardatas, function (calendardata) {
           if (calendardata.gp_status > 1) {
               calendardata.disabled = "disabled";
-          } else {
+          } else {              
               $scope.calendars.push(calendardata);
           }
 
@@ -79,6 +79,20 @@ angular.module('f1app', ['firebase'])
       })
 
   }]) // controller Calendar ends
+    .controller('GpScores', ['$scope', '$firebase',
+  function ($scope, $firebase) {
+      // year should be fetched from this year      
+      var calendardatas = calendarSingleton.getInstance().getCalendarData();
+      $scope.gpscores = [];
+      angular.forEach(calendardatas, function (calendardata) {
+          if (calendardata.gp_status == 4) {
+              console.log("Gp " + calendardata.gp_id + " is complete.");
+              $scope.gpscores.push(calendardata);
+          }
+          //console.log(JSON.stringify(calendardata));
+      })
+
+  }]) // controller gp scores ends
       // controller Drivers
     .controller('Drivers', ['$scope', '$firebase',
   function ($scope, $firebase) {
