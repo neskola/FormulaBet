@@ -107,7 +107,11 @@ def checkBetvalues(gp_id, user_id):
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
 		query = "/users/" + str(userid) + "/scores/" + str(gp_id) + ".json" 
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
-			
+		query = "/scores/2014/" + str(gp_id) + "/" + str(userid) + ".json" 
+		firebase.curlPut(firebase_url + query, json.dumps(currentbet))		
+		query = "/calendar/2014/" + str(gp_id) + "/scores/" + str(userid) + ".json" 
+		firebase.curlPut(firebase_url + query, json.dumps(currentbet))		
+		
 	if gpdata['gp_status'] < __GP_QUAL:
 		closeGP(gpdata)
 
