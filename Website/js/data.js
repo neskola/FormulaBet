@@ -28,6 +28,14 @@ function reverseCompare(a, b) {
     return 0;
 }
 
+function reverseCompareNoHidden(a, b) {
+    if (a.totalpoints < b.totalpoints)
+        return 1;
+    if (a.totalpoints > b.totalpoints)
+        return -1;
+    return 0;
+}
+
 
 function mySort(obj) {
     var result = [];
@@ -87,31 +95,30 @@ angular.module('f1app', ['firebase'])
       $scope.selected_gp_score = null;
       $scope.selected_gp_id = null;
 
-      angular.forEach(calendardatas, function (calendardata) {
-          if (calendardata.gp_status == 4) {
-              console.log("Gp " + calendardata.gp_id + " is complete.");
-              $scope.gpscores.push(calendardata);
-              $scope.selected_gp_score = calendardata.scores;
-              $scope.selected_gp_id = calendardata.gp_id;
-              console.log(JSON.stringify($scope.selected_gp_score));
-          }
-          //console.log(JSON.stringify(calendardata));
-      })
-
-      $scope.selectedGpData = function () {
-          console.log("selected gp = " + $scope.selected_gp_id);
-          angular.forEach($scope.gpscores, function (calendardata) {
-              //console.log("previous " + JSON.stringify($scope.selected_gp_score) + "\n\n");
-              console.log("\nmatch " + calendardata.gp_id + " // " + $scope.selected_gp_id + "\n\n");
-              if (calendardata.gp_id == $scope.selected_gp_id) {
-                  $scope.selected_gp_scores = calendardata.scores;
-
-                  //console.log("changed to " + JSON.stringify($scope.selected_gp_score) + "\n\n");
+      if ($scope.gpscores.length == 0) {
+          console.log($scope.gpscores.length);
+          angular.forEach(calendardatas, function (calendardata) {
+              if (calendardata.gp_status == 4) {
+                  console.log("Gp " + calendardata.gp_id + " is complete.");
+                  $scope.gpscores.push(calendardata);
+                  $scope.selected_gp_score = calendardata.scores;
+                  $scope.selected_gp_id = calendardata.gp_id;
+                  console.log(JSON.stringify($scope.gpscores));
               }
-          });
+              //console.log(JSON.stringify(calendardata));
+          })
+      }
 
+      $scope.selectedGpData = function () {          
+          angular.forEach($scope.gpscores, function (gpscore) {              
+              if (gpscore.gp_id == $scope.selected_gp_id) {
+                  console.log("match! " + $scope.selected_gp_id);
+                  $scope.selected_gp_score = gpscore.scores;
+              }
+          })
+          
           $scope.$watch('selected_gp_score', function () {
-              console.log(JSON.stringify($scope.selected_gp_id));
+              console.log($scope.selected_gp_id);
           }, true);
       }
 

@@ -147,40 +147,34 @@
 
         <div class="well" id="gpscores" ng-controller="GpScores">
             <div class="row" id="user-list" ng-cloak>
-                <div class="label label-info col-sm-12">Osakilpailun tulokset</div>
-                <div class="col-sm-12" id="geoidSelect">
+                <div class="label label-info col-sm-12 col-xs-12 col-md-12 col-lg-12">Osakilpailun tulokset</div>
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gpidSelect">
                     <div>
-                        <!-- div ng-repeat="meta in metadata">{{meta.region}}</!--div -->
                         <div class="input-group">
                             <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | toArray" ng-change="selectedGpData()"></select><br>
                         </div>
                     </div>
-                </div>
-                <div id="status"></div>
-                <div ng-repeat="observation in observations" class="col-sm-12" title="Tooltip text">
-                    <div>
-                        <div ng-repeat="data in observation" class="col-sm-4  well" title="Tooltip text">
-                            <div>
-                                {{data.date | date:'dd-MM HH:MM' }}
-                            </div>
-                            <div>
-                                <span class="badge">{{data.temp}}</span>
-                            </div>
+                </div>    
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gpidSelect">
+                    <div ng-repeat="score in selected_gp_score | sortByPoints">
+                        <div class="label label-info col-sm-2 col-xs-2 col-md-1 col-lg-1">{{$index + 1}}</div>
+                        <div class="label label-primary col-sm-6 col-xs-6 col-md-2 col-lg-2">{{score.userid}}</div>
+                        <div class="label label-warning col-sm-2 col-xs-2 col-md-1 col-lg-1">{{score.totalpoints}}</div>
+                        <div class="label label-info col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                            <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}}
+                            <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}
+                            <span class="glyphicon glyphicon-dashboard"></span> {{score.fastestlap.points}}
                         </div>
+
                     </div>
-                </div>                
-                <div ng-repeat="score in selected_gp_score">
-                    <div class="label label-default col-sm-6" >{{score.userid}}</div>
-                    <div class="label label-default col-sm-6">{{score.totalpoints}}</div>
-                </div>                
-            </div>
+                </div>
         </div>
 
         <div class="alert-info alert-dismissable col-sm-12">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Infoa!</strong>
             <p>Klikkaamalla <input type="checkbox" class="disabled" /> pelaajan kohdalla saa esille tarkemmat tiedot pisteistä.</p>
-            <p>Järjestyksessä huomioidaan tasapelisääntö. Eli kilpailuissa eniten voittoja veikannut sijoittuu paremmin.</p>
+            <p>Kokonaistilanteen järjestyksessä huomioidaan tasapelisääntö. Eli kilpailuissa eniten voittoja veikannut sijoittuu paremmin.</p>
             <p><span class="glyphicon glyphicon-flag"></span> = kilpailun pistetulos, <span class="glyphicon glyphicon-time"></span> = aika-ajon pistetulos, <span class="glyphicon glyphicon-dashboard"></span> = nopeimman kierroksen pistetulos.</p>
         </div>
     </div>
