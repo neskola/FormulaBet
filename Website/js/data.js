@@ -44,8 +44,8 @@ function mySortByPoints(obj) {
     var usersid = [];
     angular.forEach(obj, function (val, key) {
         if (angular.isObject(val)) {
-                result.push(val);
-        }        
+            result.push(val);
+        }
     });
     result.sort(reverseCompare);
     return result;
@@ -68,14 +68,14 @@ angular.module('f1app', ['firebase'])
       // year should be fetched from this year      
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
       $scope.calendars = [];
+
       angular.forEach(calendardatas, function (calendardata) {
           if (calendardata.gp_status > 1) {
               calendardata.disabled = "disabled";
-          } else {              
+          } else {
               $scope.calendars.push(calendardata);
+              $scope.selected_gp_scores = calendardata.scores;
           }
-
-          //console.log(JSON.stringify(calendardata));
       })
 
   }]) // controller Calendar ends
@@ -84,13 +84,37 @@ angular.module('f1app', ['firebase'])
       // year should be fetched from this year      
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
       $scope.gpscores = [];
+      $scope.selected_gp_score = null;
+      $scope.selected_gp_id = null;
+
       angular.forEach(calendardatas, function (calendardata) {
           if (calendardata.gp_status == 4) {
               console.log("Gp " + calendardata.gp_id + " is complete.");
               $scope.gpscores.push(calendardata);
+              $scope.selected_gp_score = calendardata.scores;
+              $scope.selected_gp_id = calendardata.gp_id;
+              console.log(JSON.stringify($scope.selected_gp_score));
           }
           //console.log(JSON.stringify(calendardata));
       })
+
+      $scope.selectedGpData = function () {
+          console.log("selected gp = " + $scope.selected_gp_id);
+          angular.forEach($scope.gpscores, function (calendardata) {
+              //console.log("previous " + JSON.stringify($scope.selected_gp_score) + "\n\n");
+              console.log("\nmatch " + calendardata.gp_id + " // " + $scope.selected_gp_id + "\n\n");
+              if (calendardata.gp_id == $scope.selected_gp_id) {
+                  $scope.selected_gp_scores = calendardata.scores;
+
+                  //console.log("changed to " + JSON.stringify($scope.selected_gp_score) + "\n\n");
+              }
+          });
+
+          $scope.$watch('selected_gp_score', function () {
+              console.log(JSON.stringify($scope.selected_gp_id));
+          }, true);
+      }
+
 
   }]) // controller gp scores ends
       // controller Drivers
@@ -103,16 +127,16 @@ angular.module('f1app', ['firebase'])
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
       console.log('Fetch all users and scores');
-      
+
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
       $scope.users = $firebase(ref);
       //console.log($scope.users);      
-      $scope.$watch('users', function () {          
+      $scope.$watch('users', function () {
           angular.forEach($scope.users, function (user) {
               user.totalpoints = 0;
               user.hiddenpoints = 0;
-              if (angular.isObject(user)) {                  
+              if (angular.isObject(user)) {
                   angular.forEach(user.scores, function (score) {
                       //console.log(JSON.stringify(score) + "\n");
                       if (angular.isObject(score)) {
@@ -121,7 +145,7 @@ angular.module('f1app', ['firebase'])
                       }
                   })
                   //console.log("User " + user.userid + " points: " + user.totalpoints + "/" + user.hiddenpoints + "]\n");
-              }              
+              }
           })
       }, true);
 
@@ -246,7 +270,7 @@ function showBet(object) {
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + " " + ((betslip.fastestlap.points < 0) ? '': betslip.fastestlap.points) + "</div></div>"
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + " " + ((betslip.fastestlap.points < 0) ? '' : betslip.fastestlap.points) + "</div></div>"
 
         scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, scorehtml);
@@ -261,7 +285,7 @@ function showBet(object) {
         $("#dialog-bet").modal('show');
 
     });
-    ref.off();    
+    ref.off();
 }
 
 function copyBet(gp_id) {
@@ -275,10 +299,10 @@ function copyBet(gp_id) {
         console.log(betslip);
         for (val in betslip.qbets) {
             bet = betslip.qbets[val];
-            
+
             console.log("ql" + JSON.stringify(bet));
             $("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
-            console.log("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")");            
+            console.log("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")");
         }
         for (val in betslip.gpbets) {
             bet = betslip.gpbets[val];

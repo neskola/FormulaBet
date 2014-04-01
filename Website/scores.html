@@ -152,7 +152,7 @@
                     <div>
                         <!-- div ng-repeat="meta in metadata">{{meta.region}}</!--div -->
                         <div class="input-group">
-                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="gp_id for score in gpscores | toArray" ng-change=""></select><br>
+                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | toArray" ng-change="selectedGpData()"></select><br>
                         </div>
                     </div>
                 </div>
@@ -168,10 +168,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div ng-repeat="score in gpscores">
-                    <div class="label label-default col-sm-6" >{{score.gp_short_name}}</div>
-
+                </div>                
+                <div ng-repeat="score in selected_gp_score">
+                    <div class="label label-default col-sm-6" >{{score.userid}}</div>
+                    <div class="label label-default col-sm-6">{{score.totalpoints}}</div>
                 </div>                
             </div>
         </div>
