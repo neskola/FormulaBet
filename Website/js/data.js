@@ -91,19 +91,21 @@ angular.module('f1app', ['firebase'])
   function ($scope, $firebase) {
       // year should be fetched from this year      
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
-      $scope.gpscores = [];
+      $scope.gpscores = [];      
       $scope.selected_gp_score = null;
+      $scope.selected_gp_results = null;
       $scope.selected_gp_id = null;
 
       if ($scope.gpscores.length == 0) {
           console.log($scope.gpscores.length);
           angular.forEach(calendardatas, function (calendardata) {
-              if (calendardata.gp_status == 4) {
+              if (calendardata.gp_status >= 3) {
                   console.log("Gp " + calendardata.gp_id + " is complete.");
                   $scope.gpscores.push(calendardata);
                   $scope.selected_gp_score = calendardata.scores;
+                  $scope.selected_gp_results = calendardata.results;
                   $scope.selected_gp_id = calendardata.gp_id;
-                  console.log(JSON.stringify($scope.gpscores));
+                  //console.log(JSON.stringify($scope.gpscores));                  
               }
               //console.log(JSON.stringify(calendardata));
           })
@@ -114,11 +116,13 @@ angular.module('f1app', ['firebase'])
               if (gpscore.gp_id == $scope.selected_gp_id) {
                   console.log("match! " + $scope.selected_gp_id);
                   $scope.selected_gp_score = gpscore.scores;
+                  $scope.selected_gp_results = gpscore.results;
               }
           })
           
           $scope.$watch('selected_gp_score', function () {
               console.log($scope.selected_gp_id);
+              console.log("\nResults:" + JSON.stringify($scope.selected_gp_results) + "\n");
           }, true);
       }
 
