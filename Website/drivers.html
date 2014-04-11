@@ -121,7 +121,7 @@
             <div ng-repeat="driver in drivers | orderBy:'d_points':true" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">
-                        <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
+                        <img ng-src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
                     </a>
                     <h1>{{driver.d_points}}</h1>                    
                     <div><b>{{driver.d_name}}</b><br />{{driver.d_team}} {{driver.d_id}}</div>
