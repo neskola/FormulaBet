@@ -11,9 +11,13 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --gp 919 --gr='828,809,857,822,865,30' --qr='828,809,857,865,838,12' --fl '822' --fb $1
 #python scores.py -r --gp 920 --gr='809,828,857,30,840,6' --qr='809,828,857,822,30,12' --fl '12' --fb $1
 #python scores.py -r --gp 922 --gr='857,809,822,6,840,30' --qr='809,828,822,865,18,857' --fl '18' --fb $1
-python scores.py -r --gp 923 --gr='809,828,865,18,30,867' --qr='18,865,809,30,857,899' --fl '828' --fb $1
+#python scores.py -r --gp 923 --gr='809,828,865,18,30,867' --qr='18,865,809,30,857,899' --fl '867' --fb $1
+#python scores.py -r --gp 924 --gr='828,865,857,6,822,30' --qr='809,822,6,840,899,828' --fl '828' --fb $1
+#python scores.py -r --gp 925 --gr='809,865,828,822,30,857' --qr='809,865,18,899,857,822' --fl '828' --fb $1
+python scores.py -r --gp 926 --gr='857,30,828,809,18,12' --qr='809,822,865,857,30,18' --fl '809' --fb $1
 
 #HAM, RIC, VET, ROS, ALO, MAS
+#ROS BOT HAM VET ALO RIC
 echo "Done."
 
 #HAM 828
@@ -31,6 +35,6 @@ echo "Done."
 #VER 870
 #KVY 906
 #GRO 838
-
+#BUT 6
 
 
