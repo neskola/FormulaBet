@@ -119,10 +119,10 @@
 
         <div class="row" ng-controller="Calendar">
             <div ng-repeat="calendar in calendars | orderBy:'gp_number'" class="col-sm-4" title="{{calendar.gp_short_name}}" ng-cloak>
-                <div id="gpname" class="well" style="background-image : url('{{calendar.gp_flag_url}}'); background-repeat : no-repeat; background-position : right;">
+                <div id="gpname" class="well" style="background-image : url('./img/gpflag/resized/{{calendar.gp_id}}.png'); background-repeat : no-repeat; background-position : right; background-size: 100% 100%; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; ; color: #ffffff";>
                     <span class="badge">{{calendar.gp_number}}</span> {{calendar.gp_short_name}} <br />
-                    <span>Qual date {{calendar.gp_qual_date | date:'dd.MM.yyyy'}}</span><br />
-                    <span>Race date {{calendar.gp_date | date:'dd.MM.yyyy'}}</span>
+                    <span>Aika-ajot {{calendar.gp_qual_date | date:'dd.MM.yyyy'}}</span><br />
+                    <span>Kilpailu {{calendar.gp_date | date:'dd.MM.yyyy'}}</span>
 
                 </div>
             </div>
