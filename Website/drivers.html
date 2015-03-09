@@ -114,14 +114,14 @@
 
     <div class="container" id="container">
         <div class="page-header well">
-            <h1>Kuljettajat <small>kaudella 2014</small></h1>
+            <h1>Kuljettajat <small>kaudella 2015</small></h1>
         </div>
 
         <div class="row" ng-controller="Drivers" ng-cloak>
-            <div ng-repeat="driver in drivers | orderBy:'d_points':true" class="col-sm-6" title="{{driver.d_name}}">
+            <div ng-repeat="driver in drivers | orderBy:['-d_points','+d_sort_id']" class="col-sm-6" title="{{driver.d_name}}">
                 <div id="drivername" class="well">
                     <a href="#" class="thumbnail">
-                        <img ng-src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
+                        <img src="{{driver.d_imgsrc}}" alt="{{driver.d_name}}">
                     </a>
                     <h1>{{driver.d_points}}</h1>                    
                     <div><b>{{driver.d_name}}</b><br />{{driver.d_team}} {{driver.d_id}}</div>
@@ -129,6 +129,7 @@
 
             </div>
         </div>
+		<p>* varakuljettaja</p>
     </div>
 </body>
 </html>

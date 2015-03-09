@@ -1,4 +1,5 @@
-﻿
+﻿var season = "2015";
+
 var firebaseSingleton = (function () {
 
     // Instance stores a reference to the Singleton
@@ -8,7 +9,7 @@ var firebaseSingleton = (function () {
 
         // Singleton
 
-        var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com');
+        var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com/' + season);
         //var firebaseRef = new Firebase('https://neskola.firebaseio.com');
 
 
@@ -115,7 +116,7 @@ var calendarSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('calendar/2014');
+        var ref = firebaseRef.child('/calendar/' + season);
         console.log("Fetching calendar " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
@@ -161,7 +162,7 @@ var driverSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('drivers/2014');
+        var ref = firebaseRef.child('/drivers/' + season);
         console.log("Fetching drivers " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
