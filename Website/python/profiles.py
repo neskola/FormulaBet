@@ -9,6 +9,7 @@ import firebase
 from datetime import datetime, timedelta
 
 firebase_url = ''
+year = '2015'
 user = ''
 password = ''
 name = ''
@@ -21,11 +22,11 @@ isadmin = 0
 fb = ''
 
 def main(argv):
-	global user, email, name, password, active, remove, bank, fb
+	global user, email, name, password, active, remove, bank, fb, year, firebase_url
 	
 	inputfile = ""
 	try:
-		opts, args = getopt.getopt(argv,"harxiu:e:n:p:b:f:", ["user=", "email=", "name=", "password=", "bank=", "fb="])
+		opts, args = getopt.getopt(argv,"harxiu:e:n:p:b:f:y:", ["user=", "email=", "name=", "password=", "bank=", "fb=", "year="])
 	except getopt.GetoptError:
 		print ("profiles.py -[a|r] [x|i] -u|--user <user name> -p|--password <password> -e|--email <email> -n|--name <name>")
 		sys.exit(2)
@@ -61,12 +62,14 @@ def main(argv):
 			bank = arg
 		if opt in ("-f", "--fb"):
 			fb = arg
+		if opt in ("-y", "--year"):
+                        year = arg
 			
 	if not fb:
 		print ("No target firebase defined!!!!")
 		sys.exit()     
 	else:
-		firebase_url = "https://" + fb + ".firebaseio.com"
+		firebase_url = "https://" + fb + ".firebaseio.com/" + year
 		print "Target firebase is " + firebase_url
 
 	if adduser == 1 and user == '' and password == '':

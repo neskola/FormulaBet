@@ -22,16 +22,17 @@ __BET_INVALID = -2 # bet is invalid
 __BET_MISSING = -3 # user has no bet 
 
 firebase_url = ""
+season = "2015"
 operation = 0
 
 def printUsage():
 	print ("scores.py -c -r -u|--user <user name> -g|--gp <gp_id> --gr <gp_results> --qr <qual results> --fl <fastest lap> --fb <firebase>")
 
 def main(argv):	
-	global operation, firebase_url;
+	global operation, firebase_url, season
 
 	try:
-		opts, args = getopt.getopt(argv,"hcru:", ["user=", "gp=", "gr=", "qr=", "fl=", "fb="])
+		opts, args = getopt.getopt(argv,"hcru:", ["user=", "season=", "gp=", "gr=", "qr=", "fl=", "fb="])
 	except getopt.GetoptError:
 		printUsage()
 		sys.exit(2)
@@ -59,12 +60,14 @@ def main(argv):
 			fastest = arg
 		if opt in ("--fb"):
 			firebase_url = arg
+                if opt in ("--season"):
+                        season = arg
 
 	if not firebase_url:
 		print ("No target firebase defined!!!!")
 		sys.exit()     
 	else:
-		firebase_url = "https://" + firebase_url + ".firebaseio.com"
+		firebase_url = "https://" + firebase_url + ".firebaseio.com/" + season
 		print "Target firebase is " + firebase_url
 
 	if operation == __CHECK_BETS:
@@ -75,7 +78,7 @@ def main(argv):
 		pushResults(gp_id, gpresultlist, qresultlist, fastest)
 
 def checkBetvalues(gp_id, user_id):
-	gpdata = calendar.getCalendarData(firebase_url, "2014", gp_id)
+	gpdata = calendar.getCalendarData(firebase_url, season, gp_id)
 	userlist = profiles.getUserData(firebase_url, user_id)
 	
 	print ("Checking bet values for gp = " + gp_id)						
@@ -107,9 +110,9 @@ def checkBetvalues(gp_id, user_id):
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
 		query = "/users/" + str(userid) + "/scores/" + str(gp_id) + ".json" 
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))
-		query = "/scores/2014/" + str(gp_id) + "/" + str(userid) + ".json" 
+		query = "/scores/" + season + "/" + str(gp_id) + "/" + str(userid) + ".json" 
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))		
-		query = "/calendar/2014/" + str(gp_id) + "/scores/" + str(userid) + ".json" 
+		query = "/calendar/" + season + "/" + str(gp_id) + "/scores/" + str(userid) + ".json" 
 		firebase.curlPut(firebase_url + query, json.dumps(currentbet))		
 		
 	if gpdata['gp_status'] < __GP_QUAL:
@@ -120,7 +123,7 @@ def checkBetvalues(gp_id, user_id):
 def closeGP(gpdata):
 	print ("Close gp " + gpdata['gp_id'])
 	gpdata['gp_status'] = __GP_CLOSED
-	calendar.pushGpData(firebase_url, "2014", gpdata)
+	calendar.pushGpData(firebase_url, season, gpdata)
 					
 def calculateScore(validbet, results):
 	totalpoints = 0
@@ -201,8 +204,8 @@ def pushResults(gpid, gpresultlist, qresultlist, fastest):
 	print ("Qu results = " + json.dumps(qresultlist))
 	print ("Fastest    = " + fastest)
 
-	driverlist = drivers.getAllDriverData(firebase_url, "2014")
-	gpdata = calendar.getCalendarData(firebase_url, "2014", gpid)
+	driverlist = drivers.getAllDriverData(firebase_url, season)
+	gpdata = calendar.getCalendarData(firebase_url, season, gpid)
 
 	results = dict()
 

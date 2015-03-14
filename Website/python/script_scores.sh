@@ -14,7 +14,8 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --gp 923 --gr='809,828,865,18,30,867' --qr='18,865,809,30,857,899' --fl '867' --fb $1
 #python scores.py -r --gp 924 --gr='828,865,857,6,822,30' --qr='809,822,6,840,899,828' --fl '828' --fb $1
 #python scores.py -r --gp 925 --gr='809,865,828,822,30,857' --qr='809,865,18,899,857,822' --fl '828' --fb $1
-python scores.py -r --gp 926 --gr='857,30,828,809,18,12' --qr='809,822,865,857,30,18' --fl '809' --fb $1
+#python scores.py -r --gp 926 --gr='857,30,828,809,18,12' --qr='809,822,865,857,30,18' --fl '809' --fb $1
+python scores.py -r --season 2015 --gp 936 --gr='' --qr='828,809,018,822,012,865' --fl '' --fb $1
 
 #HAM, RIC, VET, ROS, ALO, MAS
 #ROS BOT HAM VET ALO RIC
