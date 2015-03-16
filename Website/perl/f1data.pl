@@ -132,18 +132,21 @@ sub updateCircuitCalendar {
 		$taglink = $f1prefix.$link;
 	    }
 
-	    ($gp_id) = ($taglink =~ /^.*_{1}(\d{3})/);
+	    if (defined $taglink) {
+		($gp_id) = ($taglink =~ /^.*_{1}(\d{3})/);
+	    }
 
 	    if ($tagtype =~ 'raceLocation') {
 	        my $gp_name = $_->as_text;
 		my ($gp_short_name) = ($gp_name =~ /^.*\({1}(.*)\){1}/);
 		my $detailpage = getPage($taglink);
-		my $circuitinfobox = $detailpage->look_down('class', 'circuitInfoBox')->as_HTML;
-		my $qualifyingtime = 
-		    substr($detailpage->look_down('id', 'CT_Time_2_3')->attr_get_i('class'), 0, 22);
-		my $racetime = 
-		    substr($detailpage->look_down('id', 'CT_Time_3_1')->attr_get_i('class'), 0, 22);
-		my $gp_year = substr($racetime, 0, 4);
+		#my $circuitinfobox = $detailpage->look_down('class', 'circuitInfoBox')->as_HTML;
+		my $qualifyingtime = '';
+		    #= substr($detailpage->look_down('id', 'CT_Time_2_3')->attr_get_i('class'), 0, 22);
+		my $racetime = '';
+		    #=substr($detailpage->look_down('id', 'CT_Time_3_1')->attr_get_i('class'), 0, 22);
+		my $gp_year = '2015';
+		    #substr($racetime, 0, 4);
 
 		my $data = {
 		    'gp_name' => $gp_name,
