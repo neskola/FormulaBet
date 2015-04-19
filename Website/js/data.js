@@ -96,15 +96,21 @@ angular.module('f1app', ['firebase'])
       $scope.selected_gp_results = null;
       $scope.selected_gp_id = null;
 
+	  // hack to fix gp_id ordering with current seasons gp_number
+	  var hiGpNumber = 0;	  
+	  
       if ($scope.gpscores.length == 0) {
           console.log($scope.gpscores.length);
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status >= 3) {
                   console.log("Gp " + calendardata.gp_id + " is complete.");
                   $scope.gpscores.push(calendardata);
-                  $scope.selected_gp_score = calendardata.scores;
-                  $scope.selected_gp_results = calendardata.results;
-                  $scope.selected_gp_id = calendardata.gp_id;
+				  if (calendardata.gp_number > hiGpNumber) {
+						hiGpNumber = calendardata.gp_number;						
+						$scope.selected_gp_score = calendardata.scores;
+						$scope.selected_gp_results = calendardata.results;
+						$scope.selected_gp_id = calendardata.gp_id;
+				  }
                   //console.log(JSON.stringify($scope.gpscores));                  
               }
               //console.log(JSON.stringify(calendardata));

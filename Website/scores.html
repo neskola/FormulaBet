@@ -151,12 +151,12 @@
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gpidSelect">
                     <div>
                         <div class="input-group">
-                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | toArray" ng-change="selectedGpData()"></select><br>
+                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | orderBy:['+gp_number'] | toArray" ng-change="selectedGpData()"></select><br>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gp-result">
-                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">						
                         Aika-ajo
                         <ol>
                           <li ng-repeat="result in selected_gp_results.qlresults">
