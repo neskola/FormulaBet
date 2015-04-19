@@ -143,11 +143,14 @@ angular.module('f1app', ['firebase'])
       // Controller Scores
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      console.log('Fetch all users and scores');
-
+      console.log('Fetch all users and scores');	  
+	  
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
-      $scope.users = $firebase(ref);
+      
+	  $scope.users = $firebase(ref);
+	  $scope.highestTotalPoints = 0;
+	  
       //console.log($scope.users);      
       $scope.$watch('users', function () {
           angular.forEach($scope.users, function (user) {
@@ -163,6 +166,9 @@ angular.module('f1app', ['firebase'])
                   })
                   //console.log("User " + user.userid + " points: " + user.totalpoints + "/" + user.hiddenpoints + "]\n");
               }
+			  if (user.totalpoints > $scope.highestTotalPoints) {
+				$scope.highestTotalPoints = user.totalpoints;
+			  }
           })
       }, true);
 
