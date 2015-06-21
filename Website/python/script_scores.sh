@@ -15,27 +15,16 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --gp 924 --gr='828,865,857,6,822,30' --qr='809,822,6,840,899,828' --fl '828' --fb $1
 #python scores.py -r --gp 925 --gr='809,865,828,822,30,857' --qr='809,865,18,899,857,822' --fl '828' --fb $1
 #python scores.py -r --gp 926 --gr='857,30,828,809,18,12' --qr='809,822,865,857,30,18' --fl '809' --fb $1
-python scores.py -r --season 2015 --gp 936 --gr='' --qr='828,809,018,822,012,865' --fl '' --fb $1
+#python scores.py -r --season 2015 --gp 936 --gr='' --qr='828,809,018,822,012,865' --fl '' --fb $1
+#python scores.py -r --season 2015 --gp 939 --gr='828,809,822,012,018,865' --qr='828,809,822,018,865,012' --fl '828' --fb $1
+#python scores.py -r --season 2015 --gp 938 --gr='828,012,809,865,822,857' --qr='828,822,809,012,865,018' --fl '012' --fb $1
+#python scores.py -r --season 2015 --gp 940 --gr='809,828,822,865,012,018' --qr='809,828,822,865,902,915' --fl '828' --fb $1
+#python scores.py -r --season 2015 --gp 941 --gr='809,822,828,906,857,012' --qr='828,809,822,857,906,012' --fl '857' --fb $1
+#python scores.py -r --season 2015 --gp 942 --gr='828,809,865,012,822,018' --qr='828,809,012,865,838,869' --fl '012' --fb $1
+python scores.py -r --season 2015 --gp 943 --gr='' --qr='828,809,822,018,840,865' --fl '' --fb $1
 
-#HAM, RIC, VET, ROS, ALO, MAS
-#ROS BOT HAM VET ALO RIC
 echo "Done."
 
-#HAM 828
-#ROS 809
-#HUL 840
-#ALO 30
-#BUT 6
-#VET 822
-#MAG 899
-#BOT 865
-#PER 867
-#MAS 18
-#RIC 857
-#RAI 12
-#VER 870
-#KVY 906
-#GRO 838
-#BUT 6
-
+echo "HAM 828, ROS 809, HUL 840, ALO 030, BUT 006, VET 822, MAG 899, BOT 865, PER 867"
+echo "MAS 018, RIC 857, RAI 012, VES 915, KVY 906, GRO 838, SAI 902, MAL 869"
 

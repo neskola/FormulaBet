@@ -8,7 +8,7 @@ python firebase.py -b --url https://f1kaapo.firebaseio.com/$1 --file $1$2-backup
 
 python firebase.py -u --url https://test-f1kaapo.firebaseio.com/$1.json --file $1$2-backup.json
 
-./script_scores.sh test-f1kaapo
+#./script_scores.sh test-f1kaapo
 
 #while true; do
 #    read -p "Do you want to update production data? y/N" yn

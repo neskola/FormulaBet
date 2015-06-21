@@ -22,7 +22,6 @@ def main(argv):
 	
         logging.basicConfig(format='%(asctime)s [%(levelname)s]:%(message)s', level=logging.INFO, datefmt='%d/%m/%Y %H:%M:%S')
 
-
 	try:
 		opts, args = getopt.getopt(argv,"hbzu", ["file=", "url="])
 	except getopt.GetoptError:
@@ -78,13 +77,10 @@ def curlQuery(url):
 	b = StringIO.StringIO()
 
 	logging.info ("Using curl. Query=" + url)
-	c = pycurl.Curl();
+	c = setupCurl();
 	c.setopt(pycurl.URL, url)
 	c.setopt(pycurl.HTTPHEADER, ["Accept:"])
 	c.setopt(pycurl.WRITEFUNCTION, b.write)
-	c.setopt(pycurl.VERBOSE, 0)
-	c.setopt(pycurl.SSL_VERIFYPEER, 0)   
-	c.setopt(pycurl.SSL_VERIFYHOST, 0)
 	c.perform()
 	
 	ret = b.getvalue()
@@ -92,25 +88,20 @@ def curlQuery(url):
 	return ret
 
 def curlPut(url, data):
-
-	c = pycurl.Curl();
+	c = setupCurl();
 	c.setopt(pycurl.URL, url)
 	c.setopt(pycurl.HTTPHEADER, ["Accept:application/json"])
 	c.setopt(pycurl.CUSTOMREQUEST, "PUT")
 	c.setopt(pycurl.POSTFIELDS, data)
-	c.setopt(pycurl.VERBOSE, 0)
-	c.setopt(pycurl.SSL_VERIFYPEER, 0)   
-	c.setopt(pycurl.SSL_VERIFYHOST, 0)
 	c.perform()
+        logging.info("Put " + url + " done.")
 
 def curlDelete(url):
 
-	c = pycurl.Curl();
+	c = setupCurl();
 	c.setopt(pycurl.URL, url)
 	c.setopt(pycurl.HTTPHEADER, ["Accept:application/json"])
 	c.setopt(pycurl.CUSTOMREQUEST, "DELETE")
-	c.setopt(pycurl.SSL_VERIFYPEER, 0)   
-	c.setopt(pycurl.SSL_VERIFYHOST, 0)
 	c.perform()
 
 
@@ -119,13 +110,10 @@ def curlDelete(url):
 def setupCurl():
 	c = pycurl.Curl();
 	c.setopt(pycurl.HTTPHEADER, ["Accept:"])
-        if (logging.isEnabledFor(logging.DEBUG)):
-                c.setopt(pycurl.VERBOSE, 1)
-        else:
-                c.setopt(pycurl.VERBOSE, 0)
-
+        c.setopt(pycurl.VERBOSE, 0)
 	c.setopt(pycurl.SSL_VERIFYPEER, 0)   
 	c.setopt(pycurl.SSL_VERIFYHOST, 0)
+        c.setopt(pycurl.WRITEFUNCTION, lambda x:None)
         return c
 
 if __name__ == "__main__":
