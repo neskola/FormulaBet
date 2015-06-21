@@ -114,7 +114,7 @@
 
     <div class="container" id="container">
         <div class="row page-header well">
-            <h1>Tulossivu <small>kaudella 2014</small></h1>
+            <h1>Tulossivu <small>kaudella 2015</small></h1>
         </div>
 
         <div class="well" id="leaderboard" ng-controller="Scores">
@@ -122,24 +122,16 @@
             <div class="row" id="user-list" ng-cloak>
                 <div class="label label-info col-sm-12">Kokonaiskilpailun tuloslista</div>
                 <div ng-repeat="user in users | sortByPoints" ng-class-even="even" ng-class-odd="odd">
-                    <div class="row col-sm-6 col-xs-12 col-lg-6 col-md-6">
-                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-info disabled"><b>{{$index + 1}}</b></button>
-                        <button class="text-left col-sm-7 col-xs-7 col-lg-7 col-md-7 btn btn-primary disabled"><b>{{user.userid}}</b></button>
-                        <button class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn btn-warning" ng-model="click">{{user.totalpoints}}</button>
-                        <input type="checkbox" ng-model="checked" class="col-sm-1 col-xs-1 col-lg-1 col-md-1" />
-                        <div class="check-element animate-show" ng-show="checked" id="gpscorelist-{{user.userid}}">
-                            <br />
-                            <div class="row col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-repeat="score in user.scores">
-                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
-                                    <span class="glyphicon glyphicon-info-sign"></span>{{score.gp_name}}
-                                </div>
-                                <div class="label label-info col-sm-6 col-xs-6 col-lg-6 col-md-6">
-                                    <span class="glyphicon glyphicon-flag"></span> {{score.gppoints}}
-                                    <span class="glyphicon glyphicon-time"></span> {{score.qpoints}}
-                                    <span class="glyphicon glyphicon-dashboard"></span> {{score.fastestlap.points}}
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row col-sm-12 col-xs-12 col-lg-12 col-md-12">
+                        <div class="col-sm-1 col-xs-1 col-lg-1 col-md-1">
+							<button style="width:100%" class="btn btn-info disabled"><b>{{$index + 1}}</b></button>
+						</div>
+						<div class="col-sm-2 col-xs-2 col-lg-2 col-md-2">
+							<button style="text-align: left; width:100%" class="text-left  btn btn-primary disabled"><b>{{user.userid}}</b></button>
+						</div>
+						<div class="col-sm-9 col-xs-9 col-lg-9 col-md-9">
+							<span class="btn btn-primary" ng-model="click" ng-attr-style="text-align: right; width:{{100 * user.totalpoints / highestTotalPoints | number:0}}%">{{user.totalpoints}}</span>
+						</div>						
                     </div>
                 </div>
             </div>
@@ -151,12 +143,12 @@
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gpidSelect">
                     <div>
                         <div class="input-group">
-                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | toArray" ng-change="selectedGpData()"></select><br>
+                            <select id="gp_select" class="selectpicker form-control" data-style="btn-primary" ng-model="selected_gp_id" ng-options="score.gp_id as score.gp_short_name for score in gpscores | orderBy:['+gp_number'] | toArray" ng-change="selectedGpData()"></select><br>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" id="gp-result">
-                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6">						
                         Aika-ajo
                         <ol>
                           <li ng-repeat="result in selected_gp_results.qlresults">

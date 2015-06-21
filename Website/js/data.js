@@ -96,15 +96,21 @@ angular.module('f1app', ['firebase'])
       $scope.selected_gp_results = null;
       $scope.selected_gp_id = null;
 
+	  // hack to fix gp_id ordering with current seasons gp_number
+	  var hiGpNumber = 0;	  
+	  
       if ($scope.gpscores.length == 0) {
           console.log($scope.gpscores.length);
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status >= 3) {
                   console.log("Gp " + calendardata.gp_id + " is complete.");
                   $scope.gpscores.push(calendardata);
-                  $scope.selected_gp_score = calendardata.scores;
-                  $scope.selected_gp_results = calendardata.results;
-                  $scope.selected_gp_id = calendardata.gp_id;
+				  if (calendardata.gp_number > hiGpNumber) {
+						hiGpNumber = calendardata.gp_number;						
+						$scope.selected_gp_score = calendardata.scores;
+						$scope.selected_gp_results = calendardata.results;
+						$scope.selected_gp_id = calendardata.gp_id;
+				  }
                   //console.log(JSON.stringify($scope.gpscores));                  
               }
               //console.log(JSON.stringify(calendardata));
@@ -137,11 +143,14 @@ angular.module('f1app', ['firebase'])
       // Controller Scores
      .controller('Scores', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      console.log('Fetch all users and scores');
-
+      console.log('Fetch all users and scores');	  
+	  
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
-      $scope.users = $firebase(ref);
+      
+	  $scope.users = $firebase(ref);
+	  $scope.highestTotalPoints = 0;
+	  
       //console.log($scope.users);      
       $scope.$watch('users', function () {
           angular.forEach($scope.users, function (user) {
@@ -157,6 +166,9 @@ angular.module('f1app', ['firebase'])
                   })
                   //console.log("User " + user.userid + " points: " + user.totalpoints + "/" + user.hiddenpoints + "]\n");
               }
+			  if (user.totalpoints > $scope.highestTotalPoints) {
+				$scope.highestTotalPoints = user.totalpoints;
+			  }
           })
       }, true);
 
