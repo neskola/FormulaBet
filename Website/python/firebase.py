@@ -49,8 +49,7 @@ def main(argv):
 		logging.info ("Uploading file " + fileref + " to firebase url " + url)
 		jsonfile = open(fileref)
 		jsondata = json.load(jsonfile)
-                if (logging.isEnabledFor(logging.DEBUG)):
-                    logging.debug(json.dumps(jsondata))
+                logging.debug(json.dumps(jsondata))
 		jsonfile.close()
 		curlPut(url, json.dumps(jsondata))
 	elif operation >= __BACKUP:

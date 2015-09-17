@@ -196,11 +196,11 @@ def calculateResult(validbet, result):
 	return returnvalue
 
 def pushResults(gpid, gpresultlist, qresultlist, fastest):
-        if (logging.isEnabledFor(logging.DEBUG)):
-                logging.debug ("Gp results  ", json.dumps(gpresultlist))
-                logging.debug ("Qu results  ", json.dumps(qresultlist))
-                logging.debug ("Fastest lap ", json.dumps(fastest))
-
+#        if (logging.isEnabledFor(logging.DEBUG)):
+        logging.debug ("Gp results  ", json.dumps(gpresultlist))
+        logging.debug ("Qu results  ", json.dumps(qresultlist))
+        logging.debug ("Fastest lap ", json.dumps(fastest))
+        
 	driverlist = drivers.getAllDriverData(firebase_url, season)
 	gpdata = calendar.getCalendarData(firebase_url, season, gpid)
 

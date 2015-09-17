@@ -21,7 +21,11 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --season 2015 --gp 940 --gr='809,828,822,865,012,018' --qr='809,828,822,865,902,915' --fl '828' --fb $1
 #python scores.py -r --season 2015 --gp 941 --gr='809,822,828,906,857,012' --qr='828,809,822,857,906,012' --fl '857' --fb $1
 #python scores.py -r --season 2015 --gp 942 --gr='828,809,865,012,822,018' --qr='828,809,012,865,838,869' --fl '012' --fb $1
-python scores.py -r --season 2015 --gp 943 --gr='' --qr='828,809,822,018,840,865' --fl '' --fb $1
+#python scores.py -r --season 2015 --gp 943 --gr='809,828,018,822,865,840' --qr='828,809,822,018,840,865' --fl '809' --fb $1
+#python scores.py -r --season 2015 --gp 944 --gr='828,809,822,018,865,906' --qr='828,809,018,865,012,822' --fl '828' --fb $1
+#python scores.py -r --season 2015 --gp 946 --gr='822,906,857,915,030,828' --qr='828,809,822,857,012,865' --fl '857' --fb $1
+#python scores.py -r --season 2015 --gp 947 --gr='828,809,838,906,867,018' --qr='828,809,865,838,867,857' --fl '809' --fb $1
+python scores.py -r --season 2015 --gp 948 --gr='828,822,018,865,012,867' --qr='828,012,822,809,018,865' --fl '828' --fb $1
 
 echo "Done."
 
