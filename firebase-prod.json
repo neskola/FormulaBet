@@ -1,0 +1,12 @@
+{
+  "firebase": "f1kaapo",
+  "public": "Website",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**",
+    "**/python/**",
+    "**/perl/**",
+    "**/data/**"
+  ]
+}
