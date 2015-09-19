@@ -25,7 +25,8 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --season 2015 --gp 944 --gr='828,809,822,018,865,906' --qr='828,809,018,865,012,822' --fl '828' --fb $1
 #python scores.py -r --season 2015 --gp 946 --gr='822,906,857,915,030,828' --qr='828,809,822,857,012,865' --fl '857' --fb $1
 #python scores.py -r --season 2015 --gp 947 --gr='828,809,838,906,867,018' --qr='828,809,865,838,867,857' --fl '809' --fb $1
-python scores.py -r --season 2015 --gp 948 --gr='828,822,018,865,012,867' --qr='828,012,822,809,018,865' --fl '828' --fb $1
+#python scores.py -r --season 2015 --gp 948 --gr='828,822,018,865,012,867' --qr='828,012,822,809,018,865' --fl '828' --fb $1
+python scores.py -r --season 2015 --gp 949 --gr='' --qr='822,857,012,906,828,809' --fl '' --fb $1
 
 echo "Done."
 
