@@ -166,3 +166,6 @@ pip-log.txt
 *.sln
 Website/data/*
 Website/Web.config
+
+# IntelliJ IDEA
+*.iml
