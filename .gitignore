@@ -169,3 +169,4 @@ Website/Web.config
 
 # IntelliJ IDEA
 *.iml
+**/.idea/*
