@@ -1,6 +1,6 @@
 {
   "firebase": "f1kaapo",
-  "public": "Website",
+  "public": "app",
   "ignore": [
     "firebase.json",
     "**/.*",
