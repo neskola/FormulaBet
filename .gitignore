@@ -145,6 +145,9 @@ var
 sdist
 develop-eggs
 .installed.cfg
+python/*.json
+## Don't expose non gpg version
+python/script_profiles.sh 
 
 # Installer logs
 pip-log.txt
