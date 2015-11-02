@@ -1,30 +1,9 @@
 ﻿$(function () {
-/*    $("#dialog-register").modal(
-        {
-            show: false
-        });*/
 
     $("#dialog-login").modal(
         {
             show: false
         });
-    /*{
-        autoOpen: false,
-        buttons: {
-            "ok": function () {
-                console.log('trying to login: ' + $("#login-email").val());
-
-                var email = $("#login-email").val();
-                var password = $("#login-password").val();
-
-                doLogin(email, password);
-                $(this).dialog("close");
-            },
-            Cancel: function () {
-                $(this).dialog("close");
-            }
-        }
-    });*/
 
     $("#register-button").click(function () {
         var email = $("#register-email").val() + "@f1kaapo.fi";
@@ -53,12 +32,6 @@
 
     });
 
-/*    $("#confirm").click(function () {
-        if (myUser == -1) {
-            $("#dialog-login").modal('show');
-        }
-    });*/
-
     $("#opener-register").click(function () {
         $("#dialog-register").modal('show');
     });
@@ -82,18 +55,18 @@ function loadPage(html, arg) {
         $("#body-content").html(data);
         if (myUser.userid) {
             // User is already logged in.
-            console.log('User ID: ' + myUser.userid);
+            logger.debug('User ID: ' + myUser.userid);
             // doLogin(user);
-            console.log(myUser.userid + ' logged in')
+            logger.debug(myUser.userid + ' logged in')
             $("#opener-logout").attr('disabled', false);
             $("#opener-register").attr('disabled', true);
-            $("#opener-login").attr('disabled', true);            
+            $("#opener-login").attr('disabled', true);
             $("#username").html(myUser.userid);
         } else {
             // User is logged out.
-            console.log('logged out');
+            logger.debug('logged out');
             $("#opener-logout").attr('disabled', true);
-            $("#opener-login").attr('disabled', false);            
+            $("#opener-login").attr('disabled', false);
             $("#opener-register").attr('disabled', false);
             $("#username").html("");
             //$("#dialog-login").modal("show");

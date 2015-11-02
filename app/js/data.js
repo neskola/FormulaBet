@@ -89,7 +89,6 @@ angular.module('f1app', ['firebase'])
   }]) // controller Calendar ends
     .controller('GpScores', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      // year should be fetched from this year      
       var calendardatas = calendarSingleton.getInstance().getCalendarData();
       $scope.gpscores = [];      
       $scope.selected_gp_score = null;
@@ -103,7 +102,6 @@ angular.module('f1app', ['firebase'])
           console.log($scope.gpscores.length);
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status >= 3) {
-                  console.log("Gp " + calendardata.gp_id + " is complete.");
                   $scope.gpscores.push(calendardata);
 				  if (calendardata.gp_number > hiGpNumber) {
 						hiGpNumber = calendardata.gp_number;						
@@ -111,24 +109,20 @@ angular.module('f1app', ['firebase'])
 						$scope.selected_gp_results = calendardata.results;
 						$scope.selected_gp_id = calendardata.gp_id;
 				  }
-                  //console.log(JSON.stringify($scope.gpscores));                  
               }
-              //console.log(JSON.stringify(calendardata));
           })
       }
 
       $scope.selectedGpData = function () {          
           angular.forEach($scope.gpscores, function (gpscore) {              
               if (gpscore.gp_id == $scope.selected_gp_id) {
-                  console.log("match! " + $scope.selected_gp_id);
                   $scope.selected_gp_score = gpscore.scores;
                   $scope.selected_gp_results = gpscore.results;
               }
           })
           
           $scope.$watch('selected_gp_score', function () {
-              console.log($scope.selected_gp_id);
-              console.log("\nResults:" + JSON.stringify($scope.selected_gp_results) + "\n");
+              logger.debug("Results for gp " + $scope.selected_gp_id, JSON.stringify($scope.selected_gp_results));
           }, true);
       }
 
@@ -142,8 +136,7 @@ angular.module('f1app', ['firebase'])
   }]) // controller Drivers ends
       // Controller Scores
      .controller('Scores', ['$scope', '$firebase',
-  function ($scope, $firebase) {
-      console.log('Fetch all users and scores');	  
+  function ($scope, $firebase) {	  
 	  
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child("users");
@@ -151,20 +144,17 @@ angular.module('f1app', ['firebase'])
 	  $scope.users = $firebase(ref);
 	  $scope.highestTotalPoints = 0;
 	  
-      //console.log($scope.users);      
       $scope.$watch('users', function () {
           angular.forEach($scope.users, function (user) {
               user.totalpoints = 0;
               user.hiddenpoints = 0;
               if (angular.isObject(user)) {
                   angular.forEach(user.scores, function (score) {
-                      //console.log(JSON.stringify(score) + "\n");
                       if (angular.isObject(score)) {
                           user.hiddenpoints += score.hiddenpoints;
                           user.totalpoints += score.totalpoints;
                       }
                   })
-                  //console.log("User " + user.userid + " points: " + user.totalpoints + "/" + user.hiddenpoints + "]\n");
               }
 			  if (user.totalpoints > $scope.highestTotalPoints) {
 				$scope.highestTotalPoints = user.totalpoints;
@@ -177,14 +167,13 @@ angular.module('f1app', ['firebase'])
       // controller Bets    
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      console.log('Bets: User ' + myUser.userid + ", email: " + myUser.email);
+      logger.debug('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
       $scope.switchStatus = 0;
       var firebaseRef = firebaseSingleton.getInstance().getReference();
       var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
 
       $scope.bets = $firebase(ref);
-      console.log("Bets ref=" + ref);
 
       $scope.$watch('bets', function () {
           var totalpoints = 0;
@@ -198,7 +187,6 @@ angular.module('f1app', ['firebase'])
           $scope.totalpoints = totalpoints;
       }, true);
 
-      console.log($scope.totalpoints);
   }]);
 // controller bets ends.
 
@@ -260,13 +248,28 @@ function addBet($firebase) {
 
         console.log(JSON.stringify(betslip));
         var betref = ref.child("bets/" + betslip.gp_id);
-        betref.set(betslip);
-
-        // everything went ok - now show summary
-
-        $("#dialog-bet-title").html("Vetosi on tallennettu.")
-        $("#dialog-bet-body").html(text);
-        $("#dialog-bet").modal('show');
+        
+        var onComplete = function(error) {
+            if (error) {
+                // Something went wrong
+                logger.info('Bet synchronization failed');
+                $("#dialog-bet-title").html("Vetosi epäonnistui.")
+                $("#dialog-bet-body").html("Yritä myöhemmin tai lähetä vetosi tekstiviestinä ylläpitäjälle 0456517228.");
+                $("#dialog-bet").modal('show');
+                
+            } else {
+                // everything went ok - now show summary
+                logger.info('Bet synchronization succeeded');
+                $("#dialog-bet-title").html("Vetosi on tallennettu.")
+                $("#dialog-bet-body").html(text);
+                $("#dialog-bet").modal('show');
+                
+            }
+        };
+        
+        
+        betref.set(betslip, onComplete);
+        
     }
 }
 
@@ -337,7 +340,6 @@ function copyBet(gp_id) {
     });
     ref.off();
 }
-
 
 function myformatDate(date) {
     return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();

@@ -1,5 +1,4 @@
-﻿var season = "2015";
-
+﻿
 var firebaseSingleton = (function () {
 
     // Instance stores a reference to the Singleton
@@ -9,19 +8,13 @@ var firebaseSingleton = (function () {
 
         // Singleton
 
-        var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com/' + season);
-        //var firebaseRef = new Firebase('https://neskola.firebaseio.com');
-
+        //var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com/' + season);
+        var firebaseRef = new Firebase('https://test-f1kaapo.firebaseio.com/' + season);
 
         return {
 
-            // Public methods and variables
-            publicMethod: function () {
-                console.log("The public can see me!");
-            },
-
             getReference: function () {
-                console.log("Return " + firebaseRef);
+                logger.debug("Return " + firebaseRef);
                 return firebaseRef;
             }
 
@@ -36,7 +29,7 @@ var firebaseSingleton = (function () {
         getInstance: function () {
 
             if (!instance) {
-                console.log("Initializing firebase reference instance.")
+                logger.info("Initializing firebase reference instance.")
                 instance = init();
             }
 
@@ -47,31 +40,7 @@ var firebaseSingleton = (function () {
 
 })();
 
-
-// this is derived from
-// http://stackoverflow.com/questions/15167981/how-do-i-use-firebase-simple-login-with-email-password/15167983#15167983
-
-
-// CHANGE THIS to your own firebase
 var ref = firebaseSingleton.getInstance().getReference();
-// then go to your firebase console, click the auth tab, scroll down to 
-// authentication providers, and enable 'email/password'
-// Now enter this in the 'Auth' tab to the left.
-/*
-{
-  "rules": {
-    "users": {
-      "$userid": {
-        ".read": "auth.id == $userid",
-        ".write": "auth.id == $userid"
-      }
-    }
-  }
-}
-*/
-//
-
-// global user (is this a good thing?)
 
 function doLogin(email, password) {
     authClient.login('password', {
@@ -85,20 +54,20 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         alert(error);
         return;
     }
-    console.log(user);
+   
     if (user) {
         // User is already logged in.
-        console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+        logger.debug('User is logged in.', user);
         myUser = user;
         myUser.userid = user.email.split('@')[0];
         // doLogin(user);
-        console.log(myUser.userid + ' ' + user.id + ' logged in ');
+        logger.info(myUser.userid + ' logged in ');
         $("#opener-logout").attr('disabled', false);
         $("#opener-login").attr('disabled', true);  
         $("#username").html(myUser.userid);
     } else {
         // User is logged out.
-        console.log('logged out');
+        logger.debug('User is logged out.');
         $("#opener-logout").attr('disabled', true);
         $("#opener-login").attr('disabled', false);
         myUser = -1;
@@ -117,7 +86,6 @@ var calendarSingleton = (function () {
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
         var ref = firebaseRef.child('/calendar/' + season);
-        console.log("Fetching calendar " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
                 //console.log(gpdata);
@@ -142,7 +110,6 @@ var calendarSingleton = (function () {
         getInstance: function () {
 
             if (!instance && data.length == 0) {
-                console.log("Initializing calendar instance.")
                 instance = init();
             }
 
@@ -163,7 +130,6 @@ var driverSingleton = (function () {
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
         var ref = firebaseRef.child('/drivers/' + season);
-        console.log("Fetching drivers " + ref);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
                 //console.log(driver);

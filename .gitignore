@@ -173,3 +173,6 @@ Website/Web.config
 # IntelliJ IDEA
 *.iml
 **/.idea/*
+
+**/node_modules/*
+**/bower*
