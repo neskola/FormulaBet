@@ -8,8 +8,7 @@ var firebaseSingleton = (function () {
 
         // Singleton
 
-        //var firebaseRef = new Firebase('https://f1kaapo.firebaseio.com/' + season);
-        var firebaseRef = new Firebase('https://test-f1kaapo.firebaseio.com/' + season);
+        var firebaseRef = FIREBASE;        
 
         return {
 
