@@ -176,3 +176,6 @@ Website/Web.config
 
 **/node_modules/*
 **/bower*
+
+#emacs backups
+**/*~
