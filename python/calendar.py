@@ -1,4 +1,3 @@
-#!C:\Python33\python.exe -u
 #!/usr/bin/env python
 
 import sys, getopt, json, sha
