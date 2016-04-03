@@ -179,3 +179,4 @@ Website/Web.config
 
 #emacs backups
 **/*~
+**/*#
