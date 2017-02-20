@@ -1,11 +1,8 @@
 {
-  "firebase": "test-f1kaapo",
-  "public": "app",
-  "ignore": [
-    "firebase.json",
-    "**/.*",
-    "**/node_modules/**",
-    "**/python/**",
-    "**/data/**"
-  ]
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "app"
+  }
 }
