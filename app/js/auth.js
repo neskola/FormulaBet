@@ -87,7 +87,7 @@ var calendarSingleton = (function () {
         var ref = firebaseRef.child('/calendar/' + season);
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
-                //console.log(gpdata);
+                console.log(gpdata);
                 data.push(gpdata);
             });
         });
