@@ -109,6 +109,7 @@ var calendarSingleton = (function () {
         getInstance: function () {
 
             if (!instance && data.length == 0) {
+                console.log("Initializing calendar instance.")
                 instance = init();
             }
 
