@@ -1,6 +1,5 @@
 {
   "calendar": {
-    "2017": {
       "1": {
         "gp_date": "2017-03-26T16:00+02:00",
         "gp_id": "1",
@@ -221,10 +220,8 @@
         "gp_year": "2017",
         "gp_img" : "abudhabi.jpg"
       }
-    }
   },
   "drivers": {
-    "2017": {
       "RAI": {
         "d_id": "RAI",
         "d_name": "Kimi Räikkönen",
@@ -405,7 +402,6 @@
         "d_team": "Williams",
         "nationality": "Canadian"
       }
-    }
   },
   "users": {
     "ilkka": {

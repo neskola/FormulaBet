@@ -84,7 +84,7 @@ var calendarSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('/calendar/' + season);
+        var ref = firebaseRef.child('/calendar');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
                 console.log(gpdata);
@@ -129,7 +129,7 @@ var driverSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('/drivers/' + season);
+        var ref = firebaseRef.child('/drivers');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
                 //console.log(driver);
