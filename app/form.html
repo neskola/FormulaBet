@@ -148,8 +148,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row" ng-controller="Drivers">
-                <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" id="fastestlap">
+            <div class="row">
+                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6" id="fastestlap"  ng-controller="Drivers">
                     <span class="label label-default">Nopein kierrosaika</span><i><small>Oikein veikatusta nopeimmasta kierrosajasta 3 pistettä.</small></i>
                     <div class="input-group">
                         <select class="form-control" name="fastest-lap" id="fastest-lap">
@@ -157,7 +157,16 @@
                             <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
-                </div>                
+                </div>
+                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6" id="double" ng-controller="User">
+                    <br/>
+                    <label>
+                        <span class="label label-default">Tuplaus</span>
+                        <input type="checkbox" id="double-bet" ng-show="{{user.doubleAvailable}}"/>
+                        <p ng-show="{{user.doubleAvailable}}">Vedon voi tuplata kerran kaudessa.</p>
+                        <p ng-hide="{{user.doubleAvailable}}">Tuplaus käytetty tälle kaudelle</p>
+                    </label>
+                </div>
             </div>
 
             <div class="btn-group btn-group-justified">
@@ -225,6 +234,7 @@
         {
             show: false
         });
+
     </script>
 </body>
 </html>

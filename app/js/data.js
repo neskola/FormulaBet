@@ -164,6 +164,21 @@ angular.module('f1app', ['firebase'])
 
 
   }]) // controller Scores ends.
+      // controller User
+    .controller('User', ['$scope', '$firebase',
+        function ($scope, $firebase) {
+
+            var firebaseRef = firebaseSingleton.getInstance().getReference();
+            var ref = firebaseRef.child("users/" + myUser.userid);
+            logger.info(ref);
+
+            ref.on('value', function (dataSnapshot) {
+                logger.info(JSON.stringify(dataSnapshot.val()));
+                $scope.user = dataSnapshot.val();
+            });
+
+        }])
+      // controller user ends
       // controller Bets    
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {

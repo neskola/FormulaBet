@@ -56,11 +56,12 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
    
     if (user) {
         // User is already logged in.
-        logger.debug('User is logged in.', user);
+        logger.info('User is logged in.', JSON.stringify(user));
         myUser = user;
         myUser.userid = user.email.split('@')[0];
+        myUser.doubleAvailable = user.doubleAvailable;
         // doLogin(user);
-        logger.info(myUser.userid + ' logged in ');
+        logger.info(JSON.stringify(myUser) + ' logged in ');
         $("#opener-logout").attr('disabled', false);
         $("#opener-login").attr('disabled', true);  
         $("#username").html(myUser.userid);
