@@ -158,13 +158,13 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6" id="double" ng-controller="User">
+                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 ng-cloak" id="double" ng-controller="User" ng-cloak>
                     <br/>
                     <label>
-                        <span class="label label-default">Tuplaus</span>
-                        <input type="checkbox" id="double-bet" ng-show="{{user.doubleAvailable}}"/>
-                        <p ng-show="{{user.doubleAvailable}}">Vedon voi tuplata kerran kaudessa.</p>
-                        <p ng-hide="{{user.doubleAvailable}}">Tuplaus käytetty tälle kaudelle</p>
+                        <span class="label label-danger">Tuplaus</span>
+                        <input type="checkbox" id="double-bet"/>
+                        <div id="doubleIsAvailable">Vedon voi tuplata kerran kaudessa.</div>
+                        <div id="doubleNotAvailable">Tuplaus käytetty tälle kaudelle</div>
                     </label>
                 </div>
             </div>

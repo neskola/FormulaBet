@@ -168,14 +168,29 @@ angular.module('f1app', ['firebase'])
     .controller('User', ['$scope', '$firebase',
         function ($scope, $firebase) {
 
+            logger.debug('Bets: User ' + myUser.userid + ", email: " + myUser.email);
+            $scope.bets = [];
+            $scope.switchStatus = 0;
             var firebaseRef = firebaseSingleton.getInstance().getReference();
-            var ref = firebaseRef.child("users/" + myUser.userid);
-            logger.info(ref);
+            var ref = firebaseRef.child('users/' + myUser.userid + "/bets");
 
-            ref.on('value', function (dataSnapshot) {
-                logger.info(JSON.stringify(dataSnapshot.val()));
-                $scope.user = dataSnapshot.val();
-            });
+            $scope.bets = $firebase(ref);
+            $scope.$watch('bets', function () {
+                var doubleAvailable = true;
+                angular.forEach($scope.bets, function (bet) {
+                    if (angular.isObject(bet) && bet.doubled) {
+                        logger.info("Found double bet " + JSON.stringify(bet));
+                        doubleAvailable = false;
+                        $('#double-bet').hide();
+                        $('#doubleIsAvailable').hide();
+                        $('#doubleNotAvailable').show();
+                    }
+                })
+                if (doubleAvailable) {
+                    $('#doubleNotAvailable').hide();
+                }
+                $scope.doubleAvailable = doubleAvailable;
+            }, true);
 
         }])
       // controller user ends
@@ -232,6 +247,7 @@ function addBet($firebase) {
         fastestlap.d_id = $("#fastest-lap").val();
         fastestlap.d_info = $("#fastest-lap option:selected").text();
         betslip.fastestlap = fastestlap;
+        betslip.doubled = $("#double-bet").is(':checked');
 
         var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu<br/></span>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</br></span>";
@@ -257,8 +273,13 @@ function addBet($firebase) {
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div></div>"
-        text = text.concat(qhtml, gphtml, "</div>", flhtml);
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + "</div>";
+        doubledhtml = "<div class='row'><div class='col-sm-6'>";
+        if ( betslip.doubled == true) {
+            doubledhtml += "<span class='label label-danger'>Tuplattu veto</span>";
+        }
+        doubledhtml += "</div>";
+        text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml);
         console.log(text);
 
         console.log(JSON.stringify(betslip));
@@ -278,13 +299,22 @@ function addBet($firebase) {
                 $("#dialog-bet-title").html("Vetosi on tallennettu.")
                 $("#dialog-bet-body").html(text);
                 $("#dialog-bet").modal('show');
-                
+
+                if (betslip.doubled) {
+                    $("#double-bet").prop('disabled', true);
+                    $("#betslip").trigger('reset');
+                    $("#double-bet").hide();
+                    $("#doubleIsAvailable").hide();
+                    $("#doubleNotAvailable").show();
+                    logger.info("Set users doubled available to false");
+                    ref.doubleAvailable = false;
+                }
             }
         };
         
         
         betref.set(betslip, onComplete);
-        
+
     }
 }
 
@@ -311,10 +341,15 @@ function showBet(object) {
         }
         qhtml = qhtml.concat("</div>");
         gphtml = gphtml.concat("</div>");
-        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + " " + ((betslip.fastestlap.points < 0) ? '' : betslip.fastestlap.points) + "</div></div>"
+        flhtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Nopein kierrosaika</span><br />" + betslip.fastestlap.d_info + " " + ((betslip.fastestlap.points < 0) ? '' : betslip.fastestlap.points) + "</div>"
+        doubledhtml = "<div class='row'><div class='col-sm-6'>";
+        if ( betslip.doubled == true) {
+            doubledhtml += "<span class='label label-danger'>Tuplattu veto</span>";
+        }
+        doubledhtml += "</div>";
 
         scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
-        text = text.concat(qhtml, gphtml, "</div>", flhtml, scorehtml);
+        text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml, scorehtml);
 
         console.log(text);
 
