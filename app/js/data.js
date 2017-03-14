@@ -189,7 +189,6 @@ angular.module('f1app', ['firebase'])
                 if (doubleAvailable) {
                     $('#doubleNotAvailable').hide();
                 }
-                $scope.doubleAvailable = doubleAvailable;
             }, true);
 
         }])
@@ -228,7 +227,7 @@ function addBet($firebase) {
     betslip.gp_id = $("#gp_id").val();
     betslip.gp_name = $("#gp_id option:selected").text();
 
-    console.log("gp_id = " + betslip.gp_id);
+    logger.info("gp_id = " + betslip.gp_id);
 
     if (myUser == -1) {
         $("#dialog-login").modal('show');
@@ -253,7 +252,7 @@ function addBet($firebase) {
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</br></span>";
         var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</br></span>";
         for (i = 1; i <= 6; i++) {
-            console.log("#q_id_" + i + "=" + $("#q_id_" + i).val());
+            logger.debug("#q_id_" + i + "=" + $("#q_id_" + i).val());
             var qbet = new Object();
             qbet.points = -1; // -1 not calculated yet
             qbet.position = i;
@@ -277,12 +276,13 @@ function addBet($firebase) {
         doubledhtml = "<div class='row'><div class='col-sm-6'>";
         if ( betslip.doubled == true) {
             doubledhtml += "<span class='label label-danger'>Tuplattu veto</span>";
+        } else {
+            doubledhtml += "<span class='label label-default'>Ei tuplausta</span>";
         }
         doubledhtml += "</div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml);
-        console.log(text);
 
-        console.log(JSON.stringify(betslip));
+        logger.debug(JSON.stringify(betslip));
         var betref = ref.child("bets/" + betslip.gp_id);
         
         var onComplete = function(error) {
@@ -312,7 +312,6 @@ function addBet($firebase) {
             }
         };
         
-        
         betref.set(betslip, onComplete);
 
     }
@@ -320,7 +319,6 @@ function addBet($firebase) {
 
 function showBet(object) {
     var gp_id = object.id.split('_')[2];
-    console.log(gp_id);
     var firebaseRef = firebaseSingleton.getInstance().getReference();
     var ref = firebaseRef.child('users/' + myUser.userid + "/bets/" + gp_id);
 
@@ -345,13 +343,15 @@ function showBet(object) {
         doubledhtml = "<div class='row'><div class='col-sm-6'>";
         if ( betslip.doubled == true) {
             doubledhtml += "<span class='label label-danger'>Tuplattu veto</span>";
+        } else {
+            doubledhtml += "<span class='label label-default'>Ei tuplausta</span>";
         }
         doubledhtml += "</div>";
 
         scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml, scorehtml);
 
-        console.log(text);
+        logger.debug(JSON.stringify(betslip));
 
         $('#btnCopyBet').attr("onclick", "copyBet('" + gp_id + "')");
 
