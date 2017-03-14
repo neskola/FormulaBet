@@ -245,6 +245,7 @@ function addBet($firebase) {
         var fastestlap = new Object();
         fastestlap.d_id = $("#fastest-lap").val();
         fastestlap.d_info = $("#fastest-lap option:selected").text();
+        fastestlap.points = 0;
         betslip.fastestlap = fastestlap;
         betslip.doubled = $("#double-bet").is(':checked');
 
