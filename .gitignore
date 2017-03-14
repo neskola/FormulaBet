@@ -177,6 +177,8 @@ Website/Web.config
 **/node_modules/*
 **/bower*
 
+app/lib
+
 #emacs backups
 **/*~
 **/*#
