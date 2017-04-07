@@ -246,6 +246,7 @@ def pushResults(gpid, gpresultlist, qresultlist, fastest):
             gpdata['gp_status'] = __GP_QUAL
 
     for idx, val in enumerate(gpresultlist):
+        logging.info(val)
         if val in driverlist:
             driver = driverlist[val]
             result = dict()
@@ -259,6 +260,7 @@ def pushResults(gpid, gpresultlist, qresultlist, fastest):
     gpdata['results'] = results
     query = "/calendar/" + str(gpdata['gp_id']) + ".json"
     logging.info("Pushing results to " + query)
+    logging.info(json.dumps(gpdata))
     firebase.curlPut(firebase_url + query, json.dumps(gpdata))
 
 
