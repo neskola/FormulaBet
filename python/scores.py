@@ -104,7 +104,12 @@ def checkBetvalues(gp_id, user_id):
 
         if currentbet:
             logging.info("User " + userid + " has bet for " + gp_id)
-            currentbet = calculateScore(currentbet, gpdata['results'])
+            factor = 1
+            if (currentbet['doubled']):
+                logging.info("Double bet! Changing factor to 2")
+                factor = 2
+
+            currentbet = calculateScore(currentbet, gpdata['results'], factor)
 
         else:
             logging.info("User " + userid + " has no bets for gp " + gp_id)
@@ -134,22 +139,24 @@ def closeGP(gpdata):
     calendar.pushGpData(firebase_url, season, gpdata)
 
 
-def calculateScore(validbet, results):
+def calculateScore(validbet, results, factor):
+    logging.info("Factor is " + str(factor))
     totalpoints = 0
     hiddenpoints = 0
     isbetvalid = isBetValid(validbet)
     logging.debug("bet " + json.dumps(validbet['qbets']))
     logging.debug("results " + json.dumps(results))
+
     if ('qlresults' in results) & ('qbets' in validbet):
         logging.info("Calculate qualification points")
-        returnvalue = calculateResult(validbet['qbets'], results['qlresults'])
+        returnvalue = calculateResult(validbet['qbets'], results['qlresults'], factor)
         validbet['qbets'] = returnvalue['calculatedbet']
         totalpoints += returnvalue['totalpoints']
         validbet['qpoints'] = returnvalue['totalpoints']
 
     if ('gpresults' in results) & ('gpbets' in validbet):
         logging.info("Calculate race points")
-        returnvalue = calculateResult(validbet['gpbets'], results['gpresults'])
+        returnvalue = calculateResult(validbet['gpbets'], results['gpresults'], factor)
         validbet['gpbets'] = returnvalue['calculatedbet']
         totalpoints += returnvalue['totalpoints']
         hiddenpoints = returnvalue['hiddenpoints']
@@ -161,8 +168,8 @@ def calculateScore(validbet, results):
         bet = validbet['fastestlap']
         if flresult['d_id'] == bet['d_id']:
             logging.info("Fastest lap " + bet['d_id'] + " matches and yields " + str(flresult['points']) + " points!!")
-            bet['points'] = flresult['points']
-            totalpoints += flresult['points']
+            bet['points'] = flresult['points'] * factor
+            totalpoints += flresult['points'] * factor
         else:
             bet['points'] = 0;
 
@@ -183,17 +190,18 @@ def isBetValid(validbet):
         return __BET_OK
 
 
-def calculateResult(validbet, result):
+def calculateResult(validbet, result, factor):
     totalpoints = 0
     hiddenpoints = 0
+    
     for key in result:
         position = key['position']
-        bet = validbet[position - 1];
+        bet = validbet[position - 1]
         if bet['driverid'] == key['driverid']:
             logging.info("Position (" + str(position) + ") matches " + bet['driverid'] + " and gives " + str(
-                key['points']) + " points!!")
-            bet['points'] = key['points']
-            totalpoints += key['points']
+                key['points'] * factor) + " points!!")
+            bet['points'] = key['points'] * factor
+            totalpoints += key['points'] * factor
             logging.debug("factorial for " + str(key['points']) + " = " + str(math.factorial(key['points'])))
             hiddenpoints += math.factorial(key['points'])
         else:
