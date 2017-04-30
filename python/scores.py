@@ -167,7 +167,7 @@ def calculateScore(validbet, results, factor):
         flresult = results['fastestlap']
         bet = validbet['fastestlap']
         if flresult['d_id'] == bet['d_id']:
-            logging.info("Fastest lap " + bet['d_id'] + " matches and yields " + str(flresult['points']) + " points!!")
+            logging.info("Fastest lap " + bet['d_id'] + " matches and yields " + str(flresult['points'] * factor) + " points!!")
             bet['points'] = flresult['points'] * factor
             totalpoints += flresult['points'] * factor
         else:
@@ -235,7 +235,7 @@ def pushResults(gpid, gpresultlist, qresultlist, fastest):
         driver = driverlist[fastest]
         fastestlap['d_id'] = driver['d_id']
         fastestlap['info'] = driver['d_name']
-        fastestlap['points'] = 3
+        fastestlap['points'] = 3 
         results['fastestlap'] = fastestlap
 
     results['qlresults'] = []
