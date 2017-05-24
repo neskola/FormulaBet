@@ -36,9 +36,6 @@ exports.betstatus = functions.https.onRequest((req, res) => {
                 }
             }
         }
-        //var transform = {"<>":"div","html":"${bets.user} ${bets.user.bet}"};
-
-        // res.status(200).send(json2html.transform(bets,transform));
         res.status(200).send(bets);
     });
 });
