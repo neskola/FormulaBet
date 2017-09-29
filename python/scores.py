@@ -97,20 +97,20 @@ def checkBetvalues(gp_id, user_id):
         logging.info("Checking bet values for user = " + user['userid'])
 
         currentbet = dict()
+        currentbet['status'] = __BET_INVALID
         for bet in user['bets']:
             if bet and bet['gp_id'] == gp_id:
-                logging.debug("found bet " + json.dumps(bet))
+                logging.info("found bet " + json.dumps(bet))
                 currentbet = bet
+                currentbet['status'] = 1
 
-        if currentbet:
+        if currentbet['status'] > 0:
             logging.info("User " + userid + " has bet for " + gp_id)
             factor = 1
-            if (currentbet['doubled']):
+            if currentbet['doubled']:
                 logging.info("Double bet! Changing factor to 2")
                 factor = 2
-
             currentbet = calculateScore(currentbet, gpdata['results'], factor)
-
         else:
             logging.info("User " + userid + " has no bets for gp " + gp_id)
             currentbet = dict()
