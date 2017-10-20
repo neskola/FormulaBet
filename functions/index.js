@@ -32,7 +32,7 @@ exports.betstatus = functions.https.onRequest((req, res) => {
                     bets[user].bet = true;
                     if (userlist[user].bets[bet].doubled) {
                         bets.doubled = bets.doubled + 1;
-                    }
+                    } 
                 }
             }
         }
