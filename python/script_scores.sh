@@ -65,7 +65,10 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --season 2017 --gp 13 --gr='HAM,BOT,VET,RIC,RAI,OCO' --qr='HAM,VES,RIC,STR,OCO,BOT' --fl 'RIC' --fb $1
 #python scores.py -r --season 2017 --gp 14 --gr='HAM,RIC,BOT,SAI,PER,PAL' --qr='VET,VES,RIC,RAI,HAM,BOT' --fl 'HAM' --fb $1
 #python scores.py -r --season 2017 --gp 15 --gr='VES,HAM,RIC,VET,BOT,PER' --qr='HAM,RAI,VES,RIC,BOT,OCO' --fl 'VET' --fb $1
-python scores.py -r --season 2017 --gp 16 --gr='HAM,VES,RIC,BOT,RAI,OCO' --qr='HAM,BOT,VET,RIC,VES,RAI' --fl 'BOT' --fb $1
+#python scores.py -r --season 2017 --gp 16 --gr='HAM,VES,RIC,BOT,RAI,OCO' --qr='HAM,BOT,VET,RIC,VES,RAI' --fl 'BOT' --fb $1
+#python scores.py -r --season 2017 --gp 17 --gr='HAM,VET,VES,RAI,BOT,OCO' --qr='HAM,VET,BOT,RIC,RAI,VES' --fl 'VET' --fb $1
+#python scores.py -r --season 2017 --gp 18 --gr='VES,BOT,RAI,VET,OCO,STR' --qr='VET,VES,HAM,BOT,RAI,OCO' --fl 'VET' --fb $1
+python scores.py -r --season 2017 --gp 19 --gr='VET,BOT,RAI,HAM,VES,RIC' --qr='BOT,VET,RAI,VES,RIC,PER' --fl 'VES' --fb $1
 
 
 echo "Done."
