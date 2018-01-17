@@ -57,25 +57,25 @@ def main(argv):
 		cleanDriverData(firebase_url, year, driverlist)
 
 def getDriverData(firebase_url, year, driverid):
-	query = "/drivers/" + year + "/" + driverid + ".json"
+	query = "/drivers/" + driverid + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 	
 def getAllDriverData(firebase_url, year):
-	query = "/drivers/" + year + ".json"
+	query = "/drivers/.json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 
 def deleteDriverData(firebase_url, year):
 	print("Deleting current drivers for year " + year)
-	query = "/drivers/" + year + ".json";
+	query = "/drivers/.json";
 	firebase.curlDelete(firebase_url + query)
 
 def pushDriverData(firebase_url, year, driverlist):
 	for key in driverlist:
 		driver = key
 		print "Refresh driver " + json.dumps(driver) + "."		
-		query = "/drivers/" + year + "/" + str(driver['d_id']) + ".json"
+		query = "/drivers/" + str(driver['d_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(driver))
 
 def cleanDriverData(firebase_url, year, driverlist):
@@ -83,7 +83,7 @@ def cleanDriverData(firebase_url, year, driverlist):
 		driver = driverlist[key]
 		if (key != driver['d_id']):
 			print "Clean driver with key " + key + " " + json.dumps(driver) + "."		
-			query = "/drivers/" + str(year) + "/" + str(key) + ".json"
+			query = "/drivers/" + str(key) + ".json"
 			firebase.curlDelete(firebase_url + query)
 
 if __name__ == "__main__":

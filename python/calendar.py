@@ -57,30 +57,30 @@ def main(argv):
 		cleanCalendarData(year, calendarlist)
 
 def getCalendarData(firebase_url, year, gpid):
-	query = "/calendar/" + year + "/" + gpid + ".json"
+	query = "/calendar/" + gpid + ".json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 	
 def getAllCalendarData(firebase_url, year):
-	query = "/calendar/" + year + ".json"
+	query = "/calendar/.json"
 	print("Connecting to: " + query);
 	return json.loads(firebase.curlQuery(firebase_url + query))	
 
 def deleteCalendarData(year):
 	print("Deleting current calendars for year " + year)
-	query = "/calendar/" + year + ".json";
+	query = "/calendar/.json";
 	firebase.curlDelete(firebase_url + query)
 
 def pushAllCalendarData(year, calendarlist):
 	for key in calendarlist:
 		calendar = key
 		print "Refresh calendar " + json.dumps(calendar) + "."		
-		query = "/calendar/" + year + "/" + str(calendar['gp_id']) + ".json"
+		query = "/calendar/" + str(calendar['gp_id']) + ".json"
 		firebase.curlPut(firebase_url + query, json.dumps(calendar))
 
 def pushGpData(firebase_url, year, gpdata):
 	print "Push gp data " + json.dumps(gpdata) + "."		
-	query = "/calendar/" + year + "/" + str(gpdata['gp_id']) + ".json"
+	query = "/calendar/" + str(gpdata['gp_id']) + ".json"
 	firebase.curlPut(firebase_url + query, json.dumps(gpdata))
 
 def cleanCalendarData(year, calendarlist):
@@ -88,7 +88,7 @@ def cleanCalendarData(year, calendarlist):
 		calendar = calendarlist[key]
 		if (key != calendar['gp_id']):
 			print "Clean calendar with key " + key + " " + json.dumps(calendar) + "."		
-			query = "/calendar/" + str(year) + "/" + str(key) + ".json"
+			query = "/calendar/" + str(key) + ".json"
 			firebase.curlDelete(firebase_url + query)
 
 if __name__ == "__main__":

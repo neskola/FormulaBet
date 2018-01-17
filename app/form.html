@@ -133,7 +133,7 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="q_id_{{val}}" id="q_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" ng-if="driver.status != 'inactive'" value=" {{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
@@ -143,21 +143,30 @@
                         <span class="input-group-addon"><img src="img/{{val}}.png"></span>
                         <select class="form-control" name="gp_id_{{val}}" id="gp_id_{{val}}">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" ng-if="driver.status != 'inactive'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="row" ng-controller="Drivers">
-                <div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" id="fastestlap">
+            <div class="row">
+                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6" id="fastestlap"  ng-controller="Drivers">
                     <span class="label label-default">Nopein kierrosaika</span><i><small>Oikein veikatusta nopeimmasta kierrosajasta 3 pistettä.</small></i>
                     <div class="input-group">
                         <select class="form-control" name="fastest-lap" id="fastest-lap">
                             <option value="000">Valitse kuski</option>
-                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
+                            <option ng-repeat="driver in drivers | orderBy:'d_sort_id'" ng-if="driver.status != 'inactive'" value="{{driver.d_id}}">{{driver.d_name}} - {{driver.d_team}} {{driver.d_id}}</option>
                         </select>
                     </div>
-                </div>                
+                </div>
+                <div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 ng-cloak" id="double" ng-controller="User" ng-cloak>
+                    <br/>
+                    <label>
+                        <span class="label label-danger">Tuplaus</span>
+                        <input type="checkbox" id="double-bet"/>
+                        <div id="doubleIsAvailable">Vedon voi tuplata kerran kaudessa.</div>
+                        <div id="doubleNotAvailable" hidden="true">Tuplaus käytetty tälle kaudelle</div>
+                    </label>
+                </div>
             </div>
 
             <div class="btn-group btn-group-justified">
@@ -178,7 +187,8 @@
             <span class="label label-default">Edelliset veikkaukset</span>
             <div class="row" id="bets" ng-repeat="bet in bets | toArray | orderBy:'date' : true">
                 <div class="col-sm-6">
-                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);">{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</a>                    
+                    <a href="#" id="gp_id_{{bet.gp_id}}" onclick="showBet(this);"><span class="label label-success">{{bet.date | date:'dd.MM.yyyy HH:mm'}} {{bet.gp_name}}</span></a>
+                    <span ng-show="{{bet.doubled}}" class="label label-danger">Tuplaus</span>
                 </div>
             </div>
         </div>
@@ -225,6 +235,7 @@
         {
             show: false
         });
+
     </script>
 </body>
 </html>

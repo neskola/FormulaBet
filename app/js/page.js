@@ -24,9 +24,11 @@
         var email = $("#login-email").val() + "@f1kaapo.fi"; // to bypass email validation
         var password = $("#login-password").val();
 
-        console.log('trying to login: ' + $("#login-email").val());
+        console.log('trying to login ??: ' + $("#login-email").val());
 
         myUser = doLogin(email, password);
+
+        logger.info(JSON.stringify(myUser));
 
         $("#dialog-login").modal('hide');
 

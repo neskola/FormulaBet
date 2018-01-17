@@ -56,11 +56,12 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
    
     if (user) {
         // User is already logged in.
-        logger.debug('User is logged in.', user);
+        logger.info('User is logged in.', JSON.stringify(user));
         myUser = user;
         myUser.userid = user.email.split('@')[0];
+        myUser.doubleAvailable = user.doubleAvailable;
         // doLogin(user);
-        logger.info(myUser.userid + ' logged in ');
+        logger.info(JSON.stringify(myUser) + ' logged in ');
         $("#opener-logout").attr('disabled', false);
         $("#opener-login").attr('disabled', true);  
         $("#username").html(myUser.userid);
@@ -84,10 +85,10 @@ var calendarSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('/calendar/' + season);
+        var ref = firebaseRef.child('/calendar');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
-                //console.log(gpdata);
+                console.log(gpdata);
                 data.push(gpdata);
             });
         });
@@ -109,6 +110,7 @@ var calendarSingleton = (function () {
         getInstance: function () {
 
             if (!instance && data.length == 0) {
+                console.log("Initializing calendar instance.")
                 instance = init();
             }
 
@@ -128,7 +130,7 @@ var driverSingleton = (function () {
 
         // Singleton
         var firebaseRef = firebaseSingleton.getInstance().getReference();
-        var ref = firebaseRef.child('/drivers/' + season);
+        var ref = firebaseRef.child('/drivers');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
                 //console.log(driver);
