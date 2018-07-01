@@ -1,6 +1,6 @@
 {
   "projects": {
     "test": "test-f1kaapo",
-    "f1kaapo": "f1kaapo"
+    "prod": "f1kaapo"
   }
 }
