@@ -48,13 +48,12 @@ exports.scoretable = functions.https.onRequest((req, res) => {
     res.set("Access-Control-Allow-Headers", "Content-Type");
 
     let sortkey = (req.query.sort != undefined) ? req.query.sort : "totalscore"; 
-
+    let season = (req.query.season != undefined) ? req.query.season : new Date().getFullYear(); 
     var bets = [];
-    admin.database().ref(req.query.season).child('users').once('value').then(function (snapshot) {
+    admin.database().ref(season).child('users').once('value').then(function (snapshot) {
         userlist = snapshot.val();
         for (user in userlist) {
             var userid = userlist[user].userid;
-            console.info('Found user ' + userid);
             var totalscore = 0, totalqpoints = 0, totalgppoints = 0;
             var gpindex = 1;
             for (score in userlist[user].scores) {
@@ -74,14 +73,12 @@ exports.scoretable = functions.https.onRequest((req, res) => {
             + ",\"gppoints\":" + totalgppoints + "}";
         
             var jsonObj = JSON.parse(jsonstring);
-            console.log(JSON.stringify(jsonObj));
             bets.push(jsonObj);    
 
         }
         bets.sort(function(a, b){
             return b[sortkey] - a[sortkey];
         });
-        console.log("SORTED = \n" + JSON.stringify(bets));
         res.status(200).send(bets);
     });
 });
