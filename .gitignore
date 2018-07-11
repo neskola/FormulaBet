@@ -184,3 +184,5 @@ app/lib
 **/*~
 **/*#
 *.log
+
+#json files
