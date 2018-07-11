@@ -47,7 +47,9 @@ exports.scoretable = functions.https.onRequest((req, res) => {
     res.set("Access-Control-Allow-Methods", "GET");
     res.set("Access-Control-Allow-Headers", "Content-Type");
 
-    var bets = { };
+    let sortkey = (req.query.sort != undefined) ? req.query.sort : "totalscore"; 
+
+    var bets = [];
     admin.database().ref(req.query.season).child('users').once('value').then(function (snapshot) {
         userlist = snapshot.val();
         for (user in userlist) {
@@ -60,17 +62,26 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                     var qpoints = (userlist[user].scores[score]['qpoints'] != undefined) ? userlist[user].scores[score]['qpoints'] : 0;
                     var gppoints = (userlist[user].scores[score]['gppoints'] != undefined) ? userlist[user].scores[score]['gppoints'] : 0; 
                     var totalpoints = qpoints + gppoints;
-                    console.log('bet ' + gpindex + ' score for ' + userid + ' = ' + totalpoints 
-                        + ', qual =' + qpoints + ', gp = ' + gppoints);
                     totalscore += totalpoints;
                     totalqpoints += qpoints;
                     totalgppoints += gppoints;
                     gpindex += 1;
                 }
             }
-            console.log('totalscore ' + totalscore + ' for user ' + userid);
-            bets[userid] = { 'totalscore' : totalscore, 'qlpoints' : totalqpoints, 'gppoints' : totalgppoints };
+            var jsonstring = "{\"userid\":\"" + userid + "\"" 
+            + ",\"totalscore\":" + totalscore 
+            + ",\"qlpoints\":" + totalqpoints 
+            + ",\"gppoints\":" + totalgppoints + "}";
+        
+            var jsonObj = JSON.parse(jsonstring);
+            console.log(JSON.stringify(jsonObj));
+            bets.push(jsonObj);    
+
         }
+        bets.sort(function(a, b){
+            return b[sortkey] - a[sortkey];
+        });
+        console.log("SORTED = \n" + JSON.stringify(bets));
         res.status(200).send(bets);
     });
 });
