@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+.vscode
 
 # External tool builders
 .externalToolBuilders/
@@ -183,3 +184,5 @@ app/lib
 **/*~
 **/*#
 *.log
+
+#json files

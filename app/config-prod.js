@@ -1,6 +1,6 @@
 'use strict';
 
-var season = "2017";
+var season = "2018";
 
 var debug = false;
 

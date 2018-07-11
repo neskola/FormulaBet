@@ -68,8 +68,17 @@ echo "Inserting scores to data base " + $1
 #python scores.py -r --season 2017 --gp 16 --gr='HAM,VES,RIC,BOT,RAI,OCO' --qr='HAM,BOT,VET,RIC,VES,RAI' --fl 'BOT' --fb $1
 #python scores.py -r --season 2017 --gp 17 --gr='HAM,VET,VES,RAI,BOT,OCO' --qr='HAM,VET,BOT,RIC,RAI,VES' --fl 'VET' --fb $1
 #python scores.py -r --season 2017 --gp 18 --gr='VES,BOT,RAI,VET,OCO,STR' --qr='VET,VES,HAM,BOT,RAI,OCO' --fl 'VET' --fb $1
-python scores.py -r --season 2017 --gp 19 --gr='VET,BOT,RAI,HAM,VES,RIC' --qr='BOT,VET,RAI,VES,RIC,PER' --fl 'VES' --fb $1
-
+#python scores.py -r --season 2017 --gp 19 --gr='VET,BOT,RAI,HAM,VES,RIC' --qr='BOT,VET,RAI,VES,RIC,PER' --fl 'VES' --fb $1
+#python scores.py -r --season 2018 --gp 1 --gr='VET,HAM,RAI,RIC,ALO,VER' --qr='HAM,RAI,VET,VER,RIC,MAG' --fl 'RIC' --fb $1
+#python scores.py -r --season 2018 --gp 2 --gr='VET,BOT,HAM,GAS,MAG,HUL' --qr='VET,RAI,BOT,HAM,RIC,GAS' --fl 'BOT' --fb $1
+#python scores.py -r --season 2018 --gp 3 --gr='RIC,BOT,RAI,VER,HAM,HUL' --qr='VET,RAI,BOT,VER,GRO,HAM' --fl 'RIC' --fb $1
+#python scores.py -r --season 2018 --gp 4 --gr='HAM,RAI,PER,VET,SAI,LEC' --qr='VET,HAM,BOT,RIC,VER,RAI' --fl 'BOT' --fb $1
+#python scores.py -r --season 2018 --gp 5 --gr='HAM,BOT,VER,VET,RIC,MAG' --qr='HAM,BOT,VET,RAI,VER,RIC' --fl 'RIC' --fb $1
+#python scores.py -r --season 2018 --gp 6 --gr='RIC,VET,HAM,RAI,BOT,OCO' --qr='RIC,VET,HAM,RAI,BOT,OCO' --fl 'VER' --fb $1
+#python scores.py -r --season 2018 --gp 7 --gr='VET,BOT,VER,RIC,HAM,RAI' --qr='VET,BOT,VER,HAM,RAI,RIC' --fl 'VET' --fb $1
+#python scores.py -r --season 2018 --gp 8 --gr='HAM,VER,RAI,RIC,VET,MAG' --qr='HAM,BOT,VET,VER,RIC,RAI' --fl 'BOT' --fb $1
+#python scores.py -r --season 2018 --gp 9 --gr='VER,RAI,VET,GRO,MAG,OCO' --qr='BOT,HAM,VET,RAI,VER,GRO' --fl 'RAI' --fb $1
+python scores.py -r --season 2018 --gp 10 --gr='VET,HAM,RAI,BOT,RIC,HUL' --qr='HAM,VET,RAI,BOT,VER,RIC' --fl 'VET' --fb $1
 
 echo "Done."
 
