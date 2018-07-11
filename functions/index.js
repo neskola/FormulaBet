@@ -25,9 +25,7 @@ exports.betstatus = functions.https.onRequest((req, res) => {
     admin.database().ref(req.query.season).child('users').once('value').then(function (snapshot) {
         var gp = req.query.gp;
         userlist = snapshot.val();
-        //console.log('snapshot of userlist = [' + JSON.stringify(userlist) + ']');
         for (user in userlist) {
-            //console.info('Found user ' + JSON.stringify(userlist[user]));
             bets[user] = { bet: false };
             for (bet in userlist[user].bets) {
                 if (bet != null && userlist[user].bets[bet].gp_id == gp) {
