@@ -30,6 +30,11 @@ h1 {
     margin: 4rem 0 2rem 1rem;
 }
 
+h3 {
+    color: #0b84cf;
+    margin: 4rem 0 2rem 1rem;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -89,3 +94,21 @@ tbody:nth-child(odd) {
         padding: .2rem 0;
     }
 }
+
+.styled-select select {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #ffffff;
+    height: 25px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+ }
+
+ /* -------------------- Rounded Corners */
+.rounded {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+ }
+
+ .blue    { background-color: #0b84cf; }
