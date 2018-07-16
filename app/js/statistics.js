@@ -35,8 +35,8 @@ headertext.insertAdjacentText("beforeend", " (" + season + ")");
 
 const stats = document.querySelector('.stats');
 let url = location.href.replace(location.search, '') + "?season=" + season;
-let header = '<tr><th>Name</th><th><a href="' + url + '&sort=qlpoints">QL Points</a></th> ' 
-    + '<th><a href="' + url + '&sort=gppoints">GP Points</a></th><th><a href="' + url + '&sort=totalscore">Total Score</a></th><th>Doubled</th></tr>';
+let header = '<tr><th>Name</th><th><a class="nodeco" href="' + url + '&sort=qlpoints">QL Points</a></th> ' 
+    + '<th><a class="nodeco" href="' + url + '&sort=gppoints">GP Points</a></th><th><a class="nodeco" href="' + url + '&sort=totalscore">Total Score</a></th><th>Doubled</th></tr>';
 stats.insertAdjacentHTML("beforeend", header);
 
 for (let i = 0; i < json.length; i++) addStats(json[i]);
