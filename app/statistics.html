@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Statistics</title>
+    <link rel="stylesheet" href="css/statistics.css">
+</head>
+
+<body>
+    <div class="main">
+        <h1 id="headertext">
+            <span id="pagetitle">Formula Statistics</span>
+        </h1>
+        <h3>Valitse kausi
+            <span class="styled-select blue rounded">
+                <select id="season" onchange="self.location=location.href.replace(location.search, '') +'?season='+this.options[this.selectedIndex].value">
+                    <option value="2018" selected="selected">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                </select>
+            </span>
+        </h3>
+        <table class="stats"></table>
+        <div class="copy"></div>
+    </div>
+    <script src="js/statistics.js"></script>
+</body>
+
+</html>
