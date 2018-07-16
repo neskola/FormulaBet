@@ -45,5 +45,5 @@ for (let i = 0; i < json.length; i++) addStats(json[i]);
 const copy = document.querySelector('.copy');
 const start = 2018;
 start === year.getFullYear() ? year = year.getFullYear() : year = `${start}–${year.getFullYear()}`;
-const content = document.createTextNode(`Ⓒ ${year}, back-end: Nesc, front-end: ATA `);
+const content = document.createTextNode(`Ⓒ ${year}, back-end: VRS77, front-end: ATA `);
 copy.appendChild(content);
