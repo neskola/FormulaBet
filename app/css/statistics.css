@@ -95,6 +95,11 @@ tbody:nth-child(odd) {
     }
 }
 
+.nodeco {
+    text-decoration: none;
+    color: white;
+}
+
 .styled-select select {
     background: transparent;
     border: none;

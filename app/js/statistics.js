@@ -22,8 +22,8 @@ let sort = urlParams.has('sort') ? urlParams.get('sort') : 'totalscore';
 
 get(season, sort);
 
-function addStats(user) {
-    let row = `<tr><td>${user.userid}</td><td>${user.qlpoints}</td><td>${user.gppoints}</td><td>${user.totalscore}</td></tr>`;
+function addStats(i, user) {
+    let row = `<tr><td>${i}</td><td>${user.userid}</td><td>${user.qlpoints}</td><td>${user.gppoints}</td><td>${user.totalscore}</td><td>${user.doubled}</td></tr>`;
     stats.insertAdjacentHTML("beforeend", row);
 }
 
@@ -35,11 +35,11 @@ headertext.insertAdjacentText("beforeend", " (" + season + ")");
 
 const stats = document.querySelector('.stats');
 let url = location.href.replace(location.search, '') + "?season=" + season;
-let header = '<tr><th>Name</th><th><a href="' + url + '&sort=qlpoints">QL Points</a></th> ' 
-    + '<th><a href="' + url + '&sort=gppoints">GP Points</a></th><th><a href="' + url + '&sort=totalscore">Total Score</a></th></tr>';
+let header = '<tr><th>#</th><th>Name</th><th><a class="nodeco" href="' + url + '&sort=qlpoints">QL Points</a></th> ' 
+    + '<th><a class="nodeco" href="' + url + '&sort=gppoints">GP Points</a></th><th><a class="nodeco" href="' + url + '&sort=totalscore">Total Score</a></th><th>Doubled</th></tr>';
 stats.insertAdjacentHTML("beforeend", header);
 
-for (let i = 0; i < json.length; i++) addStats(json[i]);
+for (let i = 0; i < json.length; i++) addStats(i+1, json[i]);
 
 // Remove if you don't like=) This is the future proof method to make copy
 const copy = document.querySelector('.copy');

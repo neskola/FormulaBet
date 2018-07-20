@@ -54,6 +54,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
             var userid = userlist[user].userid;
             var totalscore = 0, totalqpoints = 0, totalgppoints = 0;
             var gpindex = 1;
+            var doubled = "";
             for (score in userlist[user].scores) {
                 if (score != null) {
                     var qpoints = (userlist[user].scores[score]['qpoints'] != undefined) ? userlist[user].scores[score]['qpoints'] : 0;
@@ -63,12 +64,19 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                     totalqpoints += qpoints;
                     totalgppoints += gppoints;
                     gpindex += 1;
+                    if (season < 2017) {
+                        doubled = "N\/A";
+                    } else if (userlist[user].scores[score]['doubled']) {
+                        doubled = userlist[user].scores[score]['gp_name'].replace(/\d{1,2}[\-|\.|\/]\d{1,2}[\-|\.|\/]\d{2,4}/g, "");
+                        ;
+                    }
                 }
             }
             var jsonstring = "{\"userid\":\"" + userid + "\"" 
             + ",\"totalscore\":" + totalscore 
             + ",\"qlpoints\":" + totalqpoints 
-            + ",\"gppoints\":" + totalgppoints + "}";
+            + ",\"gppoints\":" + totalgppoints
+            + ",\"doubled\": \"" + doubled + "\"}";
         
             var jsonObj = JSON.parse(jsonstring);
             bets.push(jsonObj);    

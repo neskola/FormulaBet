@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Formula Statistics</title>
     <link rel="stylesheet" href="css/statistics.css">
 </head>
@@ -13,7 +16,7 @@
         <h1 id="headertext">
             <span id="pagetitle">Formula Statistics</span>
         </h1>
-        <h3>Valitse kausi
+        <h3>Choose season
             <span class="styled-select blue rounded">
                 <select id="season" onchange="self.location=location.href.replace(location.search, '') +'?season='+this.options[this.selectedIndex].value">
                     <option value="2018" selected="selected">2018</option>
