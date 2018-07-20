@@ -67,7 +67,8 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                     if (season < 2017) {
                         doubled = "N\/A";
                     } else if (userlist[user].scores[score]['doubled']) {
-                        doubled = userlist[user].scores[score]['gp_name'].split(" ")[0];
+                        doubled = userlist[user].scores[score]['gp_name'].replace(/\d{1,2}[\-|\.|\/]\d{1,2}[\-|\.|\/]\d{2,4}/g, "");
+                        ;
                     }
                 }
             }
