@@ -179,7 +179,6 @@ angular.module('f1app', ['firebase'])
                 var doubleAvailable = true;
                 angular.forEach($scope.bets, function (bet) {
                     if (angular.isObject(bet) && bet.doubled) {
-                        logger.info("Found double bet " + JSON.stringify(bet));
                         doubleAvailable = false;
                         $('#double-bet').hide();
                         $('#doubleIsAvailable').hide();
@@ -196,7 +195,7 @@ angular.module('f1app', ['firebase'])
       // controller Bets    
     .controller('Bets', ['$scope', '$firebase',
   function ($scope, $firebase) {
-      logger.debug('Bets: User ' + myUser.userid + ", email: " + myUser.email);
+//      logger.debug('Bets: User ' + myUser.userid + ", email: " + myUser.email);
       $scope.bets = [];
       $scope.switchStatus = 0;
       var firebaseRef = firebaseSingleton.getInstance().getReference();
@@ -227,7 +226,7 @@ function addBet($firebase) {
     betslip.gp_id = $("#gp_id").val();
     betslip.gp_name = $("#gp_id option:selected").text();
 
-    logger.info("gp_id = " + betslip.gp_id);
+//    logger.info("gp_id = " + betslip.gp_id);
 
     if (myUser == -1) {
         $("#dialog-login").modal('show');
@@ -253,7 +252,7 @@ function addBet($firebase) {
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</br></span>";
         var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</br></span>";
         for (i = 1; i <= 6; i++) {
-            logger.debug("#q_id_" + i + "=" + $("#q_id_" + i).val());
+  //          logger.debug("#q_id_" + i + "=" + $("#q_id_" + i).val());
             var qbet = new Object();
             qbet.points = -1; // -1 not calculated yet
             qbet.position = i;
@@ -283,20 +282,20 @@ function addBet($firebase) {
         doubledhtml += "</div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml);
 
-        logger.debug(JSON.stringify(betslip));
+//    logger.debug(JSON.stringify(betslip));
         var betref = ref.child("bets/" + betslip.gp_id);
         
         var onComplete = function(error) {
             if (error) {
                 // Something went wrong
-                logger.info('Bet synchronization failed');
+                logger.error('Bet synchronization failed');
                 $("#dialog-bet-title").html("Vetosi epäonnistui.")
                 $("#dialog-bet-body").html("Yritä myöhemmin tai lähetä vetosi tekstiviestinä ylläpitäjälle 0456517228.");
                 $("#dialog-bet").modal('show');
                 
             } else {
                 // everything went ok - now show summary
-                logger.info('Bet synchronization succeeded');
+//                logger.info('Bet synchronization succeeded');
                 $("#dialog-bet-title").html("Vetosi on tallennettu.")
                 $("#dialog-bet-body").html(text);
                 $("#dialog-bet").modal('show');
@@ -307,7 +306,7 @@ function addBet($firebase) {
                     $("#double-bet").hide();
                     $("#doubleIsAvailable").hide();
                     $("#doubleNotAvailable").show();
-                    logger.info("Set users doubled available to false");
+//                    logger.info("Set users doubled available to false");
                     ref.doubleAvailable = false;
                 }
             }
@@ -326,7 +325,7 @@ function showBet(object) {
     ref.on('value', function (dataSnapshot) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
-        console.log(betslip);
+  //      console.log(betslip);
         var text = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>" + betslip.gp_name + "</div><div class='col-sm-6'><span/></div></div><div class='row'>";
         var qhtml = "<div class='col-sm-6'><span class='label label-default'>Aika-ajo</span><br/>";
         var gphtml = "<div class='col-sm-6'><span class='label label-default'>Kilpailu</span><br/>";
@@ -352,7 +351,7 @@ function showBet(object) {
         scorehtml = "<div class='row'><div class='col-sm-6'><span class='label label-default'>Pisteet</span><br />" + ((betslip.totalpoints < 0) ? 'Ei viel&auml; tuloksia' : betslip.totalpoints) + "</div></div>";
         text = text.concat(qhtml, gphtml, "</div>", flhtml, doubledhtml, scorehtml);
 
-        logger.debug(JSON.stringify(betslip));
+//        logger.debug(JSON.stringify(betslip));
 
         $('#btnCopyBet').attr("onclick", "copyBet('" + gp_id + "')");
 
@@ -373,19 +372,13 @@ function copyBet(gp_id) {
     ref.on('value', function (dataSnapshot) {
         // code to handle new value.    
         var betslip = dataSnapshot.val();
-        console.log(betslip);
         for (val in betslip.qbets) {
             bet = betslip.qbets[val];
-
-            console.log("ql" + JSON.stringify(bet));
             $("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
-            console.log("#q_id_" + bet.position + " option:contains(" + bet.driverid + ")");
         }
         for (val in betslip.gpbets) {
             bet = betslip.gpbets[val];
-            console.log("gp" + JSON.stringify(bet));
             $("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")").attr('selected', true);
-            console.log("#gp_id_" + bet.position + " option:contains(" + bet.driverid + ")");
         }
 
     });

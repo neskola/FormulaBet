@@ -100,7 +100,7 @@ def checkBetvalues(gp_id, user_id):
         currentbet['status'] = __BET_INVALID
         for bet in user['bets']:
             if bet and bet['gp_id'] == gp_id:
-                logging.info("found bet " + json.dumps(bet))
+                #logging.info("found bet " + json.dumps(bet))
                 currentbet = bet
                 currentbet['status'] = 1
 
