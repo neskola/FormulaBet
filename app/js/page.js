@@ -13,7 +13,7 @@
 
         myUser = doLogin(email, password);
 
-        logger.info(JSON.stringify(myUser.email) + " logged in.");
+        logger.info(JSON.stringify(email) + " logged in.");
 
         $("#dialog-login").modal('hide');
 
