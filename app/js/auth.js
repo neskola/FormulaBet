@@ -13,7 +13,7 @@ var firebaseSingleton = (function () {
         return {
 
             getReference: function () {
-                logger.debug("Return " + firebaseRef);
+ //               logger.debug("Return " + firebaseRef);
                 return firebaseRef;
             }
 
@@ -56,12 +56,10 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
    
     if (user) {
         // User is already logged in.
-        logger.info('User is logged in.', JSON.stringify(user));
+        logger.info('User is logged in.', user.email);
         myUser = user;
         myUser.userid = user.email.split('@')[0];
         myUser.doubleAvailable = user.doubleAvailable;
-        // doLogin(user);
-        logger.info(JSON.stringify(myUser) + ' logged in ');
         $("#opener-logout").attr('disabled', false);
         $("#opener-login").attr('disabled', true);  
         $("#username").html(myUser.userid);
@@ -72,7 +70,6 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         $("#opener-login").attr('disabled', false);
         myUser = -1;
         $("#username").html("");
-        //$("#dialog-login").modal("show");
     }
 });
 
@@ -88,13 +85,11 @@ var calendarSingleton = (function () {
         var ref = firebaseRef.child('/calendar');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (gpdata) {
-                console.log(gpdata);
                 data.push(gpdata);
             });
         });
 
         return {
-
             // Public methods and variables
             getCalendarData: function () {
                 return data;
@@ -133,7 +128,6 @@ var driverSingleton = (function () {
         var ref = firebaseRef.child('/drivers');
         ref.on('value', function (dataSnapshot) {
             angular.forEach(dataSnapshot.val(), function (driver) {
-                //console.log(driver);
                 data.push(driver);
             });
         });
