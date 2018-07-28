@@ -32,7 +32,7 @@ exports.betstatus = functions.https.onRequest((req, res) => {
                     bets[user].bet = true;
                     if (userlist[user].bets[bet].doubled) {
                         bets.doubled = bets.doubled + 1;
-                    } 
+                    }
                 }
             }
         }
@@ -45,8 +45,8 @@ exports.scoretable = functions.https.onRequest((req, res) => {
     res.set("Access-Control-Allow-Methods", "GET");
     res.set("Access-Control-Allow-Headers", "Content-Type");
 
-    let sortkey = (req.query.sort != undefined) ? req.query.sort : "totalscore"; 
-    let season = (req.query.season != undefined) ? req.query.season : new Date().getFullYear(); 
+    let sortkey = (req.query.sort != undefined) ? req.query.sort : "totalscore";
+    let season = (req.query.season != undefined) ? req.query.season : new Date().getFullYear();
     var bets = [];
     admin.database().ref(season).child('users').once('value').then(function (snapshot) {
         userlist = snapshot.val();
@@ -58,7 +58,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
             for (score in userlist[user].scores) {
                 if (score != null) {
                     var qpoints = (userlist[user].scores[score]['qpoints'] != undefined) ? userlist[user].scores[score]['qpoints'] : 0;
-                    var gppoints = (userlist[user].scores[score]['gppoints'] != undefined) ? userlist[user].scores[score]['gppoints'] : 0; 
+                    var gppoints = (userlist[user].scores[score]['gppoints'] != undefined) ? userlist[user].scores[score]['gppoints'] : 0;
                     var totalpoints = qpoints + gppoints;
                     totalscore += totalpoints;
                     totalqpoints += qpoints;
@@ -72,19 +72,31 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                     }
                 }
             }
-            var jsonstring = "{\"userid\":\"" + userid + "\"" 
-            + ",\"totalscore\":" + totalscore 
-            + ",\"qlpoints\":" + totalqpoints 
-            + ",\"gppoints\":" + totalgppoints
-            + ",\"doubled\": \"" + doubled + "\"}";
-        
+            var jsonstring = "{\"userid\":\"" + userid + "\""
+                + ",\"totalscore\":" + totalscore
+                + ",\"qlpoints\":" + totalqpoints
+                + ",\"gppoints\":" + totalgppoints
+                + ",\"doubled\": \"" + doubled + "\"}";
+
             var jsonObj = JSON.parse(jsonstring);
-            bets.push(jsonObj);    
+            bets.push(jsonObj);
 
         }
-        bets.sort(function(a, b){
+        bets.sort(function (a, b) {
             return b[sortkey] - a[sortkey];
         });
         res.status(200).send(bets);
     });
+
+    exports.scheduledfunction = (req, res) => {
+        if (req.headers["cronrequest"] === "true") {
+            console.log("Header validated. Function executing.");
+            res.status(200).send("Success"); // Function logic
+        } else {
+            console.log("Header not validated. Function aborting.")
+            res.status(200).send("Failed"); // Aborted due to no header
+        }
+    };
 });
+
+
