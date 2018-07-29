@@ -99,7 +99,6 @@ angular.module('f1app', ['firebase'])
 	  var hiGpNumber = 0;	  
 	  
       if ($scope.gpscores.length == 0) {
-          console.log($scope.gpscores.length);
           angular.forEach(calendardatas, function (calendardata) {
               if (calendardata.gp_status >= 3) {
                   $scope.gpscores.push(calendardata);
@@ -111,6 +110,7 @@ angular.module('f1app', ['firebase'])
 				  }
               }
           })
+          console.log("gpscores length = " + $scope.gpscores.length);
       }
 
       $scope.selectedGpData = function () {          
