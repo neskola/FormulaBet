@@ -55,6 +55,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
             var totalscore = 0, totalqpoints = 0, totalgppoints = 0, totalflpoints = 0, flhits = 0;
             var gpindex = 1;
             var doubled = "";
+            var doublepoints = 0;
             for (score in userlist[user].scores) {
                 if (score != null && userlist[user].scores[score]['status'] != "-3") { 
                     var qpoints = (userlist[user].scores[score]['qpoints'] != undefined) ? userlist[user].scores[score]['qpoints'] : 0;
@@ -74,7 +75,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                         doubled = "N\/A";
                     } else if (userlist[user].scores[score]['doubled']) {
                         doubled = userlist[user].scores[score]['gp_name'].replace(/\d{1,2}[\-|\.|\/]\d{1,2}[\-|\.|\/]\d{2,4}/g, "");
-                        ;
+                        doublepoints = userlist[user].scores[score]['totalpoints'];
                     }
                 } else {
                     // NOT A VALID BET. Status was -3 so it didn't exists when scores where calculated
@@ -87,8 +88,8 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                 + ",\"gppoints\":" + totalgppoints
                 + ",\"flpoints\":" + totalflpoints
                 + ",\"flhits\":" + flhits
-                + ",\"doubled\": \"" + doubled + "\"}";
-            
+                + ",\"doubled\": \"" + doubled + "\"";
+                + ",\"doublepoints\":" + doublepoints + "}";
             var jsonObj = JSON.parse(jsonstring);
             bets.push(jsonObj);
         }
