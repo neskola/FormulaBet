@@ -52,18 +52,24 @@ exports.scoretable = functions.https.onRequest((req, res) => {
         userlist = snapshot.val();
         for (user in userlist) {
             var userid = userlist[user].userid;
-            var totalscore = 0, totalqpoints = 0, totalgppoints = 0;
+            var totalscore = 0, totalqpoints = 0, totalgppoints = 0, totalflpoints = 0, flhits = 0;
             var gpindex = 1;
             var doubled = "";
             var doublepoints = 0;
             for (score in userlist[user].scores) {
-                if (score != null) {
+                if (score != null && userlist[user].scores[score]['status'] != "-3") { 
                     var qpoints = (userlist[user].scores[score]['qpoints'] != undefined) ? userlist[user].scores[score]['qpoints'] : 0;
                     var gppoints = (userlist[user].scores[score]['gppoints'] != undefined) ? userlist[user].scores[score]['gppoints'] : 0;
-                    var totalpoints = qpoints + gppoints;
+                    var flpoints = (userlist[user].scores[score]['fastestlap']) != undefined ? userlist[user].scores[score]['fastestlap']['points'] : 0;
+                    var totalpoints = qpoints + gppoints + flpoints;
                     totalscore += totalpoints;
                     totalqpoints += qpoints;
                     totalgppoints += gppoints;
+                    totalflpoints += flpoints;
+                    if (flpoints > 0) {
+                        //console.log("fastest lap hit! GP#" + score, user);
+                        flhits++;
+                    } 
                     gpindex += 1;
                     if (season < 2017) {
                         doubled = "N\/A";
@@ -71,19 +77,21 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                         doubled = userlist[user].scores[score]['gp_name'].replace(/\d{1,2}[\-|\.|\/]\d{1,2}[\-|\.|\/]\d{2,4}/g, "");
                         doublepoints = userlist[user].scores[score]['totalpoints'];
                     }
+                } else {
+                    // NOT A VALID BET. Status was -3 so it didn't exists when scores where calculated
+                    console.log("NOT A VALID BET GP#: status ", score, userlist[user].scores[score]['status']);
                 }
             }
             var jsonstring = "{\"userid\":\"" + userid + "\""
                 + ",\"totalscore\":" + totalscore
                 + ",\"qlpoints\":" + totalqpoints
                 + ",\"gppoints\":" + totalgppoints
-                + ",\"doubled\": \"" + doubled + "\"" 
+                + ",\"flpoints\":" + totalflpoints
+                + ",\"flhits\":" + flhits
+                + ",\"doubled\": \"" + doubled + "\"";
                 + ",\"doublepoints\":" + doublepoints + "}";
-
-            console.info("jsonstring = " + jsonstring);
             var jsonObj = JSON.parse(jsonstring);
             bets.push(jsonObj);
-
         }
         bets.sort(function (a, b) {
             return b[sortkey] - a[sortkey];
