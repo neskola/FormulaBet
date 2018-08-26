@@ -88,7 +88,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                 + ",\"gppoints\":" + totalgppoints
                 + ",\"flpoints\":" + totalflpoints
                 + ",\"flhits\":" + flhits
-                + ",\"doubled\": \"" + doubled + "\"";
+                + ",\"doubled\": \"" + doubled + "\""
                 + ",\"doublepoints\":" + doublepoints + "}";
             var jsonObj = JSON.parse(jsonstring);
             bets.push(jsonObj);
