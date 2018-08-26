@@ -75,7 +75,7 @@ exports.scoretable = functions.https.onRequest((req, res) => {
                         doubled = "N\/A";
                     } else if (userlist[user].scores[score]['doubled']) {
                         doubled = userlist[user].scores[score]['gp_name'].replace(/\d{1,2}[\-|\.|\/]\d{1,2}[\-|\.|\/]\d{2,4}/g, "");
-                        doublepoints = userlist[user].scores[score]['totalpoints'];
+                        doublepoints = totalpoints;
                     }
                 } else {
                     // NOT A VALID BET. Status was -3 so it didn't exists when scores where calculated
